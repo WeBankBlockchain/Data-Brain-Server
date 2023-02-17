@@ -22,20 +22,20 @@ public class ProductService {
         return null;
     }
 
-    public String createProduct(NewProduct product) {
+    public String createProduct(NewProduct product, byte[] signature) {
         return null;
     }
 
-    public void updateProduct(UpdatedProduct product) {
+    public void updateProduct(UpdatedProduct product, byte[] signature) {
 
     }
 
-    public void deleteProduct(String productId) {
+    public void deleteProduct(String productId, byte[] signature) {
 
     }
 
 
-    public void auditProduct(String productId, boolean agree, String reason) {
+    public void auditProduct(String productId, boolean agree, byte[] signature, String reason) {
 
     }
 }

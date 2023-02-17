@@ -36,13 +36,13 @@ public class DataSchemaService {
         return null;
     }
 
-    public String createDataSchema(NewDataSchema dataSchema){
+    public String createDataSchema(NewDataSchema dataSchema, byte[] signature){
         return null;
     }
 
-    public void updateDataSchema(UpdatedDataSchema dataSchema){
+    public void updateDataSchema(UpdatedDataSchema dataSchema, byte[] signature){
     }
 
-    public void deleteDataSchema(String id){
+    public void deleteDataSchema(String id, byte[] signature){
     }
 }
