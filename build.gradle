@@ -15,6 +15,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation ("org.fisco-bcos.java-sdk:fisco-bcos-java-sdk:3.1.0") //java sdk
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
