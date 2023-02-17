@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.webank.data.brain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class ServerApplicationTests {
 
 	@Test
 	void contextLoads() {
