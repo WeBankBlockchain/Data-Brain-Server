@@ -17,7 +17,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation ("org.fisco-bcos.java-sdk:fisco-bcos-java-sdk:3.1.0") //java sdk
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.baomidou:mybatis-plus:3.3.2'
+	implementation 'com.baomidou:mybatis-plus-generator:3.3.2'
+	implementation 'org.apache.velocity:velocity:1.7'
+	implementation 'mysql:mysql-connector-java'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.20'
 }
 
 tasks.named('test') {
