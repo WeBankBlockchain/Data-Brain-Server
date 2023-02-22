@@ -1,7 +1,7 @@
 -- 账户表 --
 CREATE TABLE `account` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
+   `accountNumber` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
    `type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
    `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
    `salt` varchar(255) NOT NULL,
@@ -18,6 +18,7 @@ CREATE TABLE `account` (
 CREATE TABLE `user_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `user_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+   `name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
    `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
    `location` varchar(128) NOT NULL DEFAULT '' COMMENT '联系地址',
    `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
@@ -53,8 +54,7 @@ CREATE TABLE `product` (
    `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`did`)
+   PRIMARY KEY (`pk_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 标签表 --
@@ -98,5 +98,5 @@ CREATE TABLE `schema` (
     `expire_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`pk_id`),
+    PRIMARY KEY (`pk_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
