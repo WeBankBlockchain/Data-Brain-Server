@@ -40,12 +40,6 @@ public class MybatisPlusConfig {
     public GlobalConfig globalConfig() {
         GlobalConfig conf = new GlobalConfig();
         conf.setDbConfig(new GlobalConfig.DbConfig().setColumnFormat("`%s`"));
-        DefaultSqlInjector logicSqlInjector = new DefaultSqlInjector() {
-            /**
-             * 注入自定义全局方法
-             */
-        };
-        conf.setSqlInjector(logicSqlInjector);
         return conf;
     }
 
