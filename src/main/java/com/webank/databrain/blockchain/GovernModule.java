@@ -84,9 +84,9 @@ public class GovernModule extends Contract {
 
     public List<CancelProposalEventResponse> getCancelProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(CANCELPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(CANCELPROPOSAL_EVENT, transactionReceipt);
         ArrayList<CancelProposalEventResponse> responses = new ArrayList<CancelProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             CancelProposalEventResponse typedResponse = new CancelProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -97,9 +97,9 @@ public class GovernModule extends Contract {
 
     public List<CreateProposalEventResponse> getCreateProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<CreateProposalEventResponse> responses = new ArrayList<CreateProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             CreateProposalEventResponse typedResponse = new CreateProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -110,9 +110,9 @@ public class GovernModule extends Contract {
 
     public List<ExecuteProposalEventResponse> getExecuteProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(EXECUTEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(EXECUTEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<ExecuteProposalEventResponse> responses = new ArrayList<ExecuteProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             ExecuteProposalEventResponse typedResponse = new ExecuteProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -124,9 +124,9 @@ public class GovernModule extends Contract {
 
     public List<VoteProposalEventResponse> getVoteProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(VOTEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(VOTEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<VoteProposalEventResponse> responses = new ArrayList<VoteProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             VoteProposalEventResponse typedResponse = new VoteProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -138,7 +138,7 @@ public class GovernModule extends Contract {
     public TransactionReceipt addGovernor(String governor) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -146,7 +146,7 @@ public class GovernModule extends Contract {
     public String addGovernor(String governor, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -154,7 +154,7 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForAddGovernor(String governor) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -174,7 +174,7 @@ public class GovernModule extends Contract {
     public TransactionReceipt cancelProposal(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return executeTransaction(function);
     }
@@ -182,7 +182,7 @@ public class GovernModule extends Contract {
     public String cancelProposal(byte[] proposalId, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return asyncExecuteTransaction(function, callback);
     }
@@ -190,7 +190,7 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForCancelProposal(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return createSignedTransaction(function);
     }
@@ -210,7 +210,7 @@ public class GovernModule extends Contract {
     public TransactionReceipt changeMode(BigInteger newMode) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -218,7 +218,7 @@ public class GovernModule extends Contract {
     public String changeMode(BigInteger newMode, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -226,7 +226,7 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForChangeMode(BigInteger newMode) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -246,9 +246,9 @@ public class GovernModule extends Contract {
     public TransactionReceipt createProposal(String to, BigInteger nonce, byte[] data) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -257,9 +257,9 @@ public class GovernModule extends Contract {
             TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -267,9 +267,9 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForCreateProposal(String to, BigInteger nonce, byte[] data) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -311,7 +311,7 @@ public class GovernModule extends Contract {
     public TransactionReceipt removeGovernor(String governor) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -319,7 +319,7 @@ public class GovernModule extends Contract {
     public String removeGovernor(String governor, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -327,7 +327,7 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForRemoveGovernor(String governor) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -347,7 +347,7 @@ public class GovernModule extends Contract {
     public TransactionReceipt vote(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -355,7 +355,7 @@ public class GovernModule extends Contract {
     public String vote(byte[] proposalId, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -363,7 +363,7 @@ public class GovernModule extends Contract {
     public String getSignedTransactionForVote(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
