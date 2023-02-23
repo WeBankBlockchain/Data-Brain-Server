@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/queryProductById")
-    public CommonResponse<ProductDetail> queryProductById(@RequestParam(name = "productId") long productId
+    public CommonResponse<ProductDetail> queryProductById(@RequestParam(name = "productId") String productId
     ){
         log.info("pageQueryProduct productId = {}",productId);
         ProductDetail result;

@@ -1,9 +1,11 @@
 package com.webank.databrain.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.db.dao.IProductService;
 import com.webank.databrain.db.entity.Product;
+import com.webank.databrain.db.entity.UserInfo;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
@@ -53,8 +55,8 @@ public class ProductService {
                 result.getPages());
     }
 
-    public ProductDetail getProductDetail(long productId) {
-        Product product = productService.getById(productId);
+    public ProductDetail getProductDetail(String productId) {
+        Product product = productService.getOne(Wrappers.<Product>query().eq("productId",productId));
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         return productDetail;
