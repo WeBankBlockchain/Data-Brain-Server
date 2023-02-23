@@ -57,7 +57,7 @@ public class ProductService {
     }
 
     public ProductDetail getProductDetail(String productId) {
-        ProductDataObject product = productService.getOne(Wrappers.<Product>query().eq("productId",productId));
+        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().eq("productId",productId));
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         return productDetail;
