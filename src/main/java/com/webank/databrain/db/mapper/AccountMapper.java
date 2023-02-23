@@ -2,6 +2,7 @@ package com.webank.databrain.db.mapper;
 
 import com.webank.databrain.db.entity.Account;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
 
 /**
  * <p>
@@ -13,5 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AccountMapper {
 
-    void
+//
+//    @Insert("INSERT INTO ")
+//    void insert(String username, String );
 }

@@ -3,6 +3,7 @@ package com.webank.databrain.service;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.mapper.AccountMapper;
+import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.model.account.AccountID;
 import com.webank.databrain.model.account.AccountSummary;
 import com.webank.databrain.model.account.RegisterRequestVO;
@@ -35,7 +36,7 @@ public class AccountService {
     @Autowired
     private AccountMapper mapper;
 
-    public AccountID registerAccount(RegisterRequestVO request) throws Exception{
+    public String registerAccount(RegisterRequestVO request) throws Exception{
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain
@@ -44,10 +45,21 @@ public class AccountService {
                 client,
                 keyPair);
         TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), new byte[32]);
+        byte[] didBytes = accountContract.getRegisterOutput(txReceipt).getValue1();
         BlockchainUtils.ensureTransactionSuccess(txReceipt);
         //Save to database
-        mapper.insert()
-        return null;
+
+        String username = request.getUsername();
+        int userType = request.getAccountType().ordinal();
+        String did = txReceipt.getOutput();
+        String privateKey = keyPair.getHexPrivateKey();
+        String salt = sysConfig.getSalt();
+        String pwdHash = cryptoSuite.hash(username + salt);
+        int reviewState = AccountStatus.UnRegistered.ordinal();
+
+
+        return did;
+
     }
 
     public String login(String username, String password) {

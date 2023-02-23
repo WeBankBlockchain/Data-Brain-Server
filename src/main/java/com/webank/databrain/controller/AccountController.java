@@ -17,10 +17,10 @@ public class AccountController {
     @Autowired
     private AccountService service;
     @PostMapping("register")
-    public CommonResponse register(@RequestBody RegisterRequestVO request) {
+    public CommonResponse register(@RequestBody RegisterRequestVO request) throws Exception {
         //arg validation
         //
-        AccountID accountId = service.registerAccount(request.getUsername(), request.getPassword());
+        String did = service.registerAccount(request);
         return null;
     }
 
