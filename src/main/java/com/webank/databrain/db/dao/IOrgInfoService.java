@@ -1,6 +1,6 @@
 package com.webank.databrain.db.dao;
 
-import com.webank.databrain.db.entity.OrgInfo;
+import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lt
  * @since 2023-02-22
  */
-public interface IOrgInfoService extends IService<OrgInfo> {
+public interface IOrgInfoService extends IService<OrgInfoDataObject> {
 
 }

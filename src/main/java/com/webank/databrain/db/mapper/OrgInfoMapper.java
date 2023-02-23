@@ -1,6 +1,6 @@
 package com.webank.databrain.db.mapper;
 
-import com.webank.databrain.db.entity.OrgInfo;
+import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author lt
  * @since 2023-02-22
  */
-public interface OrgInfoMapper extends BaseMapper<OrgInfo> {
+public interface OrgInfoMapper extends BaseMapper<OrgInfoDataObject> {
 
 }

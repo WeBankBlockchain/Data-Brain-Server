@@ -3,7 +3,7 @@ package com.webank.databrain.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.db.dao.IProductService;
-import com.webank.databrain.db.entity.Product;
+import com.webank.databrain.db.entity.ProductDataObject;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
@@ -28,8 +28,8 @@ public class ProductService {
     }
 
     public PagingResult<ProductDetail> listProducts(Paging paging) {
-        IPage<Product> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
-        List<Product> productList = result.getRecords();
+        IPage<ProductDataObject> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
+        List<ProductDataObject> productList = result.getRecords();
         List<ProductDetail> productDetails = new ArrayList<>();
 
         productList.forEach(product -> {

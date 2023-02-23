@@ -1,6 +1,6 @@
 package com.webank.databrain.db.dao;
 
-import com.webank.databrain.db.entity.Schema;
+import com.webank.databrain.db.entity.DataSchemaDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lt
  * @since 2023-02-22
  */
-public interface ISchemaService extends IService<Schema> {
+public interface ISchemaService extends IService<DataSchemaDataObject> {
 
 }

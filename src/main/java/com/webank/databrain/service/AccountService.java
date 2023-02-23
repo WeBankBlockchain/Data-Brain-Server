@@ -10,6 +10,7 @@ import com.webank.databrain.model.account.RegisterRequestVO;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -51,7 +52,7 @@ public class AccountService {
 
         String username = request.getUsername();
         int userType = request.getAccountType().ordinal();
-        String did = txReceipt.getOutput();
+        String did = AccountUtils.encode(didBytes);
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = cryptoSuite.hash(username + salt);

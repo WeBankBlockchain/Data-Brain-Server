@@ -19,40 +19,31 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Schema对象", description="")
-public class Schema implements Serializable {
+@ApiModel(value="Product对象", description="")
+public class ProductDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Long pkId;
 
-    @ApiModelProperty(value = "目录id")
-    private Long schemaId;
-
-    @ApiModelProperty(value = "提供方id")
-    private Long providerId;
-
     @ApiModelProperty(value = "产品id")
     private Long productId;
 
-    @ApiModelProperty(value = "版本号")
-    private Integer version;
+    @ApiModelProperty(value = "产品名称")
+    private String productName;
 
-    @ApiModelProperty(value = "是否可见")
-    private Integer visible;
+    @ApiModelProperty(value = "提供方id")
+    private String providerId;
 
-    @ApiModelProperty(value = "描述")
-    private String description;
+    @ApiModelProperty(value = "产品详情")
+    private String information;
 
-    @ApiModelProperty(value = "用途")
-    private String usage;
+    @ApiModelProperty(value = "审核状态")
+    private Integer reviewState;
 
-    @ApiModelProperty(value = "价格")
-    private Integer price;
-
-    @ApiModelProperty(value = "访问详情id")
-    private Long visitId;
+    @ApiModelProperty(value = "审核时间")
+    private LocalDateTime reviewTime;
 
     private LocalDateTime createTime;
 

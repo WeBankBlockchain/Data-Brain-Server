@@ -1,6 +1,6 @@
 package com.webank.databrain.db.dao;
 
-import com.webank.databrain.db.entity.Product;
+import com.webank.databrain.db.entity.ProductDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author lt
  * @since 2023-02-22
  */
-public interface IProductService extends IService<Product> {
+public interface IProductService extends IService<ProductDataObject> {
 
 }

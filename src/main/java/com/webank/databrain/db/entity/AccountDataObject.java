@@ -3,6 +3,7 @@ package com.webank.databrain.db.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,25 +20,27 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Product对象", description="")
-public class Product implements Serializable {
+@ApiModel(value="Account对象", description="")
+public class AccountDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Long pkId;
 
-    @ApiModelProperty(value = "产品id")
-    private Long productId;
+    @ApiModelProperty(value = "账号")
+    @TableField("username")
+    private String username;
 
-    @ApiModelProperty(value = "产品名称")
-    private String productName;
+    @ApiModelProperty(value = "用户类型")
+    private Integer accountType;
 
-    @ApiModelProperty(value = "提供方id")
-    private String providerId;
+    @ApiModelProperty(value = "DID")
+    private String did;
 
-    @ApiModelProperty(value = "产品详情")
-    private String information;
+    private String salt;
+
+    private String pwdhash;
 
     @ApiModelProperty(value = "审核状态")
     private Integer reviewState;

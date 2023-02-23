@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="OrgInfo对象", description="")
-public class OrgInfo implements Serializable {
+public class OrgInfoDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;
 
