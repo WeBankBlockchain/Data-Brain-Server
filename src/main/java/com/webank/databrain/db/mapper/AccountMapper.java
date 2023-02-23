@@ -1,5 +1,7 @@
 package com.webank.databrain.db.mapper;
 
+import com.webank.databrain.db.entity.AccountDataObject;
+
 /**
  * <p>
  *  Mapper 接口
@@ -10,7 +12,8 @@ package com.webank.databrain.db.mapper;
  */
 public interface AccountMapper {
 
+    void createTable();
 //
 //    @Insert("INSERT INTO ")
-//    void insert(String username, String );
+    void insert(AccountDataObject accountDataObject);
 }

@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webank.databrain.db.mapper.AccountMapper">
-    <insert id="insert" >
-       INSERT
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS`account` (
+        `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+        `account_type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
+        `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+        `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
+        `salt` varchar(255) NOT NULL,
+        `pwdhash` varchar(255) NOT NULL,
+        `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
+        `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
+        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`pk_id`),
+        UNIQUE KEY (`did`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pkId">
+       INSERT INTO account (`username`, `account_type`, `did`, `private_key`, `salt`, `pwdhash`)
+        VALUES(#{username}, #{accountType}, #{did}, #{privateKey}, #{salt}, #{pwdHash});
     </insert>
 </mapper>

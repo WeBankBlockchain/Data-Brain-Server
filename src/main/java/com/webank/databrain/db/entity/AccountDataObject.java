@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Id;
+
 /**
  * <p>
  * 
@@ -20,32 +22,28 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Account对象", description="")
 public class AccountDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "pk_id", type = IdType.AUTO)
+//    @Id()
     private Long pkId;
 
-    @ApiModelProperty(value = "账号")
-    @TableField("username")
     private String username;
 
-    @ApiModelProperty(value = "用户类型")
     private Integer accountType;
 
-    @ApiModelProperty(value = "DID")
     private String did;
+
+    private String privateKey;
 
     private String salt;
 
     private String pwdhash;
 
-    @ApiModelProperty(value = "审核状态")
     private Integer reviewState;
 
-    @ApiModelProperty(value = "审核时间")
     private LocalDateTime reviewTime;
 
     private LocalDateTime createTime;
