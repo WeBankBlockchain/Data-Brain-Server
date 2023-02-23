@@ -1,41 +1,52 @@
 -- 账户表 --
-CREATE TABLE `user` (
+CREATE TABLE `account` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '用户名',
-   `user_type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
+   `accountNumber` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+   `type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
    `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
    `salt` varchar(255) NOT NULL,
    `pwdhash` varchar(255) NOT NULL,
-   `contact` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '联系方式',
-   `location` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '联系地址',
-   `email` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '邮箱',
    `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
    `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`user_name`),
    UNIQUE KEY (`did`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 机构证书表 --
-CREATE TABLE `cert` (
+-- 用户表 --
+CREATE TABLE `user_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `did` varchar(255) NOT NULL,
-   `cert_type` int(4) null comment '证件类型',
-   `cert_hash` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '证件指纹',
-   `cert_content` text COMMENT '证件详情',
+   `user_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+   `name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
+   `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
+   `location` varchar(128) NOT NULL DEFAULT '' COMMENT '联系地址',
+   `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
+   `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
+   `cert_num` varchar(128) NOT NULL DEFAULT '' COMMENT '证件号',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`did`)
+   UNIQUE KEY (`user_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 机构表 --
+CREATE TABLE `org_info` (
+   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+   `org_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+   `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
+   `cert_content` text COMMENT '证件内容',
+   `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY (`pk_id`),
+   UNIQUE KEY (`org_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 产品表 --
 CREATE TABLE `product` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品id',
-   `did` varchar(255) NOT NULL,
    `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '产品名称',
    `provider_id` varchar(255) NOT NULL DEFAULT '' COMMENT '提供方id',
    `information` text COMMENT '产品详情',
@@ -43,14 +54,15 @@ CREATE TABLE `product` (
    `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`did`)
+   PRIMARY KEY (`pk_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 标签表 --
 CREATE TABLE `tag` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `tag` varchar(64) NOT NULL DEFAULT '' COMMENT '标签名',
+   `heat` int(32) NOT NULL DEFAULT 0 COMMENT '热度',
+   `schemas` varchar(255) NOT NULL DEFAULT '' COMMENT '目录列表',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
@@ -68,16 +80,23 @@ CREATE TABLE `schema` (
    `description` text COMMENT '描述',
    `usage` varchar(64) NOT NULL DEFAULT '' COMMENT '用途',
    `price` int(32) NOT NULL DEFAULT 0 COMMENT '价格',
-   `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '标签ID',
-   `type` int(4) NOT NULL DEFAULT 0 COMMENT '类型，json-0，xml-1，doc-2，pic-3...',
-   `protocol` int(4) NOT NULL DEFAULT 0 COMMENT '类型，HTTP-0，HTTPS-1，SFTP-2...',
-   `schema` text  COMMENT '数据schema,格式为Json',
-   `condition` text  COMMENT '数据的查询条件定义',
-   `uri` varchar(64) NOT NULL DEFAULT '' COMMENT '数据访问连接',
-   `effect_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生效时间',
-   `expire_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
+   `visit_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '访问详情id',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
    UNIQUE KEY (`schema_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ CREATE TABLE `visit_info` (
+    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `type` int(4) NOT NULL DEFAULT 0 COMMENT '类型，json-0，xml-1，doc-2，pic-3...',
+    `protocol` int(4) NOT NULL DEFAULT 0 COMMENT '类型，HTTP-0，HTTPS-1，SFTP-2...',
+    `schema` text  COMMENT '数据schema,格式为Json',
+    `condition` text  COMMENT '数据的查询条件定义',
+    `uri` varchar(64) NOT NULL DEFAULT '' COMMENT '数据访问连接',
+    `effect_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生效时间',
+    `expire_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`pk_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

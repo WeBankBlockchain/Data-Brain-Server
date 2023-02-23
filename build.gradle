@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'idea'
+	id 'org.springframework.boot' version '2.2.8.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
@@ -29,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation ("org.fisco-bcos.java-sdk:fisco-bcos-java-sdk:3.1.0") //java sdk
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	implementation "org.apache.commons:commons-lang3:3.6"
 	implementation "commons-io:commons-io:2.11.0"
@@ -36,6 +38,10 @@ dependencies {
 	implementation("com.google.guava:guava:31.1-jre")
 	implementation 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.baomidou:mybatis-plus:3.3.2'
+	implementation 'com.baomidou:mybatis-plus-generator:3.3.2'
+	implementation 'org.apache.velocity:velocity:1.7'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.20'
 }
 
 tasks.named('test') {
