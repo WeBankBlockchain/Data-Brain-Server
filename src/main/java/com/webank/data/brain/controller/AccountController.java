@@ -1,4 +1,17 @@
 package com.webank.data.brain.controller;
 
+import com.webank.data.brain.model.common.CommonResponse;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/account")
 public class AccountController {
+
+    @PostMapping("register")
+    public CommonResponse register() {
+
+    }
+
 }
