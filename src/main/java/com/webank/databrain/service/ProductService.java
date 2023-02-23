@@ -9,6 +9,7 @@ import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.NewProduct;
 import com.webank.databrain.model.product.ProductDetail;
+import com.webank.databrain.model.product.ProductIdName;
 import com.webank.databrain.model.product.UpdatedProduct;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,15 @@ public class ProductService {
     @Autowired
     private IProductService productService;
 
-    public List<IdName> getHotProducts(int topN) {
-        return null;
+    public List<ProductIdName> getHotProducts(int topN) {
+        List<Product> productList = productService.query().select("").orderByDesc("pk_id").last("limit " + topN ).list();
+        List<ProductIdName> idNames = new ArrayList<>();
+        productList.forEach(product -> {
+            ProductIdName productIdName = new ProductIdName();
+            BeanUtils.copyProperties(product,productIdName);
+            idNames.add(productIdName);
+        });
+        return idNames;
     }
 
     public PagingResult<ProductDetail> listProducts(Paging paging) {
@@ -45,26 +53,27 @@ public class ProductService {
                 result.getPages());
     }
 
-
-
-    public List<ProductDetail> getProductDetail(String productId) {
-        return null;
+    public ProductDetail getProductDetail(long productId) {
+        Product product = productService.getById(productId);
+        ProductDetail productDetail = new ProductDetail();
+        BeanUtils.copyProperties(product,productDetail);
+        return productDetail;
     }
 
     public String createProduct(NewProduct product, byte[] signature) {
         return null;
     }
 
-    public void updateProduct(UpdatedProduct product, byte[] signature) {
-
-    }
-
-    public void deleteProduct(String productId, byte[] signature) {
-
-    }
-
-
-    public void auditProduct(String productId, boolean agree, byte[] signature, String reason) {
-
-    }
+//    public void updateProduct(UpdatedProduct product, byte[] signature) {
+//
+//    }
+//
+//    public void deleteProduct(String productId, byte[] signature) {
+//
+//    }
+//
+//
+//    public void auditProduct(String productId, boolean agree, byte[] signature, String reason) {
+//
+//    }
 }
