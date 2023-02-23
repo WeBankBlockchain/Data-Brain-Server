@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author lt
  * @since 2023-02-22
  */
-public interface AccountMapper extends BaseMapper<Account> {
+public interface AccountMapper {
 
+    void
 }

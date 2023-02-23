@@ -2,17 +2,22 @@ package com.webank.databrain.service;
 
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
+import com.webank.databrain.db.mapper.AccountMapper;
 import com.webank.databrain.model.account.AccountID;
 import com.webank.databrain.model.account.AccountSummary;
+import com.webank.databrain.model.account.RegisterRequestVO;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.utils.BlockchainUtils;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
+import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -27,7 +32,10 @@ public class AccountService {
     @Autowired
     private SysConfig sysConfig;
 
-    public AccountID registerAccount(String username, String password, ) {
+    @Autowired
+    private AccountMapper mapper;
+
+    public AccountID registerAccount(RegisterRequestVO request) throws Exception{
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain
@@ -35,8 +43,10 @@ public class AccountService {
                 sysConfig.getContracts().getAccountContract(),
                 client,
                 keyPair);
-//        accountContract.register(
-        //Save
+        TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), new byte[32]);
+        BlockchainUtils.ensureTransactionSuccess(txReceipt);
+        //Save to database
+        mapper.insert()
         return null;
     }
 

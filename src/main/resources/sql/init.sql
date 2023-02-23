@@ -1,7 +1,7 @@
 -- 账户表 --
 CREATE TABLE `account` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `accountNumber` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+   `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
    `type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
    `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
    `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',

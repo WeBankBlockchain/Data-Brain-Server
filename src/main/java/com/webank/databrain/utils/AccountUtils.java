@@ -5,6 +5,9 @@ import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 
 public class AccountUtils {
 
+    public static byte[] hash() {
+
+    }
     public static AccountID generateDid(CryptoKeyPair keyPair) {
         return null;
     }
