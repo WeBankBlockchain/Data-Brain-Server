@@ -114,9 +114,9 @@ public class ProductModule extends Contract {
 
     public List<CancelProposalEventResponse> getCancelProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(CANCELPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(CANCELPROPOSAL_EVENT, transactionReceipt);
         ArrayList<CancelProposalEventResponse> responses = new ArrayList<CancelProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             CancelProposalEventResponse typedResponse = new CancelProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -127,9 +127,9 @@ public class ProductModule extends Contract {
 
     public List<CreateProductEventResponse> getCreateProductEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPRODUCT_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPRODUCT_EVENT, transactionReceipt);
         ArrayList<CreateProductEventResponse> responses = new ArrayList<CreateProductEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             CreateProductEventResponse typedResponse = new CreateProductEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.productId = (byte[]) eventValues.getIndexedValues().get(0).getValue();
@@ -141,9 +141,9 @@ public class ProductModule extends Contract {
 
     public List<CreateProposalEventResponse> getCreateProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(CREATEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<CreateProposalEventResponse> responses = new ArrayList<CreateProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             CreateProposalEventResponse typedResponse = new CreateProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -154,9 +154,9 @@ public class ProductModule extends Contract {
 
     public List<DeleteProductEventResponse> getDeleteProductEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(DELETEPRODUCT_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(DELETEPRODUCT_EVENT, transactionReceipt);
         ArrayList<DeleteProductEventResponse> responses = new ArrayList<DeleteProductEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             DeleteProductEventResponse typedResponse = new DeleteProductEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.productId = (byte[]) eventValues.getIndexedValues().get(0).getValue();
@@ -167,9 +167,9 @@ public class ProductModule extends Contract {
 
     public List<ExecuteProposalEventResponse> getExecuteProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(EXECUTEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(EXECUTEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<ExecuteProposalEventResponse> responses = new ArrayList<ExecuteProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             ExecuteProposalEventResponse typedResponse = new ExecuteProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -181,9 +181,9 @@ public class ProductModule extends Contract {
 
     public List<ModifyProductEventResponse> getModifyProductEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(MODIFYPRODUCT_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(MODIFYPRODUCT_EVENT, transactionReceipt);
         ArrayList<ModifyProductEventResponse> responses = new ArrayList<ModifyProductEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             ModifyProductEventResponse typedResponse = new ModifyProductEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.productId = (byte[]) eventValues.getIndexedValues().get(0).getValue();
@@ -195,9 +195,9 @@ public class ProductModule extends Contract {
 
     public List<ProductApprovedEventResponse> getProductApprovedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(PRODUCTAPPROVED_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(PRODUCTAPPROVED_EVENT, transactionReceipt);
         ArrayList<ProductApprovedEventResponse> responses = new ArrayList<ProductApprovedEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             ProductApprovedEventResponse typedResponse = new ProductApprovedEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.productId = (byte[]) eventValues.getIndexedValues().get(0).getValue();
@@ -208,9 +208,9 @@ public class ProductModule extends Contract {
 
     public List<ProductDeniedEventResponse> getProductDeniedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(PRODUCTDENIED_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(PRODUCTDENIED_EVENT, transactionReceipt);
         ArrayList<ProductDeniedEventResponse> responses = new ArrayList<ProductDeniedEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             ProductDeniedEventResponse typedResponse = new ProductDeniedEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.productId = (byte[]) eventValues.getIndexedValues().get(0).getValue();
@@ -221,9 +221,9 @@ public class ProductModule extends Contract {
 
     public List<VoteProposalEventResponse> getVoteProposalEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(VOTEPROPOSAL_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(VOTEPROPOSAL_EVENT, transactionReceipt);
         ArrayList<VoteProposalEventResponse> responses = new ArrayList<VoteProposalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             VoteProposalEventResponse typedResponse = new VoteProposalEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.proposalId = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -235,7 +235,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt addGovernor(String governor) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -243,7 +243,7 @@ public class ProductModule extends Contract {
     public String addGovernor(String governor, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -251,7 +251,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForAddGovernor(String governor) {
         final Function function = new Function(
                 FUNC_ADDGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -271,8 +271,8 @@ public class ProductModule extends Contract {
     public TransactionReceipt approveProduct(byte[] productId, Boolean agree) {
         final Function function = new Function(
                 FUNC_APPROVEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.Bool(agree)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bool(agree)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -280,8 +280,8 @@ public class ProductModule extends Contract {
     public String approveProduct(byte[] productId, Boolean agree, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_APPROVEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.Bool(agree)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bool(agree)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -289,8 +289,8 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForApproveProduct(byte[] productId, Boolean agree) {
         final Function function = new Function(
                 FUNC_APPROVEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.Bool(agree)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bool(agree)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -311,7 +311,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt cancelProposal(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return executeTransaction(function);
     }
@@ -319,7 +319,7 @@ public class ProductModule extends Contract {
     public String cancelProposal(byte[] proposalId, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return asyncExecuteTransaction(function, callback);
     }
@@ -327,7 +327,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForCancelProposal(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_CANCELPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 4);
         return createSignedTransaction(function);
     }
@@ -347,7 +347,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt changeMode(BigInteger newMode) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -355,7 +355,7 @@ public class ProductModule extends Contract {
     public String changeMode(BigInteger newMode, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -363,7 +363,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForChangeMode(BigInteger newMode) {
         final Function function = new Function(
                 FUNC_CHANGEMODE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(newMode)), 
+                Arrays.<Type>asList(new Uint8(newMode)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -383,9 +383,9 @@ public class ProductModule extends Contract {
     public TransactionReceipt createProposal(String to, BigInteger nonce, byte[] data) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -394,9 +394,9 @@ public class ProductModule extends Contract {
             TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -404,9 +404,9 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForCreateProposal(String to, BigInteger nonce, byte[] data) {
         final Function function = new Function(
                 FUNC_CREATEPROPOSAL, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(to), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256(nonce), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(data)), 
+                Arrays.<Type>asList(new Address(to),
+                new Uint256(nonce),
+                new DynamicBytes(data)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -441,7 +441,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt createaProduct(byte[] hash) {
         final Function function = new Function(
                 FUNC_CREATEAPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -449,7 +449,7 @@ public class ProductModule extends Contract {
     public String createaProduct(byte[] hash, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_CREATEAPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -457,7 +457,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForCreateaProduct(byte[] hash) {
         final Function function = new Function(
                 FUNC_CREATEAPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -489,7 +489,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt deleteProduct(byte[] productId) {
         final Function function = new Function(
                 FUNC_DELETEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId)), 
+                Arrays.<Type>asList(new DynamicBytes(productId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -497,7 +497,7 @@ public class ProductModule extends Contract {
     public String deleteProduct(byte[] productId, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_DELETEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId)), 
+                Arrays.<Type>asList(new DynamicBytes(productId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -505,7 +505,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForDeleteProduct(byte[] productId) {
         final Function function = new Function(
                 FUNC_DELETEPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId)), 
+                Arrays.<Type>asList(new DynamicBytes(productId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -532,8 +532,8 @@ public class ProductModule extends Contract {
     public TransactionReceipt modifyProduct(byte[] productId, byte[] hash) {
         final Function function = new Function(
                 FUNC_MODIFYPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -541,8 +541,8 @@ public class ProductModule extends Contract {
     public String modifyProduct(byte[] productId, byte[] hash, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_MODIFYPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -550,8 +550,8 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForModifyProduct(byte[] productId, byte[] hash) {
         final Function function = new Function(
                 FUNC_MODIFYPRODUCT, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes(productId), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash)), 
+                Arrays.<Type>asList(new DynamicBytes(productId),
+                new Bytes32(hash)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -572,7 +572,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt removeGovernor(String governor) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -580,7 +580,7 @@ public class ProductModule extends Contract {
     public String removeGovernor(String governor, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -588,7 +588,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForRemoveGovernor(String governor) {
         final Function function = new Function(
                 FUNC_REMOVEGOVERNOR, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(governor)), 
+                Arrays.<Type>asList(new Address(governor)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -608,7 +608,7 @@ public class ProductModule extends Contract {
     public TransactionReceipt vote(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return executeTransaction(function);
     }
@@ -616,7 +616,7 @@ public class ProductModule extends Contract {
     public String vote(byte[] proposalId, TransactionCallback callback) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return asyncExecuteTransaction(function, callback);
     }
@@ -624,7 +624,7 @@ public class ProductModule extends Contract {
     public String getSignedTransactionForVote(byte[] proposalId) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(proposalId)), 
+                Arrays.<Type>asList(new Bytes32(proposalId)),
                 Collections.<TypeReference<?>>emptyList(), 0);
         return createSignedTransaction(function);
     }
@@ -648,8 +648,8 @@ public class ProductModule extends Contract {
 
     public static ProductModule deploy(Client client, CryptoKeyPair credential, String _governor,
             String accountContract) throws ContractException {
-        byte[] encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(_governor), 
-                new org.fisco.bcos.sdk.v3.codec.datatypes.Address(accountContract)));
+        byte[] encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new Address(_governor),
+                new Address(accountContract)));
         return deploy(ProductModule.class, client, credential, getBinary(client.getCryptoSuite()), getABI(), encodedConstructor, null);
     }
 

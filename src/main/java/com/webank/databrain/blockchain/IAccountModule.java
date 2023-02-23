@@ -62,9 +62,9 @@ public class IAccountModule extends Contract {
 
     public List<AccountApprovedEventResponse> getAccountApprovedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTAPPROVED_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTAPPROVED_EVENT, transactionReceipt);
         ArrayList<AccountApprovedEventResponse> responses = new ArrayList<AccountApprovedEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             AccountApprovedEventResponse typedResponse = new AccountApprovedEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.did = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -75,9 +75,9 @@ public class IAccountModule extends Contract {
 
     public List<AccountDeniedEventResponse> getAccountDeniedEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTDENIED_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTDENIED_EVENT, transactionReceipt);
         ArrayList<AccountDeniedEventResponse> responses = new ArrayList<AccountDeniedEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             AccountDeniedEventResponse typedResponse = new AccountDeniedEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.did = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -88,9 +88,9 @@ public class IAccountModule extends Contract {
 
     public List<AccountRegisteredEventResponse> getAccountRegisteredEvents(
             TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTREGISTERED_EVENT, transactionReceipt);
+        List<EventValuesWithLog> valueList = extractEventParametersWithLog(ACCOUNTREGISTERED_EVENT, transactionReceipt);
         ArrayList<AccountRegisteredEventResponse> responses = new ArrayList<AccountRegisteredEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
+        for (EventValuesWithLog eventValues : valueList) {
             AccountRegisteredEventResponse typedResponse = new AccountRegisteredEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.did = (byte[]) eventValues.getNonIndexedValues().get(0).getValue();
@@ -104,7 +104,7 @@ public class IAccountModule extends Contract {
 
     public IAccountModule.AccountData getAccountByAddress(String addr) throws ContractException {
         final Function function = new Function(FUNC_GETACCOUNTBYADDRESS, 
-                Arrays.<Type>asList(new org.fisco.bcos.sdk.v3.codec.datatypes.Address(addr)), 
+                Arrays.<Type>asList(new Address(addr)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<IAccountModule.AccountData>() {}));
         return executeCallWithSingleValueReturn(function, IAccountModule.AccountData.class);
     }
@@ -119,7 +119,7 @@ public class IAccountModule extends Contract {
         return deploy(IAccountModule.class, client, credential, getBinary(client.getCryptoSuite()), getABI(), null, null);
     }
 
-    public static class IAccountModule.AccountData extends StaticStruct {
+    public static class AccountData extends StaticStruct {
         public byte[] did;
 
         public String addr;
@@ -130,7 +130,7 @@ public class IAccountModule extends Contract {
 
         public byte[] hash;
 
-        public IAccountModule.AccountData(Bytes32 did, Address addr, Uint8 status,
+        public AccountData(Bytes32 did, Address addr, Uint8 status,
                 Uint8 accountType, Bytes32 hash) {
             super(did,addr,status,accountType,hash);
             this.did = did.getValue();
@@ -140,9 +140,9 @@ public class IAccountModule extends Contract {
             this.hash = hash.getValue();
         }
 
-        public IAccountModule.AccountData(byte[] did, String addr, BigInteger status,
+        public AccountData(byte[] did, String addr, BigInteger status,
                 BigInteger accountType, byte[] hash) {
-            super(new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(did),new org.fisco.bcos.sdk.v3.codec.datatypes.Address(addr),new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(status),new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8(accountType),new org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32(hash));
+            super(new Bytes32(did),new Address(addr),new Uint8(status),new Uint8(accountType),new Bytes32(hash));
             this.did = did;
             this.addr = addr;
             this.status = status;
