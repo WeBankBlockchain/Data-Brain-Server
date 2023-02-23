@@ -6,3 +6,5 @@ spring:
         username: root
         password: 123456
 
+account:
+    salt: "salt_string"
