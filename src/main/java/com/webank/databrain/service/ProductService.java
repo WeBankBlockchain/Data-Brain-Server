@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.blockchain.ProductModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IProductService;
-import com.webank.databrain.db.entity.Product;
+import com.webank.databrain.db.entity.ProductDataObject;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.CreateProductRequest;
@@ -43,7 +43,7 @@ public class ProductService {
     private IProductService productService;
 
     public List<ProductIdName> getHotProducts(int topN) {
-        List<Product> productList = productService
+        List<ProductDataObject> productList = productService
                 .query()
                 .select("productId","productName")
                 .orderByDesc("pk_id")
@@ -59,8 +59,8 @@ public class ProductService {
     }
 
     public PagingResult<ProductDetail> listProducts(Paging paging) {
-        IPage<Product> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
-        List<Product> productList = result.getRecords();
+        IPage<ProductDataObject> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
+        List<ProductDataObject> productList = result.getRecords();
         List<ProductDetail> productDetails = new ArrayList<>();
 
         productList.forEach(product -> {
@@ -77,7 +77,7 @@ public class ProductService {
     }
 
     public ProductDetail getProductDetail(String productId) {
-        Product product = productService.getOne(Wrappers.<Product>query().eq("productId",productId));
+        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().eq("productId",productId));
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         return productDetail;
@@ -94,7 +94,7 @@ public class ProductService {
                 productRequest.getProductName() + productRequest.getInformation())
                 .getBytes(StandardCharsets.UTF_8)));
         String productId = StringUtils.fromByteArray(productModule.getCreateaProductOutput(receipt).getValue1());
-        Product product = new Product();
+        ProductDataObject product = new ProductDataObject();
         product.setProductId(productId);
         product.setProductName(productRequest.getProductName());
         product.setInformation(productRequest.getInformation());

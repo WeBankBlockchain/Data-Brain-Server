@@ -1,8 +1,6 @@
 package com.webank.databrain.db.mapper;
 
-import com.webank.databrain.db.entity.Account;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Insert;
+import com.webank.databrain.db.entity.AccountDataObject;
 
 /**
  * <p>
@@ -14,7 +12,8 @@ import org.apache.ibatis.annotations.Insert;
  */
 public interface AccountMapper {
 
+    void createTable();
 //
 //    @Insert("INSERT INTO ")
-//    void insert(String username, String );
+    void insert(AccountDataObject accountDataObject);
 }

@@ -19,31 +19,25 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Product对象", description="")
-public class Product implements Serializable {
+@ApiModel(value="OrgInfo对象", description="")
+public class OrgInfoDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Long pkId;
 
-    @ApiModelProperty(value = "产品id")
-    private String productId;
+    @ApiModelProperty(value = "DID")
+    private String orgId;
 
-    @ApiModelProperty(value = "产品名称")
-    private String productName;
+    @ApiModelProperty(value = "证件类型")
+    private Integer certType;
 
-    @ApiModelProperty(value = "提供方id")
-    private String providerId;
+    @ApiModelProperty(value = "证件内容")
+    private String certContent;
 
-    @ApiModelProperty(value = "产品详情")
-    private String information;
-
-    @ApiModelProperty(value = "审核状态")
-    private Integer reviewState;
-
-    @ApiModelProperty(value = "审核时间")
-    private LocalDateTime reviewTime;
+    @ApiModelProperty(value = "联系方式")
+    private String contact;
 
     private LocalDateTime createTime;
 
