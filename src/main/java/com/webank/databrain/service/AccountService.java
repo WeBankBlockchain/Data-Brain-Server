@@ -11,7 +11,8 @@ import java.util.List;
 public class AccountService {
 
     public AccountID registerAccount(String username, String password) {
-        return null;
+        //1. Generation private key
+        //2
     }
 
     public String login(String username, String password) {

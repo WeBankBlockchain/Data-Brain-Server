@@ -4,6 +4,7 @@ CREATE TABLE `account` (
    `accountNumber` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
    `type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
    `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+   `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
    `salt` varchar(255) NOT NULL,
    `pwdhash` varchar(255) NOT NULL,
    `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
