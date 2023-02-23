@@ -28,7 +28,7 @@ public class Product implements Serializable {
     private Long pkId;
 
     @ApiModelProperty(value = "产品id")
-    private Long productId;
+    private String productId;
 
     @ApiModelProperty(value = "产品名称")
     private String productName;

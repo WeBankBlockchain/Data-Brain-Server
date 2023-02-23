@@ -47,7 +47,7 @@ CREATE TABLE `org_info` (
 -- 产品表 --
 CREATE TABLE `product` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品id',
+   `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '产品名称',
    `provider_id` varchar(255) NOT NULL DEFAULT '' COMMENT '提供方id',
    `information` text COMMENT '产品详情',
@@ -75,7 +75,7 @@ CREATE TABLE `schema` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `schema_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '目录id',
    `provider_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '提供方id',
-   `product_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '产品id',
+   `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
    `visible` int(4) NOT NULL DEFAULT 0 COMMENT '是否可见',
    `description` text COMMENT '描述',
