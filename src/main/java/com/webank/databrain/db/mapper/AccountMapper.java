@@ -1,6 +1,10 @@
 package com.webank.databrain.db.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.db.entity.AccountDataObject;
+import com.webank.databrain.model.common.IdName;
+
+import java.util.List;
 
 /**
  * <p>
@@ -10,10 +14,14 @@ import com.webank.databrain.db.entity.AccountDataObject;
  * @author lt
  * @since 2023-02-22
  */
-public interface AccountMapper {
+public interface AccountMapper extends BaseMapper<AccountDataObject> {
 
     void createTable();
-//
-//    @Insert("INSERT INTO ")
-    void insert(AccountDataObject accountDataObject);
+
+    AccountDataObject selectByName(String username);
+
+    AccountDataObject selectByDid(String did);
+
+
+
 }

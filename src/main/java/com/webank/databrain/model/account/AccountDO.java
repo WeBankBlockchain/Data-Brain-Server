@@ -9,4 +9,6 @@ public class AccountDO {
     private String salt;
 
     private String pwdhash;
+
+    private String privateKey;
 }

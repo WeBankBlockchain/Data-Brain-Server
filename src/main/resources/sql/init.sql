@@ -35,6 +35,7 @@ CREATE TABLE `user_info` (
 CREATE TABLE `org_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `org_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+   `org_name` varchar(255) NOT NULL DEFAULT '' COMMENT '机构名称',
    `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
    `cert_content` text COMMENT '证件内容',
    `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',

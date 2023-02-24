@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  *
  */
-public class AccountSummary extends IdName {
+public class OrgSummary extends IdName {
 
     private Date createdAt;
 }
