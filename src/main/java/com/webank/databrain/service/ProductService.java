@@ -9,13 +9,14 @@ import com.webank.databrain.db.dao.IProductService;
 import com.webank.databrain.db.entity.ProductDataObject;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.product.CreateProductRequest;
-import com.webank.databrain.model.product.ProductDetail;
-import com.webank.databrain.model.product.ProductIdName;
+import com.webank.databrain.model.product.*;
+import com.webank.databrain.utils.BlockchainUtils;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
+import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.fisco.bcos.sdk.v3.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -83,7 +83,7 @@ public class ProductService {
         return productDetail;
     }
 
-    public String createProduct(CreateProductRequest productRequest, byte[] signature) {
+    public String createProduct(CreateProductRequest productRequest, byte[] signature) throws TransactionException {
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContracts().getAccountContract(),
@@ -93,6 +93,8 @@ public class ProductService {
         TransactionReceipt receipt = productModule.createaProduct(cryptoSuite.hash((
                 productRequest.getProductName() + productRequest.getInformation())
                 .getBytes(StandardCharsets.UTF_8)));
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+
         String productId = StringUtils.fromByteArray(productModule.getCreateaProductOutput(receipt).getValue1());
         ProductDataObject product = new ProductDataObject();
         product.setProductId(productId);
@@ -103,16 +105,49 @@ public class ProductService {
         return productId;
     }
 
-//    public void updateProduct(UpdatedProduct product, byte[] signature) {
-//
-//    }
-//
-//    public void deleteProduct(String productId, byte[] signature) {
-//
-//    }
-//
-//
-//    public void auditProduct(String productId, boolean agree, byte[] signature, String reason) {
-//
-//    }
+    public void updateProduct(UpdateProductRequest productRequest, byte[] signature) throws TransactionException {
+        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContracts().getAccountContract(),
+                client,
+                keyPair);
+
+        TransactionReceipt receipt = productModule.modifyProduct(
+                ByteUtils.hexStringToBytes(productRequest.getProductId()),
+                cryptoSuite.hash((
+                productRequest.getProductName() + productRequest.getInformation())
+                .getBytes(StandardCharsets.UTF_8)));
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+
+        ProductDataObject product = new ProductDataObject();
+        product.setProductId(productRequest.getProductId());
+        product.setProductName(productRequest.getProductName());
+        product.setInformation(productRequest.getInformation());
+        product.setUpdateTime(LocalDateTime.now());
+        productService.saveOrUpdate(product);
+    }
+
+    public void deleteProduct(DeleteProductRequest productRequest) throws TransactionException {
+        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContracts().getAccountContract(),
+                client,
+                keyPair);
+        TransactionReceipt receipt = productModule.deleteProduct(
+                ByteUtils.hexStringToBytes(productRequest.getProductId())
+               );
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+    }
+
+    public void approveProduct(ApproveProductRequest productRequest) throws TransactionException {
+        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContracts().getAccountContract(),
+                client,
+                keyPair);
+        TransactionReceipt receipt = productModule.approveProduct(
+                ByteUtils.hexStringToBytes(productRequest.getProductId()), productRequest.isAgree()
+        );
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+    }
 }

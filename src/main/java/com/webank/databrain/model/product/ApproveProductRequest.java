@@ -4,6 +4,9 @@ import com.webank.databrain.model.common.CommonRequest;
 import lombok.Data;
 
 @Data
-public class DeleteProductRequest extends CommonRequest {
+public class ApproveProductRequest extends CommonRequest {
     private String productId;
+
+    private boolean agree;
+
 }
