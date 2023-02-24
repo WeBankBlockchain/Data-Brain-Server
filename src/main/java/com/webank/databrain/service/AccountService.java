@@ -2,15 +2,13 @@ package com.webank.databrain.service;
 
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
-import com.webank.databrain.db.dao.AccountDAO;
-import com.webank.databrain.db.mapper.AccountMapper;
-import com.webank.databrain.enums.AccountStatus;
+import com.webank.databrain.db.dao.impl.AccountServiceImpl;
+import com.webank.databrain.db.dao.impl.OrgInfoServiceImpl;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.handler.TokenHandler;
+import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.account.AccountDO;
-import com.webank.databrain.model.account.AccountID;
-import com.webank.databrain.model.account.AccountSummary;
+import com.webank.databrain.model.account.OrgSummary;
 import com.webank.databrain.model.account.RegisterRequestVO;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
@@ -22,7 +20,6 @@ import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -42,10 +39,12 @@ public class AccountService {
     private SysConfig sysConfig;
 
     @Autowired
-    private AccountDAO accountDAO;
+    private AccountServiceImpl accountDAO;
 
     @Autowired
-    private TokenHandler tokenHandler;
+    private OrgInfoServiceImpl orgDAO;
+    @Autowired
+    private ITokenHandler tokenHandler;
 
     public String registerAccount(RegisterRequestVO request) throws Exception{
         //Generation private key
@@ -85,15 +84,19 @@ public class AccountService {
     }
 
     public List<IdName> listHotEnterprises(int topN) {
-        return null;
+        return orgDAO.selectHotEnterprises(topN);
     }
 
-    public List<PagingResult<AccountSummary>> listEnterprises(Paging paging) {
-        return null;
+    public List<PagingResult<OrgSummary>> listEnterprises(Paging paging) {
+        return orgDAO.listEnterprises(paging);
     }
 
-    public String getPrivateKey(String username, String password) {
-        return null;
+    public String getPrivateKey(String did) {
+        AccountDO accountDO =  accountDAO.getAccountByDid(did);
+        if (accountDO == null){
+            throw new DataBrainException(ErrorEnums.InvalidCredential);
+        }
+        return accountDO.getPrivateKey();
     }
 
 
