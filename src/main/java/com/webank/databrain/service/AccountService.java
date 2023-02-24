@@ -2,14 +2,16 @@ package com.webank.databrain.service;
 
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
-import com.webank.databrain.db.dao.impl.AccountServiceImpl;
+import com.webank.databrain.db.dao.IAccountDbService;
+import com.webank.databrain.db.dao.IOrgInfoDbService;
+import com.webank.databrain.db.dao.IUserInfoDbService;
 import com.webank.databrain.db.dao.impl.OrgInfoServiceImpl;
+import com.webank.databrain.db.dao.impl.UserInfoServiceImpl;
+import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.account.AccountDO;
-import com.webank.databrain.model.account.OrgSummary;
-import com.webank.databrain.model.account.RegisterRequestVO;
+import com.webank.databrain.model.account.*;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
@@ -19,6 +21,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +42,15 @@ public class AccountService {
     private SysConfig sysConfig;
 
     @Autowired
-    private AccountServiceImpl accountDAO;
+    private IAccountDbService accountDAO;
 
     @Autowired
-    private OrgInfoServiceImpl orgDAO;
+    private IUserInfoDbService userInfoDAO;
+
+    @Autowired
+    private IOrgInfoDbService orgDAO;
+
+
     @Autowired
     private ITokenHandler tokenHandler;
 
@@ -64,10 +72,16 @@ public class AccountService {
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = cryptoSuite.hash(username + salt);
-
         accountDAO.insert(username, userType, did, privateKey, salt, pwdHash);
-        return did;
+        if (userType == AccountType.NormalUser.ordinal()){
+            NormalUserDetail normalUser = JsonUtils.fromJson(request.getDetailJson(), NormalUserDetail.class);
+            userInfoDAO.insert(did, normalUser);
+        } else if(userType == AccountType.Enterprise.ordinal()){
+            OrgUserDetail orgUserDetail = JsonUtils.fromJson(request.getDetailJson(), OrgUserDetail.class);
+            orgDAO.insert(did, orgUserDetail);
+        }
 
+        return did;
     }
 
     public String login(String username, String password) {
@@ -83,12 +97,12 @@ public class AccountService {
         return tokenHandler.generateToken();
     }
 
-    public List<IdName> listHotEnterprises(int topN) {
-        return orgDAO.selectHotEnterprises(topN);
+    public List<IdName> listOrgs(int topN) {
+        return orgDAO.selectHotOrgs(topN);
     }
 
-    public List<PagingResult<OrgSummary>> listEnterprises(Paging paging) {
-        return orgDAO.listEnterprises(paging);
+    public PagingResult<OrgSummary> listOrgs(Paging paging) {
+        return orgDAO.listOrgs(paging);
     }
 
     public String getPrivateKey(String did) {
@@ -100,7 +114,9 @@ public class AccountService {
     }
 
 
-    public void auditAccount(String username, boolean agree, String reason) {
+    public void auditAccount(String username, boolean agree) {
+        //链上审批
 
+        //修改数据库状态
     }
 }

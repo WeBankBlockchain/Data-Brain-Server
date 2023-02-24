@@ -2,15 +2,18 @@ package com.webank.databrain.db.dao.impl;
 
 import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.webank.databrain.db.mapper.OrgInfoMapper;
-import com.webank.databrain.db.dao.IOrgInfoService;
+import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.model.account.OrgSummary;
+import com.webank.databrain.model.account.OrgUserDetail;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -21,15 +24,39 @@ import java.util.List;
  * @since 2023-02-22
  */
 @Service
-public class OrgInfoServiceImpl extends ServiceImpl<OrgInfoMapper, OrgInfoDataObject> implements IOrgInfoService {
+public class OrgInfoServiceImpl extends ServiceImpl<OrgInfoMapper, OrgInfoDataObject> implements IOrgInfoDbService {
 
 
-    public List<IdName> selectHotEnterprises(int topN) {
+    public List<IdName> selectHotOrgs(int topN) {
         return baseMapper.selectHotEnterprises(topN);
     }
 
-    public List<PagingResult<OrgSummary>> listEnterprises(Paging paging) {
+    public PagingResult<OrgSummary> listOrgs(Paging paging) {
         int total = baseMapper.count();
-        return null;
+
+        int startOffset = (paging.getPageNo() - 1) * paging.getPageSize();
+        int limitSize = paging.getPageSize();
+        List<OrgInfoDataObject> orgs = baseMapper.listOrgs(startOffset, limitSize);
+
+        PagingResult<OrgSummary> ret = new PagingResult<>();
+
+        ret.setPage(paging.getPageNo());
+        ret.setPageSize(limitSize);
+        ret.setTotalItems(total);
+        ret.setTotalPages((total + limitSize - 1) / limitSize);//上取整
+        ret.setData(orgs.stream().map(o->{
+            OrgSummary summary = new OrgSummary();
+            BeanUtils.copyProperties(o, summary);
+            return summary;
+        }).collect(Collectors.toList()));
+        return ret;
+    }
+
+    public void insert(String did, OrgUserDetail orgUserDetail) {
+        OrgInfoDataObject dbo = new OrgInfoDataObject();
+        BeanUtils.copyProperties(orgUserDetail, dbo);
+        dbo.setOrgId(did);
+
+        baseMapper.insert(dbo);
     }
 }
