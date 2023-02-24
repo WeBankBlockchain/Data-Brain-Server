@@ -11,4 +11,6 @@ public class RegisterRequestVO {
     private String password;
 
     private AccountType accountType;
+
+    private String detailJson;
 }

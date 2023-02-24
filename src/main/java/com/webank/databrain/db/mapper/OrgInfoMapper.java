@@ -19,4 +19,5 @@ public interface OrgInfoMapper extends BaseMapper<OrgInfoDataObject> {
 
     int count();
 
+    List<OrgInfoDataObject> listOrgs(int startOffset, int limitSize);
 }

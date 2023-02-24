@@ -3,7 +3,7 @@ package com.webank.databrain.brain;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.webank.databrain.db.entity.UserInfo;
+import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.webank.databrain.db.mapper.UserInfoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CurdTest extends ServerApplicationTests{
 
     @Test
     void pageTest() {
-        IPage<Map<String, Object>> page = userInfoMapper.selectMapsPage(new Page<>(1, 5), Wrappers.<UserInfo>query().orderByAsc("user_id"));
+        IPage<Map<String, Object>> page = userInfoMapper.selectMapsPage(new Page<>(1, 5), Wrappers.<UserInfoDataObject>query().orderByAsc("user_id"));
         assertThat(page).isNotNull();
 //        assertThat(page.getRecords()).isNotEmpty();
 //        assertThat(page.getRecords().get(0)).isNotEmpty();
