@@ -68,11 +68,11 @@ bootJar {
 		}
 		copy {
 			from file('src/main/resources/start.sh')
-			into 'dist/config/'
+			into 'dist/'
 		}
 		copy {
 			from file('src/main/resources/stop.sh')
-			into 'dist/config/'
+			into 'dist/'
 		}
 	}
 }
