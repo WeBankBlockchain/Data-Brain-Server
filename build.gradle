@@ -66,6 +66,14 @@ bootJar {
 			from file('src/main/resources/application.yml')
 			into 'dist/config/'
 		}
+		copy {
+			from file('src/main/resources/start.sh')
+			into 'dist/config/'
+		}
+		copy {
+			from file('src/main/resources/stop.sh')
+			into 'dist/config/'
+		}
 	}
 }
 
