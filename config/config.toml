@@ -6,7 +6,7 @@ useSMCrypto = "false"                       # RPC SM crypto type
 
 [network]
 defaultGroup="group0"                            # Console default group to connect
-peers=["116.205.167.248:20200", "116.205.167.248:20201"]    # The peer list to connect
+peers=["116.205.167.248:20200", "127.0.0.1:20201"]    # The peer list to connect
 
 [account]
 #accountFilePath = "accounts/0x7d04603e157d7a272322f89b43ddb78a19dfee93.pem"          # The account file path (default load from the path specified by the keyStoreDir)
