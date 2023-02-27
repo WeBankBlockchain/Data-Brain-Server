@@ -21,7 +21,7 @@ public class AccountController {
         //arg validation
         //
         String did = service.registerAccount(request);
-        return null;
+        return Cp,;
     }
 
 }

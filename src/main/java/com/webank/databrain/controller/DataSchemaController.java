@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("schema")
-@CrossOrigin(origins = "*")
+@RequestMapping("api/schema")
 public class DataSchemaController {
 
 
