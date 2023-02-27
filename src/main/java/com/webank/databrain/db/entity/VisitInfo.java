@@ -27,6 +27,9 @@ public class VisitInfo implements Serializable {
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Long pkId;
 
+    private String schemaId;
+
+
     @ApiModelProperty(value = "类型，json-0，xml-1，doc-2，pic-3...")
     private Integer type;
 

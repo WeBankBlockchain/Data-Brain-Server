@@ -6,25 +6,34 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.blockchain.DataSchemaModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.ISchemaService;
+import com.webank.databrain.db.dao.IVisitInfoService;
 import com.webank.databrain.db.entity.DataSchemaDataObject;
+import com.webank.databrain.db.entity.VisitInfo;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.dataschema.DataSchemaDetail;
 import com.webank.databrain.model.dataschema.DataSchemaSummary;
 import com.webank.databrain.model.dataschema.UpdatedDataSchema;
+import com.webank.databrain.utils.BlockchainUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
+import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
+import org.fisco.bcos.sdk.v3.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DataSchemaService {
 
     @Autowired
@@ -38,6 +47,9 @@ public class DataSchemaService {
 
     @Autowired
     private ISchemaService schemaService;
+
+    @Autowired
+    private IVisitInfoService visitInfoService;
 
     @Autowired
     private AccountService accountService;
@@ -129,7 +141,8 @@ public class DataSchemaService {
         return schemaDetail;
     }
 
-    public String createDataSchema(CreateDataSchemaRequest schemaRequest, byte[] signature) throws TransactionException {
+    @Transactional
+    public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws TransactionException {
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
@@ -137,11 +150,26 @@ public class DataSchemaService {
                 client,
                 keyPair);
 
-//        TransactionReceipt receipt = dataSchemaModule.createDataSchema();
+        byte[] hash = cryptoSuite.hash((schemaRequest.getProductId() + schemaRequest.getSchema() + schemaRequest.getProviderId())
+                .getBytes(StandardCharsets.UTF_8));
+        TransactionReceipt receipt = dataSchemaModule.createDataSchema(hash);
+        BlockchainUtils.ensureTransactionSuccess(receipt);
 
+        String dataSchemaId = StringUtils.fromByteArray(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
 
-//        BlockchainUtils.ensureTransactionSuccess(receipt);
-        return null;
+        DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
+        BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
+        dataSchemaDataObject.setSchemaId(dataSchemaId);
+        schemaService.save(dataSchemaDataObject);
+        log.info("save dataSchemaDataObject finish, schemaId = {}", dataSchemaId);
+
+        VisitInfo visitInfo = new VisitInfo();
+        BeanUtils.copyProperties(schemaRequest,visitInfo);
+        visitInfo.setSchemaId(dataSchemaId);
+        visitInfoService.save(visitInfo);
+        log.info("save visitInfo finish, schemaId = {}", dataSchemaId);
+
+        return dataSchemaId;
     }
 
     public void updateDataSchema(UpdatedDataSchema dataSchema, byte[] signature){

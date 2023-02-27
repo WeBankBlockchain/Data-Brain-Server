@@ -86,7 +86,7 @@ public class ProductService {
         return productDetail;
     }
 
-    public String createProduct(CreateProductRequest productRequest, byte[] signature) throws TransactionException {
+    public String createProduct(CreateProductRequest productRequest) throws TransactionException {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
