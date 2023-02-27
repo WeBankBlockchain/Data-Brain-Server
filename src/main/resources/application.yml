@@ -10,7 +10,7 @@ spring:
         password: Aa12345!
 
 system:
-    bcos-cfg: "conf/config.toml"
+    bcos-cfg: "config/config.toml"
     bcos-group-id: "group0"
     crypto-type: 0
     salt: "salt_string"
