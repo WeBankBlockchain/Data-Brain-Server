@@ -95,12 +95,12 @@ public class ProductService {
                 client,
                 keyPair);
 
-        TransactionReceipt receipt = productModule.createaProduct(cryptoSuite.hash((
+        TransactionReceipt receipt = productModule.createProduct(cryptoSuite.hash((
                 productRequest.getProductName() + productRequest.getInformation())
                 .getBytes(StandardCharsets.UTF_8)));
         BlockchainUtils.ensureTransactionSuccess(receipt);
 
-        String productId = StringUtils.fromByteArray(productModule.getCreateaProductOutput(receipt).getValue1());
+        String productId = StringUtils.fromByteArray(productModule.getCreateProductOutput(receipt).getValue1());
         ProductDataObject product = new ProductDataObject();
         product.setProductId(productId);
         product.setProductName(productRequest.getProductName());

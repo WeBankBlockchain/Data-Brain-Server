@@ -1,4 +1,4 @@
-package com.webank.databrain.brain;
+package com.webank.databrain;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

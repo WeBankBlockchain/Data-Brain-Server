@@ -2,6 +2,7 @@ package com.webank.databrain.model.dataschema;
 
 import com.webank.databrain.model.common.CommonRequest;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
