@@ -1,11 +1,12 @@
 package com.webank.databrain.model.dataschema;
 
+import com.webank.databrain.model.common.CommonRequest;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class CreateDataSchemaRequest {
+public class CreateDataSchemaRequest extends CommonRequest {
 
     private Long providerId;
 

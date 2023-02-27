@@ -40,6 +40,9 @@ public class ProductService {
     private SysConfig sysConfig;
 
     @Autowired
+    private AccountService accountService;
+
+    @Autowired
     private IProductService productService;
 
     public List<ProductIdName> getHotProducts(int topN) {
@@ -84,7 +87,8 @@ public class ProductService {
     }
 
     public String createProduct(CreateProductRequest productRequest, byte[] signature) throws TransactionException {
-        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        String privateKey = accountService.getPrivateKey(productRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContracts().getAccountContract(),
                 client,
@@ -106,7 +110,8 @@ public class ProductService {
     }
 
     public void updateProduct(UpdateProductRequest productRequest, byte[] signature) throws TransactionException {
-        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        String privateKey = accountService.getPrivateKey(productRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContracts().getAccountContract(),
                 client,
@@ -128,7 +133,8 @@ public class ProductService {
     }
 
     public void deleteProduct(DeleteProductRequest productRequest) throws TransactionException {
-        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        String privateKey = accountService.getPrivateKey(productRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContracts().getAccountContract(),
                 client,
@@ -140,7 +146,8 @@ public class ProductService {
     }
 
     public void approveProduct(ApproveProductRequest productRequest) throws TransactionException {
-        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        String privateKey = accountService.getPrivateKey(productRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContracts().getAccountContract(),
                 client,

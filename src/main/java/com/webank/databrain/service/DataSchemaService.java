@@ -39,6 +39,9 @@ public class DataSchemaService {
     @Autowired
     private ISchemaService schemaService;
 
+    @Autowired
+    private AccountService accountService;
+
     public List<PagingResult<DataSchemaSummary>> listDataSchemas(Paging paging, boolean forAudit) {
         return null;
     }
@@ -127,8 +130,8 @@ public class DataSchemaService {
     }
 
     public String createDataSchema(CreateDataSchemaRequest schemaRequest, byte[] signature) throws TransactionException {
-
-        CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
+        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
                 sysConfig.getContracts().getAccountContract(),
                 client,
