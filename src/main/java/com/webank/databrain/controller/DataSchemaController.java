@@ -6,7 +6,6 @@ import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.dataschema.DataSchemaDetail;
 import com.webank.databrain.model.dataschema.DataSchemaDetailWithVisit;
-import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.service.DataSchemaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

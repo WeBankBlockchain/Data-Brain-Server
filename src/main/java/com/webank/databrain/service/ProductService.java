@@ -7,6 +7,7 @@ import com.webank.databrain.blockchain.ProductModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IProductService;
 import com.webank.databrain.db.entity.ProductDataObject;
+import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.*;
@@ -156,5 +157,10 @@ public class ProductService {
                 ByteUtils.hexStringToBytes(productRequest.getProductId()), productRequest.isAgree()
         );
         BlockchainUtils.ensureTransactionSuccess(receipt);
+
+        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().eq("productId",productRequest.getProductId()));
+        product.setReviewState(ReviewStatus.Approved.ordinal());
+        product.setReviewTime(LocalDateTime.now());
+        productService.saveOrUpdate(product);
     }
 }
