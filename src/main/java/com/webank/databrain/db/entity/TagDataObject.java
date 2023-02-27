@@ -33,9 +33,6 @@ public class TagDataObject implements Serializable {
     @ApiModelProperty(value = "热度")
     private Integer heat;
 
-    @ApiModelProperty(value = "目录列表")
-    private String schemas;
-
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

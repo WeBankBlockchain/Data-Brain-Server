@@ -15,9 +15,12 @@ import java.util.List;
  * @since 2023-02-22
  */
 public interface OrgInfoMapper extends BaseMapper<OrgInfoDataObject> {
-    List<IdName> selectHotEnterprises(int topN);
+
+    void createTable();
+
+    List<IdName> listHotOrgs(int topN);
 
     int count();
 
-    List<OrgInfoDataObject> listOrgs(int startOffset, int limitSize);
+    List<OrgInfoDataObject> listOrgsByPage(int start, int size);
 }

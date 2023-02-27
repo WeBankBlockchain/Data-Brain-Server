@@ -18,7 +18,22 @@
 
     </resultMap>
 
-    <select id="selectHotEnterprises">
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS `org_info` (
+        `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `org_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+        `org_name` varchar(255) NOT NULL DEFAULT '' COMMENT '机构名称',
+        `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
+        `cert_content` text COMMENT '证件内容',
+        `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
+        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`pk_id`),
+        UNIQUE KEY (`org_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <select id="listHotOrgs">
         SELECT o.org_id, o.name FROM `org_info` o LIMIT 0, #{topN};
     </select>
 
@@ -26,7 +41,7 @@
         SELECT COUNT(1) FROM `org_info`;
     </select>
 
-    <select id="listOrgs" resultMap="ordDataObject">
-        SELECT * FROM `org_info` ORDER BY pk_id DESC LIMIT #{startOffset},#{limitSize}
+    <select id="listOrgsByPage" resultMap="ordDataObject">
+        SELECT * FROM `org_info` ORDER BY pk_id DESC LIMIT #{start},#{size}
     </select>
 </mapper>

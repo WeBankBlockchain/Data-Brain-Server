@@ -5,8 +5,6 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.webank.databrain.db.dao.IUserInfoDbService;
-import com.webank.databrain.db.dao.impl.OrgInfoServiceImpl;
-import com.webank.databrain.db.dao.impl.UserInfoServiceImpl;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
@@ -97,12 +95,12 @@ public class AccountService {
         return tokenHandler.generateToken();
     }
 
-    public List<IdName> listOrgs(int topN) {
-        return orgDAO.selectHotOrgs(topN);
+    public List<IdName> listHotOrgs(int topN) {
+        return orgDAO.listHotOrgs(topN);
     }
 
-    public PagingResult<OrgSummary> listOrgs(Paging paging) {
-        return orgDAO.listOrgs(paging);
+    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) {
+        return orgDAO.listOrgsByPage(paging);
     }
 
     public String getPrivateKey(String did) {

@@ -64,7 +64,6 @@ CREATE TABLE `tag` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `tag` varchar(64) NOT NULL DEFAULT '' COMMENT '标签名',
    `heat` int(32) NOT NULL DEFAULT 0 COMMENT '热度',
-   `schemas` varchar(255) NOT NULL DEFAULT '' COMMENT '目录列表',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
