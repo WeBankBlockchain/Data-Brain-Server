@@ -20,9 +20,9 @@ import java.util.List;
  */
 public interface IOrgInfoDbService extends IService<OrgInfoDataObject> {
 
-    public List<IdName> selectHotOrgs(int topN);
+    public List<IdName> listHotOrgs(int topN);
 
-    public PagingResult<OrgSummary> listOrgs(Paging paging) ;
+    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) ;
 
     public void insert(String did, OrgUserDetail orgUserDetail) ;
 }

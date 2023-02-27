@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webank.databrain.db.mapper.TagMapper">
 
+    <resultMap id="idname" type="com.webank.databrain.model.common.IdName">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS `tag` (
+        `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `tag` varchar(64) NOT NULL DEFAULT '' COMMENT '标签名',
+        `heat` int(32) NOT NULL DEFAULT 0 COMMENT '热度',
+        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`pk_id`),
+        UNIQUE KEY (`tag`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <select id="count">
+        SELECT count(1) FROM `tag`;
+    </select>
+
+    <select id="listHotTags" resultMap="idname">
+        SELECT pk_id as id, tag FROM `tag` t LIMIT 0, #{topN};
+    </select>
+
+    <select id="listTagsByPage" resultMap="idname">
+        SELECT pk_id as id, tag FROM `tag` t LIMIT #{start}, #{size};
+    </select>
 </mapper>

@@ -12,6 +12,7 @@ import com.webank.databrain.model.common.PagingResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,17 +27,21 @@ import java.util.stream.Collectors;
 @Service
 public class OrgInfoServiceImpl extends ServiceImpl<OrgInfoMapper, OrgInfoDataObject> implements IOrgInfoDbService {
 
-
-    public List<IdName> selectHotOrgs(int topN) {
-        return baseMapper.selectHotEnterprises(topN);
+    @PostConstruct
+    public void init(){
+        baseMapper.createTable();
     }
 
-    public PagingResult<OrgSummary> listOrgs(Paging paging) {
+    public List<IdName> listHotOrgs(int topN) {
+        return baseMapper.listHotOrgs(topN);
+    }
+
+    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) {
         int total = baseMapper.count();
 
         int startOffset = (paging.getPageNo() - 1) * paging.getPageSize();
         int limitSize = paging.getPageSize();
-        List<OrgInfoDataObject> orgs = baseMapper.listOrgs(startOffset, limitSize);
+        List<OrgInfoDataObject> orgs = baseMapper.listOrgsByPage(startOffset, limitSize);
 
         PagingResult<OrgSummary> ret = new PagingResult<>();
 
