@@ -4,8 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorEnums {
-    InvalidCredential("00000001", "Invalid username or password");
-
+    InvalidCredential("00000001", "Invalid username or password"),
+    UsernameNotExists("00000002", "Username not exists"),
+    DidNotExists("00000003", "Did not exists");
     private String code;
     private String message;
 

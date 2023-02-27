@@ -7,6 +7,7 @@ import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.webank.databrain.db.dao.IUserInfoDbService;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.account.*;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,7 +84,7 @@ public class AccountService {
         return did;
     }
 
-    public String login(String username, String password) {
+    public LoginResult login(String username, String password) {
         AccountDO accountDO = accountDAO.getAccountByName(username);
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
@@ -92,7 +94,10 @@ public class AccountService {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
 
         }
-        return tokenHandler.generateToken();
+        LoginResult result = new LoginResult();
+        result.setToken(tokenHandler.generateToken());
+        result.setDid(accountDO.getDid());
+        return result;
     }
 
     public List<IdName> listHotOrgs(int topN) {
@@ -106,15 +111,25 @@ public class AccountService {
     public String getPrivateKey(String did) {
         AccountDO accountDO =  accountDAO.getAccountByDid(did);
         if (accountDO == null){
-            throw new DataBrainException(ErrorEnums.InvalidCredential);
+            throw new DataBrainException(ErrorEnums.DidNotExists);
         }
         return accountDO.getPrivateKey();
     }
 
 
-    public void auditAccount(String username, boolean agree) {
+    public void auditAccount(String username, boolean agree) throws Exception{
+        //获取did
+        AccountDO accountDO = accountDAO.getAccountByName(username);
+        if (accountDO == null) {
+            throw new DataBrainException(ErrorEnums.UsernameNotExists);
+        }
+        byte[] didBytes = AccountUtils.decode(accountDO.getDid());
         //链上审批
-
+        CryptoKeyPair witnessKeyPair = cryptoSuite.getCryptoKeyPair();
+        AccountModule accountModule = AccountModule.load(sysConfig.getContracts().getAccountContract(), client, witnessKeyPair);
+        TransactionReceipt txReceipt = accountModule.approve(didBytes, agree);
+        BlockchainUtils.ensureTransactionSuccess(txReceipt);
         //修改数据库状态
+        accountDAO.updateReviewStatus(accountDO.getDid(), agree?ReviewStatus.Approved:ReviewStatus.Denied, LocalDateTime.now());
     }
 }

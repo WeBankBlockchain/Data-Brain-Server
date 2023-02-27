@@ -15,9 +15,12 @@ public class SysConfig {
 
     private String salt;
 
+    private String witnessPrivateKey;
+    
     private ContractConfig contracts;
 
     @Data
+    @ConfigurationProperties(prefix = "contract")
     public static class ContractConfig {
         private String accountContract;
     }

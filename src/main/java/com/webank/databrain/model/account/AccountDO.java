@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class AccountDO {
+    private String did;
+
     private String username;
 
     private String salt;

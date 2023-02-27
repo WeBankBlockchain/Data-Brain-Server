@@ -13,4 +13,8 @@ public class AccountUtils {
     public static String encode(byte[] didBytes) {
         return Base64.encode(didBytes);
     }
+
+    public static byte[] decode(String did) {
+        return Base64.decode(did);
+    }
 }

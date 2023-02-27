@@ -44,8 +44,8 @@
         SELECT * FROM `account` WHERE did = #{did};
     </select>
 
-    <select id="selectByDid" resultMap="accountDataObject">
-        SELECT * FROM `account` WHERE did = #{did};
-    </select>
+    <update id="updateReviewStatus">
+        UPDATE `account` set review_status=#{status}, review_time = #{timestamp} WHERE did = #{did};
+    </update>
 
 </mapper>

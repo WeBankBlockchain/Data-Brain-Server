@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.db.entity.AccountDataObject;
 import com.webank.databrain.model.common.IdName;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,6 +24,6 @@ public interface AccountMapper extends BaseMapper<AccountDataObject> {
     AccountDataObject selectByDid(String did);
 
 
-
+    void updateReviewStatus(String did, int status, LocalDateTime reviewTime);
 
 }
