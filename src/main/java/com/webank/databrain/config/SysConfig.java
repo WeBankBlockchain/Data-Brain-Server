@@ -2,6 +2,7 @@ package com.webank.databrain.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
 @ConfigurationProperties(prefix = "system")
@@ -18,13 +19,15 @@ public class SysConfig {
     private String salt;
 
     private String witnessPrivateKey;
-    
+
+    @NestedConfigurationProperty
     private ContractConfig contracts;
 
     @Data
-    @ConfigurationProperties(prefix = "contract")
     public static class ContractConfig {
         private String accountContract;
+        private String productContract;
+        private String dataSchemaContract;
     }
 
 }

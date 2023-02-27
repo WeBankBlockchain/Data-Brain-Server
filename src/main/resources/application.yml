@@ -3,16 +3,17 @@ server:
 
 # DataSource Config
 spring:
-    datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://116.205.167.248:3306/databrain?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
         username: test
         password: Aa12345!
 
 system:
-    bcos-cfg: "bcos/config.toml"
+    bcos-cfg: "conf/config.toml"
     crypto-type: 0
     salt: "salt_string"
-    witness-private-key: '0x'
+    witness-private-key: '11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f'
     contract:
-        account-contract: "0x"
+        account-contract: "0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1"
+        product-contract: "0x4721d1a77e0e76851d460073e64ea06d9c104194"
+        dataSchema-contract: "0xc8ead4b26b2c6ac14c9fd90d9684c9bc2cc40085"
