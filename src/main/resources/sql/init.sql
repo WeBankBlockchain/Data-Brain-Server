@@ -74,7 +74,7 @@ CREATE TABLE `tag` (
 -- 目录表 --
 CREATE TABLE `schema` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `schema_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '目录id',
+   `schema_id` varchar(255) NOT NULL DEFAULT '' COMMENT '目录id',
    `provider_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
@@ -82,7 +82,6 @@ CREATE TABLE `schema` (
    `description` text COMMENT '描述',
    `usage` varchar(64) NOT NULL DEFAULT '' COMMENT '用途',
    `price` int(32) NOT NULL DEFAULT 0 COMMENT '价格',
-   `visit_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '访问详情id',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
@@ -91,6 +90,7 @@ CREATE TABLE `schema` (
 
  CREATE TABLE `visit_info` (
     `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `schema_id` varchar(255) NOT NULL DEFAULT '' COMMENT '目录id',
     `type` int(4) NOT NULL DEFAULT 0 COMMENT '类型，json-0，xml-1，doc-2，pic-3...',
     `protocol` int(4) NOT NULL DEFAULT 0 COMMENT '类型，HTTP-0，HTTPS-1，SFTP-2...',
     `schema` text  COMMENT '数据schema,格式为Json',

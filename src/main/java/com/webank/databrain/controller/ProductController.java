@@ -3,11 +3,13 @@ package com.webank.databrain.controller;
 import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.product.CreateProductRequest;
 import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.model.product.ProductIdName;
 import com.webank.databrain.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +47,8 @@ public class ProductController {
         try {
             result = productService.getProductDetail(productId);
         } catch (Exception e) {
-            log.error("pageQueryProduct failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQueryProduct failed");
+            log.error("queryProductById failed ", e);
+            return CommonResponse.createFailedResult(500,"queryProductById failed");
         }
         return CommonResponse.createSuccessResult(result);
     }
@@ -59,10 +61,24 @@ public class ProductController {
         try {
             result = productService.getHotProducts(topN);
         } catch (Exception e) {
-            log.error("pageQueryProduct failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQueryProduct failed");
+            log.error("getHotProducts failed ", e);
+            return CommonResponse.createFailedResult(500,"getHotProducts failed");
         }
         return CommonResponse.createSuccessResult(result);
+    }
+
+
+    @RequestMapping(value = "/createProduct")
+    public CommonResponse<String> createProduct(@RequestBody CreateProductRequest createProductRequest){
+        log.info("createProduct did = {}",createProductRequest.getDid());
+        String productId;
+        try {
+            productId = productService.createProduct(createProductRequest);
+        } catch (Exception e) {
+            log.error("createProduct failed ", e);
+            return CommonResponse.createFailedResult(500,"createProduct failed");
+        }
+        return CommonResponse.createSuccessResult(productId);
     }
 
 

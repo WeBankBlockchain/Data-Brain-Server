@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -28,7 +30,7 @@ public class DataSchemaDataObject implements Serializable {
     private Long pkId;
 
     @ApiModelProperty(value = "目录id")
-    private Long schemaId;
+    private String schemaId;
 
     @ApiModelProperty(value = "提供方id")
     private Long providerId;
@@ -50,9 +52,6 @@ public class DataSchemaDataObject implements Serializable {
 
     @ApiModelProperty(value = "价格")
     private Integer price;
-
-    @ApiModelProperty(value = "访问详情id")
-    private Long visitId;
 
     private LocalDateTime createTime;
 
