@@ -11,10 +11,7 @@ import com.webank.databrain.db.entity.DataSchemaDataObject;
 import com.webank.databrain.db.entity.VisitInfo;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
-import com.webank.databrain.model.dataschema.DataSchemaDetail;
-import com.webank.databrain.model.dataschema.DataSchemaSummary;
-import com.webank.databrain.model.dataschema.UpdatedDataSchema;
+import com.webank.databrain.model.dataschema.*;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -22,6 +19,7 @@ import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
+import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.fisco.bcos.sdk.v3.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +52,7 @@ public class DataSchemaService {
     @Autowired
     private AccountService accountService;
 
-    public List<PagingResult<DataSchemaSummary>> listDataSchemas(Paging paging, boolean forAudit) {
-        return null;
-    }
-
-    public PagingResult<DataSchemaDetail> listDataSchemasByEnterprise(String providerId, Paging paging) {
+    public PagingResult<DataSchemaDetail> pageQuerySchemaByProvider(String providerId, Paging paging) {
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
                 Wrappers.<DataSchemaDataObject>query().eq("providerId",providerId));
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
@@ -77,7 +71,7 @@ public class DataSchemaService {
                 result.getPages());
     }
 
-    public PagingResult<DataSchemaDetail> listDataSchemasByProduct(String productId, Paging paging) {
+    public PagingResult<DataSchemaDetail> pageQuerySchemaByProductId(String productId, Paging paging) {
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
                 Wrappers.<DataSchemaDataObject>query().eq("productId",productId));
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
@@ -96,9 +90,9 @@ public class DataSchemaService {
                 result.getPages());
     }
 
-    public PagingResult<DataSchemaDetail> listDataSchemasByTag(String tagId, Paging paging) {
+    public PagingResult<DataSchemaDetail> pageQuerySchemaByTag(long tagId, Paging paging) {
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().eq("tagId",tagId));
+                Wrappers.<DataSchemaDataObject>query().eq("tag_id",tagId));
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
         List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
 
@@ -115,9 +109,9 @@ public class DataSchemaService {
                 result.getPages());
     }
 
-    public PagingResult<DataSchemaDetail> listDataSchemasBySearch(String keyword, Paging paging) {
+    public PagingResult<DataSchemaDetail> pageQuerySchemaBySearch(String keyword, Paging paging) {
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().like("description",keyword));
+                Wrappers.<DataSchemaDataObject>query().like("description",keyword).orderByDesc("createTime"));
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
         List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
 
@@ -134,10 +128,33 @@ public class DataSchemaService {
                 result.getPages());
     }
 
-    public DataSchemaDetail getDataSchemaById(long schemaId){
+    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging) {
+        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
+                Wrappers.<DataSchemaDataObject>query().orderByDesc("createTime"));
+        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
+        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
+
+        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
+            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
+            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
+            dataSchemaDetails.add(dataSchemaDetail);
+        });
+        return new PagingResult<>(
+                dataSchemaDetails,
+                result.getCurrent(),
+                result.getSize(),
+                result.getTotal(),
+                result.getPages());
+    }
+
+    public DataSchemaDetailWithVisit getDataSchemaById(String schemaId){
         DataSchemaDataObject schemaDataObject = schemaService.getOne(Wrappers.<DataSchemaDataObject>query().eq("schemaId",schemaId));
-        DataSchemaDetail schemaDetail = new DataSchemaDetail();
+        DataSchemaDetailWithVisit schemaDetail = new DataSchemaDetailWithVisit();
         BeanUtils.copyProperties(schemaDataObject,schemaDetail);
+
+        VisitInfo visitInfo = visitInfoService.getOne(Wrappers.<VisitInfo>query().eq("schemaId",schemaId));
+        BeanUtils.copyProperties(visitInfo,schemaDetail);
+
         return schemaDetail;
     }
 
@@ -172,9 +189,43 @@ public class DataSchemaService {
         return dataSchemaId;
     }
 
-    public void updateDataSchema(UpdatedDataSchema dataSchema, byte[] signature){
+    public void updateDataSchema(UpdatedDataSchemaRequest schemaRequest) throws TransactionException {
+        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+        DataSchemaModule dataSchemaModule = DataSchemaModule.load(
+                sysConfig.getContracts().getAccountContract(),
+                client,
+                keyPair);
+
+        byte[] hash = cryptoSuite.hash((schemaRequest.getProductId() + schemaRequest.getSchema() + schemaRequest.getProviderId())
+                .getBytes(StandardCharsets.UTF_8));
+        TransactionReceipt receipt = dataSchemaModule.modifyDataSchema(
+                ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()), hash);
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+
+        DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
+        BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
+        schemaService.saveOrUpdate(dataSchemaDataObject);
+        log.info("save dataSchemaDataObject finish, schemaId = {}", schemaRequest.getSchemaId());
+
+        VisitInfo visitInfo = new VisitInfo();
+        BeanUtils.copyProperties(schemaRequest,visitInfo);
+        visitInfoService.saveOrUpdate(visitInfo);
+        log.info("save visitInfo finish, schemaId = {}", schemaRequest.getSchemaId());
+
     }
 
-    public void deleteDataSchema(String id, byte[] signature){
+    public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {
+        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+        DataSchemaModule dataSchemaModule = DataSchemaModule.load(
+                sysConfig.getContracts().getAccountContract(),
+                client,
+                keyPair);
+
+        TransactionReceipt receipt = dataSchemaModule.deleteDataSchema(
+                ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()));
+        BlockchainUtils.ensureTransactionSuccess(receipt);
+        log.info("deleteDataSchema finish, schemaId = {}", schemaRequest.getDid());
     }
 }

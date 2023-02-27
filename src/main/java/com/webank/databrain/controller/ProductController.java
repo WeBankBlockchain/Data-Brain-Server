@@ -31,7 +31,7 @@ public class ProductController {
         log.info("pageQueryProduct pageNo = {}, pageSize = {}",pageNo,pageSize);
         PagingResult<ProductDetail> result;
         try {
-            result = productService.listProducts(new Paging(pageNo,pageSize));
+            result = productService.pageQueryProducts(new Paging(pageNo,pageSize));
         } catch (Exception e) {
             log.error("pageQueryProduct failed ", e);
             return CommonResponse.createFailedResult(500,"pageQueryProduct failed");

@@ -6,7 +6,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CreateDataSchemaRequest extends CommonRequest {
+public class UpdatedDataSchemaRequest extends CommonRequest {
+
+    private String schemaId;
 
     private Long providerId;
 
@@ -37,5 +39,4 @@ public class CreateDataSchemaRequest extends CommonRequest {
     private LocalDateTime effectTime;
 
     private LocalDateTime expireTime;
-
 }

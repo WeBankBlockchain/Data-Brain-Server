@@ -24,8 +24,6 @@ public class DataSchemaDetail {
 
     private Integer price;
 
-    private Long visitId;
-
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

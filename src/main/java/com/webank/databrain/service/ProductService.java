@@ -61,7 +61,7 @@ public class ProductService {
         return idNames;
     }
 
-    public PagingResult<ProductDetail> listProducts(Paging paging) {
+    public PagingResult<ProductDetail> pageQueryProducts(Paging paging) {
         IPage<ProductDataObject> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
         List<ProductDataObject> productList = result.getRecords();
         List<ProductDetail> productDetails = new ArrayList<>();
