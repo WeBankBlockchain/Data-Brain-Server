@@ -34,6 +34,8 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	implementation "org.apache.commons:commons-lang3:3.6"
 	implementation "commons-io:commons-io:2.11.0"
+	compileOnly 'org.projectlombok:lombok:1.18.10'
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
 	implementation 'cn.hutool:hutool-all:5.8.4'
 	implementation("com.google.guava:guava:31.1-jre")
 	implementation 'mysql:mysql-connector-java'
@@ -46,4 +48,36 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+bootJar {
+	destinationDir file('dist')
+	archiveName "databrain_" + version + '.jar'
+	doLast {
+		copy {
+			from file('tools/')
+			into 'dist/'
+		}
+		copy {
+			from configurations.runtime
+			into 'dist/lib'
+		}
+		copy {
+			from file('src/main/resources/application.yml')
+			into 'dist/config/'
+		}
+		copy {
+			from file('src/main/resources/start.sh')
+			into 'dist/'
+		}
+		copy {
+			from file('src/main/resources/stop.sh')
+			into 'dist/'
+		}
+	}
+}
+
+clean {
+	println "delete ${projectDir}/dist"
+	delete "${projectDir}/dist"
 }

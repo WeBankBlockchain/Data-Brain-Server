@@ -1,10 +1,13 @@
+server:
+    port: 10880
+
 # DataSource Config
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/brain?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
-        username: root
-        password: 123456
+        url: jdbc:mysql://116.205.167.248:3306/databrain?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+        username: test
+        password: Aa12345!
 
 system:
     bcos-cfg: "bcos/config.toml"

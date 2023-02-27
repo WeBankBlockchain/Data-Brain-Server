@@ -2,13 +2,13 @@ package com.webank.databrain.model.dataschema;
 
 import com.webank.databrain.model.common.CommonRequest;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class CreateDataSchemaRequest extends CommonRequest {
+public class UpdatedDataSchemaRequest extends CommonRequest {
+
+    private String schemaId;
 
     private Long providerId;
 
@@ -39,5 +39,4 @@ public class CreateDataSchemaRequest extends CommonRequest {
     private LocalDateTime effectTime;
 
     private LocalDateTime expireTime;
-
 }
