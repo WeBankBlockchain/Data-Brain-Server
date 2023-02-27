@@ -158,7 +158,8 @@ public class ProductService {
         );
         BlockchainUtils.ensureTransactionSuccess(receipt);
 
-        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().eq("productId",productRequest.getProductId()));
+        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().
+                eq("productId",productRequest.getProductId()));
         product.setReviewState(ReviewStatus.Approved.ordinal());
         product.setReviewTime(LocalDateTime.now());
         productService.saveOrUpdate(product);
