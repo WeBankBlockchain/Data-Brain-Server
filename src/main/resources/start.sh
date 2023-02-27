@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-java -jar databrain*.jar --spring.config.location=./config/application.yml
+nohup java -jar databrain*.jar --spring.config.location=./config/application.yml &
 
