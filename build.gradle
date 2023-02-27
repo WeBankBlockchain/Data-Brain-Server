@@ -28,7 +28,7 @@ List swagger = [
 		'io.springfox:springfox-boot-starter:3.0.0'
 ]
 dependencies {
-	implementation logger, swagger
+	implementation logger
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation ("org.fisco-bcos.java-sdk:fisco-bcos-java-sdk:3.1.0") //java sdk
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,9 +45,9 @@ dependencies {
 	implementation 'com.baomidou:mybatis-plus:3.3.2'
 	implementation 'com.baomidou:mybatis-plus-generator:3.3.2'
 	implementation 'org.apache.velocity:velocity:1.7'
-//	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.20'
-//	implementation 'io.springfox:springfox-swagger2:2.9.2'
-//	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.20'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 }
 
 tasks.named('test') {

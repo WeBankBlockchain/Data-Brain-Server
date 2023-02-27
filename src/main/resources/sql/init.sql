@@ -1,20 +1,19 @@
 -- 账户表 --
-CREATE TABLE `account` (
-   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
-   `type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
-   `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
-   `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
-   `salt` varchar(255) NOT NULL,
-   `pwdhash` varchar(255) NOT NULL,
-   `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
-   `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
-   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`did`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+ CREATE TABLE `account` (
+        `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+        `account_type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
+        `did` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
+        `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
+        `salt` varchar(255) NOT NULL,
+        `pwdhash` varchar(255) NOT NULL,
+        `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
+        `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
+        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`pk_id`),
+        UNIQUE KEY (`did`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- 用户表 --
 CREATE TABLE `user_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

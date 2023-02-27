@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,6 +23,7 @@ import javax.persistence.Id;
  * @since 2023-02-22
  */
 @Data
+@TableName(value = "account")
 @EqualsAndHashCode(callSuper = false)
 public class AccountDataObject implements Serializable {
 

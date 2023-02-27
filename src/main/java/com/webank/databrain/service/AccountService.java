@@ -16,6 +16,7 @@ import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -24,12 +25,14 @@ import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@Slf4j
 public class AccountService {
 
     @Autowired
@@ -54,6 +57,7 @@ public class AccountService {
     @Autowired
     private ITokenHandler tokenHandler;
 
+    @Transactional
     public String registerAccount(RegisterRequestVO request) throws Exception{
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
@@ -65,18 +69,19 @@ public class AccountService {
         TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), new byte[32]);
         byte[] didBytes = accountContract.getRegisterOutput(txReceipt).getValue1();
         BlockchainUtils.ensureTransactionSuccess(txReceipt);
+        log.info("blockchain generate did : {}", AccountUtils.encode(didBytes));
         //Save to database
         String username = request.getUsername();
-        int userType = request.getAccountType().ordinal();
+        int accountType = request.getAccountType().ordinal();
         String did = AccountUtils.encode(didBytes);
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = cryptoSuite.hash(username + salt);
-        accountDAO.insert(username, userType, did, privateKey, salt, pwdHash);
-        if (userType == AccountType.NormalUser.ordinal()){
+        accountDAO.insert(username, accountType, did, privateKey, salt, pwdHash);
+        if (accountType == AccountType.NormalUser.ordinal()){
             NormalUserDetail normalUser = JsonUtils.fromJson(request.getDetailJson(), NormalUserDetail.class);
             userInfoDAO.insert(did, normalUser);
-        } else if(userType == AccountType.Enterprise.ordinal()){
+        } else if(accountType == AccountType.Enterprise.ordinal()){
             OrgUserDetail orgUserDetail = JsonUtils.fromJson(request.getDetailJson(), OrgUserDetail.class);
             orgDAO.insert(did, orgUserDetail);
         }

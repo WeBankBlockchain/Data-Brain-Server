@@ -19,3 +19,6 @@ system:
         account-contract: "0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1"
         product-contract: "0x4721d1a77e0e76851d460073e64ea06d9c104194"
         dataSchema-contract: "0xc8ead4b26b2c6ac14c9fd90d9684c9bc2cc40085"
+
+swagger:
+    enabled: true
