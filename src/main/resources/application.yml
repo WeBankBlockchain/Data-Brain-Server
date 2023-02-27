@@ -1,3 +1,6 @@
+server:
+    port: 10880
+
 # DataSource Config
 spring:
     datasource:
