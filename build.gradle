@@ -59,7 +59,7 @@ bootJar {
 	archiveName "databrain_" + version + '.jar'
 	doLast {
 		copy {
-			from file('tools/')
+			from file('conf/')
 			into 'dist/'
 		}
 		copy {
