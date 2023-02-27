@@ -9,6 +9,7 @@ import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.service.AccountService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +27,15 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @ApiOperation(value = "注册")
     @PostMapping("register")
     public CommonResponse register(@RequestBody RegisterRequestVO request) throws Exception {
         String did = accountService.registerAccount(request);
         return CommonResponse.createSuccessResult(did);
     }
 
+    @ApiOperation(value = "登陆")
     @PostMapping("login")
     public CommonResponse login(@RequestBody LoginRequestVO request) {
         LoginResult result = accountService.login(request);
