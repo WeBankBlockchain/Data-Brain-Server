@@ -26,27 +26,15 @@ public class ProductController {
                                                                         @RequestParam(name = "pageSize") int pageSize
                                                    ){
         log.info("pageQueryProduct pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<ProductDetail> result;
-        try {
-            result = productService.pageQueryProducts(new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQueryProduct failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQueryProduct failed");
-        }
+        PagingResult<ProductDetail> result = productService.pageQueryProducts(new Paging(pageNo,pageSize));
         return CommonResponse.createSuccessResult(result);
     }
 
     @RequestMapping(value = "/queryProductById")
     public CommonResponse<ProductDetail> queryProductById(@RequestParam(name = "productId") String productId
-    ){
-        log.info("pageQueryProduct productId = {}",productId);
-        ProductDetail result;
-        try {
-            result = productService.getProductDetail(productId);
-        } catch (Exception e) {
-            log.error("queryProductById failed ", e);
-            return CommonResponse.createFailedResult(500,"queryProductById failed");
-        }
+    ) {
+        log.info("pageQueryProduct productId = {}", productId);
+        ProductDetail result =productService.getProductDetail(productId);
         return CommonResponse.createSuccessResult(result);
     }
 
@@ -54,27 +42,15 @@ public class ProductController {
     public CommonResponse<List<ProductIdName>> getHotProducts(@RequestParam(name = "topN") int topN
     ){
         log.info("getHotProducts topN = {}",topN);
-        List<ProductIdName> result;
-        try {
-            result = productService.getHotProducts(topN);
-        } catch (Exception e) {
-            log.error("getHotProducts failed ", e);
-            return CommonResponse.createFailedResult(500,"getHotProducts failed");
-        }
+        List<ProductIdName> result = productService.getHotProducts(topN);
         return CommonResponse.createSuccessResult(result);
     }
 
 
     @RequestMapping(value = "/createProduct")
-    public CommonResponse<String> createProduct(@RequestBody CreateProductRequest createProductRequest){
+    public CommonResponse<String> createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
         log.info("createProduct did = {}",createProductRequest.getDid());
-        String productId;
-        try {
-            productId = productService.createProduct(createProductRequest);
-        } catch (Exception e) {
-            log.error("createProduct failed ", e);
-            return CommonResponse.createFailedResult(500,"createProduct failed");
-        }
+        String productId = productService.createProduct(createProductRequest);
         return CommonResponse.createSuccessResult(productId);
     }
 

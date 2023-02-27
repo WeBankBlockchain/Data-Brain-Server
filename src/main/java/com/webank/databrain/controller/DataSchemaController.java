@@ -27,13 +27,7 @@ public class DataSchemaController {
             @RequestParam(name = "pageSize") int pageSize
     ){
         log.info("pageQuerySchema pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result;
-        try {
-            result = schemaService.pageQuerySchema(new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQuerySchema failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQuerySchema failed");
-        }
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(pageNo,pageSize));;
         return CommonResponse.createSuccessResult(result);
     }
 
@@ -44,13 +38,7 @@ public class DataSchemaController {
             @RequestParam(name = "keyWord") String keyWord
     ){
         log.info("pageQuerySchemaBySearch pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result;
-        try {
-            result = schemaService.pageQuerySchemaBySearch(keyWord,new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQuerySchemaBySearch failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQuerySchemaBySearch failed");
-        }
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaBySearch(keyWord,new Paging(pageNo,pageSize));;
         return CommonResponse.createSuccessResult(result);
     }
 
@@ -61,13 +49,7 @@ public class DataSchemaController {
             @RequestParam(name = "productId") String productId
     ){
         log.info("pageQuerySchemaByProductId pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result;
-        try {
-            result = schemaService.pageQuerySchemaByProductId(productId,new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQuerySchemaByProductId failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQuerySchemaByProductId failed");
-        }
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaByProductId(productId,new Paging(pageNo,pageSize));;
         return CommonResponse.createSuccessResult(result);
     }
 
@@ -78,13 +60,7 @@ public class DataSchemaController {
             @RequestParam(name = "providerId") String providerId
     ){
         log.info("pageQuerySchemaByProvider providerId = {}",providerId);
-        PagingResult<DataSchemaDetail> result;
-        try {
-            result = schemaService.pageQuerySchemaByProvider(providerId,new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQuerySchemaByProvider failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQuerySchemaByProvider failed");
-        }
+        PagingResult<DataSchemaDetail> result  = schemaService.pageQuerySchemaByProvider(providerId,new Paging(pageNo,pageSize));;
         return CommonResponse.createSuccessResult(result);
     }
 
@@ -95,28 +71,16 @@ public class DataSchemaController {
             @RequestParam(name = "tagId") long tagId
     ){
         log.info("pageQuerySchemaByProvider tagId = {}",tagId);
-        PagingResult<DataSchemaDetail> result;
-        try {
-            result = schemaService.pageQuerySchemaByTag(tagId,new Paging(pageNo,pageSize));
-        } catch (Exception e) {
-            log.error("pageQuerySchemaByProvider failed ", e);
-            return CommonResponse.createFailedResult(500,"pageQuerySchemaByProvider failed");
-        }
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaByTag(tagId,new Paging(pageNo,pageSize));;
         return CommonResponse.createSuccessResult(result);
     }
 
 
 
     @RequestMapping(value = "/createSchema")
-    public CommonResponse<String> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest){
+    public CommonResponse<String> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
         log.info("createSchema did = {}",createDataSchemaRequest.getDid());
-        String productId;
-        try {
-            productId = schemaService.createDataSchema(createDataSchemaRequest);
-        } catch (Exception e) {
-            log.error("createSchema failed ", e);
-            return CommonResponse.createFailedResult(500,"createSchema failed");
-        }
+        String productId = schemaService.createDataSchema(createDataSchemaRequest);;
         return CommonResponse.createSuccessResult(productId);
     }
 
@@ -124,13 +88,7 @@ public class DataSchemaController {
     public CommonResponse<DataSchemaDetailWithVisit> querySchemaById(@RequestParam(name = "schemaId") String schemaId
     ){
         log.info("querySchemaById schemaId = {}",schemaId);
-        DataSchemaDetailWithVisit result;
-        try {
-            result = schemaService.getDataSchemaById(schemaId);
-        } catch (Exception e) {
-            log.error("queryProductById failed ", e);
-            return CommonResponse.createFailedResult(500,"querySchemaById failed");
-        }
+        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(schemaId);;
         return CommonResponse.createSuccessResult(result);
     }
 

@@ -84,13 +84,15 @@ public class AccountService {
         return did;
     }
 
-    public LoginResult login(String username, String password) {
+    public LoginResult login(LoginRequestVO loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
         AccountDO accountDO = accountDAO.getAccountByName(username);
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
-        String pwdhash = cryptoSuite.hash(password+accountDO.getSalt());
-        if (!Objects.equals(pwdhash, accountDO.getPwdhash())) {
+        String pwdHash = cryptoSuite.hash(password+accountDO.getSalt());
+        if (!Objects.equals(pwdHash, accountDO.getPwdhash())) {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
 
         }
