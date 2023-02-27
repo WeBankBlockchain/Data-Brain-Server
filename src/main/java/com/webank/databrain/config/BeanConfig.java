@@ -31,4 +31,5 @@ public class BeanConfig {
         return new CryptoSuite(sysConfig.getCryptoConfig());
     }
 
+
 }

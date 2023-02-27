@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.webank.data.db.mapper")
+@MapperScan("com.webank.databrain.db.mapper")
 public class MybatisPlusConfig {
 
     @Bean("mybatisSqlSession")
