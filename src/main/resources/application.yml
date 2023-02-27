@@ -10,4 +10,6 @@ system:
     bcos-cfg: "bcos/config.toml"
     crypto-type: 0
     salt: "salt_string"
-    account-contract: "0x"
+    witness-private-key: '0x'
+    contract:
+        account-contract: "0x"

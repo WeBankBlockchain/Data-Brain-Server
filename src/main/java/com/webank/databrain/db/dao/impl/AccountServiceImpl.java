@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.entity.AccountDataObject;
 import com.webank.databrain.db.mapper.AccountMapper;
+import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.model.account.AccountDO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 @Component
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDataObject> implements IAccountDbService {
@@ -43,6 +45,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDataOb
         AccountDO ret = new AccountDO();
         BeanUtils.copyProperties(accountDataObject, ret);
         return ret;
+    }
+
+    @Override
+    public void updateReviewStatus(String did, ReviewStatus status, LocalDateTime reviewTime) {
+        baseMapper.updateReviewStatus(did, status.ordinal(), reviewTime);
     }
 
 

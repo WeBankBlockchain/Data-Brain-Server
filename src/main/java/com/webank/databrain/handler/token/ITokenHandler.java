@@ -4,6 +4,6 @@ public interface ITokenHandler {
 
     String generateToken();
 
-    String verifyToken();
+    boolean verifyToken(String token);
 
 }
