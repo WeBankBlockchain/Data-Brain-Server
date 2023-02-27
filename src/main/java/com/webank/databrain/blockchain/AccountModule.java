@@ -406,18 +406,18 @@ public class AccountModule extends Contract {
                 );
     }
 
-    public IAccountModule.AccountData getAccountByAddress(String addr) throws ContractException {
+    public AccountData getAccountByAddress(String addr) throws ContractException {
         final Function function = new Function(FUNC_GETACCOUNTBYADDRESS, 
                 Arrays.<Type>asList(new Address(addr)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<IAccountModule.AccountData>() {}));
-        return executeCallWithSingleValueReturn(function, IAccountModule.AccountData.class);
+        return executeCallWithSingleValueReturn(function, AccountData.class);
     }
 
-    public IAccountModule.AccountData getAccountByDid(byte[] did) throws ContractException {
+    public AccountData getAccountByDid(byte[] did) throws ContractException {
         final Function function = new Function(FUNC_GETACCOUNTBYDID, 
                 Arrays.<Type>asList(new Bytes32(did)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<IAccountModule.AccountData>() {}));
-        return executeCallWithSingleValueReturn(function, IAccountModule.AccountData.class);
+        return executeCallWithSingleValueReturn(function, AccountData.class);
     }
 
     public BigInteger mode() throws ContractException {
