@@ -21,7 +21,7 @@ public class DataSchemaController {
     private DataSchemaService schemaService;
 
 
-    @RequestMapping(value = "/pageQuerySchema")
+    @PostMapping(value = "/pageQuerySchema")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize
@@ -31,7 +31,7 @@ public class DataSchemaController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/pageQuerySchemaBySearch")
+    @PostMapping(value = "/pageQuerySchemaBySearch")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaBySearch(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize,
@@ -42,7 +42,7 @@ public class DataSchemaController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/pageQuerySchemaByProductId")
+    @PostMapping(value = "/pageQuerySchemaByProductId")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaByProductId(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize,
@@ -53,7 +53,7 @@ public class DataSchemaController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/pageQuerySchemaByPrId")
+    @PostMapping(value = "/pageQuerySchemasByProvider")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemasByProvider(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize,
@@ -64,7 +64,7 @@ public class DataSchemaController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/pageQuerySchemaByTag")
+    @PostMapping(value = "/pageQuerySchemaByTag")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaByTag(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize,
@@ -77,14 +77,14 @@ public class DataSchemaController {
 
 
 
-    @RequestMapping(value = "/createSchema")
+    @PostMapping(value = "/createSchema")
     public CommonResponse<String> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
         log.info("createSchema did = {}",createDataSchemaRequest.getDid());
         String productId = schemaService.createDataSchema(createDataSchemaRequest);;
         return CommonResponse.createSuccessResult(productId);
     }
 
-    @RequestMapping(value = "/querySchemaById")
+    @PostMapping(value = "/querySchemaById")
     public CommonResponse<DataSchemaDetailWithVisit> querySchemaById(@RequestParam(name = "schemaId") String schemaId
     ){
         log.info("querySchemaById schemaId = {}",schemaId);

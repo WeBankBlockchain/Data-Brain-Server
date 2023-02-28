@@ -21,7 +21,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/pageQueryProduct")
+    @PostMapping(value = "/pageQueryProduct")
     public CommonResponse<PagingResult<ProductDetail>> pageQueryProduct(@RequestParam(name = "pageNo") int pageNo,
                                                                         @RequestParam(name = "pageSize") int pageSize
                                                    ){
@@ -30,7 +30,7 @@ public class ProductController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/queryProductById")
+    @PostMapping(value = "/queryProductById")
     public CommonResponse<ProductDetail> queryProductById(@RequestParam(name = "productId") String productId
     ) {
         log.info("pageQueryProduct productId = {}", productId);
@@ -47,7 +47,7 @@ public class ProductController {
     }
 
 
-    @RequestMapping(value = "/createProduct")
+    @PostMapping(value = "/createProduct")
     public CommonResponse<String> createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
         log.info("createProduct did = {}",createProductRequest.getDid());
         String productId = productService.createProduct(createProductRequest);
