@@ -1,11 +1,13 @@
 package com.webank.databrain.controller;
 
+import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.dataschema.DataSchemaDetail;
 import com.webank.databrain.model.dataschema.DataSchemaDetailWithVisit;
+import com.webank.databrain.model.dataschema.QuerySchemaRequest;
 import com.webank.databrain.service.DataSchemaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +25,22 @@ public class DataSchemaController {
 
     @PostMapping(value = "/pageQuerySchema")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
-            @RequestParam(name = "pageNo",required = false, defaultValue = "1") int pageNo,
-            @RequestParam(name = "pageSize",required = false, defaultValue = "10") int pageSize,
-            @RequestParam(name = "productId",required = false) String productId,
-            @RequestParam(name = "providerId",required = false) String providerId,
-            @RequestParam(name = "tagId",required = false, defaultValue = "0") long tagId,
-            @RequestParam(name = "keyWord",required = false) String keyWord
-
+            @RequestBody QuerySchemaRequest querySchemaRequest
     ){
-        log.info("pageQuerySchema pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(pageNo,pageSize),
-                productId,providerId,tagId,keyWord);
+        log.info("pageQuerySchema pageNo = {}, pageSize = {}",
+                querySchemaRequest.getPageNo(),
+                querySchemaRequest.getPageSize());
+        if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
+            return CommonResponse.createFailedResult(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
+        }
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(
+                querySchemaRequest.getPageNo(),
+                querySchemaRequest.getPageSize()),
+                querySchemaRequest.getProductId(),
+                querySchemaRequest.getProviderId(),
+                querySchemaRequest.getTagId(),
+                querySchemaRequest.getKeyWord()
+        );
         return CommonResponse.createSuccessResult(result);
     }
 
