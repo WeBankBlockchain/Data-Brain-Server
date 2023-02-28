@@ -89,11 +89,11 @@ public class DataSchemaService {
     }
 
     public DataSchemaDetailWithVisit getDataSchemaById(String schemaId){
-        DataSchemaDataObject schemaDataObject = schemaService.getOne(Wrappers.<DataSchemaDataObject>query().eq("schemaId",schemaId));
+        DataSchemaDataObject schemaDataObject = schemaService.getOne(Wrappers.<DataSchemaDataObject>query().eq("schema_id",schemaId));
         DataSchemaDetailWithVisit schemaDetail = new DataSchemaDetailWithVisit();
         BeanUtils.copyProperties(schemaDataObject,schemaDetail);
 
-        VisitInfo visitInfo = visitInfoService.getOne(Wrappers.<VisitInfo>query().eq("schemaId",schemaId));
+        VisitInfo visitInfo = visitInfoService.getOne(Wrappers.<VisitInfo>query().eq("schema_id",schemaId));
         BeanUtils.copyProperties(visitInfo,schemaDetail);
 
         return schemaDetail;
