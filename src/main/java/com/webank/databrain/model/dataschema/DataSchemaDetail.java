@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 @Data
 public class DataSchemaDetail {
 
-    private Long schemaId;
+    private String schemaId;
 
-    private Long providerId;
+    private String providerId;
 
-    private Long productId;
+    private String productId;
+
+    private Long tagId;
 
     private Integer version;
 
