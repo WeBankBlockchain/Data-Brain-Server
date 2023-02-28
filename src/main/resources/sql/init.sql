@@ -76,6 +76,8 @@ CREATE TABLE `schema_info` (
    `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT 'tagId',
    `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
+   `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '产品名称',
+   `provider_name` varchar(255) NOT NULL DEFAULT '' COMMENT '机构名称',
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
    `visible` int(4) NOT NULL DEFAULT 0 COMMENT '是否可见',
    `description` text COMMENT '描述',

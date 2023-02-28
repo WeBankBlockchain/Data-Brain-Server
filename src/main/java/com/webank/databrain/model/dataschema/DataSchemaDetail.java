@@ -14,6 +14,10 @@ public class DataSchemaDetail {
 
     private String productId;
 
+    private String productName;
+
+    private String providerName;
+
     private Long tagId;
 
     private Integer version;

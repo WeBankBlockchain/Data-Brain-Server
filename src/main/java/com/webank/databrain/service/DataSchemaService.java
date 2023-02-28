@@ -55,6 +55,9 @@ public class DataSchemaService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private ProductService productService;
+
     public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, long tagId, String keyWord) {
         QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
