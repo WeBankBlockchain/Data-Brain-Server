@@ -91,7 +91,7 @@ public class ProductService {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContracts().getProductContract(),
                 client,
                 keyPair);
 
