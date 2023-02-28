@@ -1,11 +1,13 @@
 package com.webank.databrain.controller;
 
+import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.CreateProductRequest;
 import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.model.product.ProductIdName;
+import com.webank.databrain.model.product.QueryProductRequest;
 import com.webank.databrain.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,16 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(value = "/pageQueryProduct")
-    public CommonResponse<PagingResult<ProductDetail>> pageQueryProduct(@RequestParam(name = "pageNo") int pageNo,
-                                                                        @RequestParam(name = "pageSize") int pageSize
-                                                   ){
-        log.info("pageQueryProduct pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<ProductDetail> result = productService.pageQueryProducts(new Paging(pageNo,pageSize));
+    public CommonResponse<PagingResult<ProductDetail>> pageQueryProduct(
+            @RequestBody QueryProductRequest queryProductRequest
+    ){
+        log.info("pageQueryProduct pageNo = {}, pageSize = {}",queryProductRequest.getPageNo(),queryProductRequest.getPageSize());
+        if(queryProductRequest.getPageNo() <= 0 || queryProductRequest.getPageSize() <= 0){
+            return CommonResponse.createFailedResult(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
+        }
+        PagingResult<ProductDetail> result = productService.pageQueryProducts(new Paging(
+                queryProductRequest.getPageNo()
+                ,queryProductRequest.getPageSize()));
         return CommonResponse.createSuccessResult(result);
     }
 
