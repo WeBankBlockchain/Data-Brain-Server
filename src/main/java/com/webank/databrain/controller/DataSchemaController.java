@@ -23,8 +23,8 @@ public class DataSchemaController {
 
     @PostMapping(value = "/pageQuerySchema")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
-            @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize,
+            @RequestParam(name = "pageNo",required = false, defaultValue = "1") int pageNo,
+            @RequestParam(name = "pageSize",required = false, defaultValue = "10") int pageSize,
             @RequestParam(name = "productId",required = false) String productId,
             @RequestParam(name = "providerId",required = false) String providerId,
             @RequestParam(name = "tagId",required = false, defaultValue = "0") long tagId,
