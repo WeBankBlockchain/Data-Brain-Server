@@ -1,7 +1,11 @@
 package com.webank.databrain;
 
+import cn.hutool.json.JSONUtil;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.account.RegisterRequestVO;
+import com.webank.databrain.model.common.Paging;
+import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.dataschema.DataSchemaDetail;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.DataSchemaService;
 import org.junit.jupiter.api.Test;
@@ -19,16 +23,8 @@ public class SchemaTest extends ServerApplicationTests{
 
     @Test
     void schemaTest() throws Exception {
-        RegisterRequestVO request = new RegisterRequestVO();
-        request.setAccountType(AccountType.Enterprise);
-        request.setPassword("123456");
-        request.setUsername("test1");
-        request.setDetailJson("{\"name\" : \"user\"}");
-        String userId = accountService.registerAccount(request);
-
-        accountService.auditAccount("test1",true);
-
-
+        PagingResult<DataSchemaDetail> result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,0,null);
+        System.out.println(JSONUtil.toJsonStr(result));
     }
 
 }

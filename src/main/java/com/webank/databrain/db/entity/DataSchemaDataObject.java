@@ -23,8 +23,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Schema对象", description="")
-@TableName(value = "schema")
+@TableName(value = "`schema`")
 public class DataSchemaDataObject implements Serializable {
 
     private static final long serialVersionUID=1L;

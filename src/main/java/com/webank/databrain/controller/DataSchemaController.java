@@ -25,10 +25,10 @@ public class DataSchemaController {
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
             @RequestParam(name = "pageNo") int pageNo,
             @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "productId") String productId,
-            @RequestParam(name = "providerId") String providerId,
-            @RequestParam(name = "tagId") long tagId,
-            @RequestParam(name = "keyWord") String keyWord
+            @RequestParam(name = "productId",required = false) String productId,
+            @RequestParam(name = "providerId",required = false) String providerId,
+            @RequestParam(name = "tagId",required = false) long tagId,
+            @RequestParam(name = "keyWord",required = false) String keyWord
 
     ){
         log.info("pageQuerySchema pageNo = {}, pageSize = {}",pageNo,pageSize);

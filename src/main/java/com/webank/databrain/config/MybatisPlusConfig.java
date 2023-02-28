@@ -1,21 +1,28 @@
 package com.webank.databrain.config;
 
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableTransactionManagement
 @MapperScan("com.webank.databrain.db.mapper")
 public class MybatisPlusConfig {
 
     @Bean("mybatisSqlSession")
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, GlobalConfig globalConfig) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, GlobalConfig globalConfig, MybatisPlusInterceptor interceptor) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         /* 数据源 */
         sqlSessionFactory.setDataSource(dataSource);
@@ -23,10 +30,9 @@ public class MybatisPlusConfig {
         sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
                 .getResources("classpath:/mapper/*.xml"));
 
-//        MybatisConfiguration configuration = new MybatisConfiguration();
-        /* 驼峰转下划线 */
-//        configuration.setMapUnderscoreToCamelCase(true);
         sqlSessionFactory.setGlobalConfig(globalConfig);
+
+        sqlSessionFactory.setPlugins(interceptor);
         return sqlSessionFactory.getObject();
     }
 
@@ -35,6 +41,13 @@ public class MybatisPlusConfig {
         GlobalConfig conf = new GlobalConfig();
         conf.setDbConfig(new GlobalConfig.DbConfig().setColumnFormat("`%s`"));
         return conf;
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
     }
 
 

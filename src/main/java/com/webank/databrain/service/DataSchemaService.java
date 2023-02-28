@@ -69,7 +69,7 @@ public class DataSchemaService {
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
             wrappers.like("description",keyWord);
         }
-        wrappers.orderByDesc("createTime");
+        wrappers.orderByDesc("create_time");
 
 
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),wrappers);
