@@ -38,7 +38,7 @@ public class ProductController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @RequestMapping(value = "/getHotProducts")
+    @PostMapping(value = "/getHotProducts")
     public CommonResponse<List<ProductIdName>> getHotProducts(@RequestParam(name = "topN") int topN
     ){
         log.info("getHotProducts topN = {}",topN);

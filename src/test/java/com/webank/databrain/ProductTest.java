@@ -19,20 +19,16 @@ public class ProductTest extends  ServerApplicationTests{
     private AccountService accountService;
 
 
-
-
     @Test
     void productTest() throws Exception {
         RegisterRequestVO request = new RegisterRequestVO();
         request.setAccountType(AccountType.Enterprise);
         request.setPassword("123456");
-        request.setUsername("test");
+        request.setUsername("test2");
         request.setDetailJson("{\"name\" : \"user\"}");
         String userId = accountService.registerAccount(request);
 
-        accountService.auditAccount("test",true);
-
-
+        accountService.auditAccount("test2",true);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("腾讯数据目录");

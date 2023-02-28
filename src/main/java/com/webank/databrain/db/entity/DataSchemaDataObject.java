@@ -36,14 +36,14 @@ public class DataSchemaDataObject implements Serializable {
     private String schemaId;
 
     @ApiModelProperty(value = "提供方id")
-    private Long providerId;
+    private String providerId;
 
 
     private Long tagId;
 
 
     @ApiModelProperty(value = "产品id")
-    private Long productId;
+    private String productId;
 
     @ApiModelProperty(value = "版本号")
     private Integer version;

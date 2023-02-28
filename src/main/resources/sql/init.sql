@@ -74,7 +74,7 @@ CREATE TABLE `schema` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `schema_id` varchar(255) NOT NULL DEFAULT '' COMMENT '目录id',
    `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT 'tagId',
-   `provider_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '提供方id',
+   `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
    `visible` int(4) NOT NULL DEFAULT 0 COMMENT '是否可见',
