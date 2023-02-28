@@ -71,7 +71,6 @@ public class DataSchemaService {
         }
         wrappers.orderByDesc("create_time");
 
-
         IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),wrappers);
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
         List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();

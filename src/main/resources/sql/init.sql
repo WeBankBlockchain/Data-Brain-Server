@@ -70,7 +70,7 @@ CREATE TABLE `tag` (
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 目录表 --
-CREATE TABLE `schema` (
+CREATE TABLE `schema_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `schema_id` varchar(255) NOT NULL DEFAULT '' COMMENT '目录id',
    `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT 'tagId',

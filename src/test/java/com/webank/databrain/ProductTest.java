@@ -1,17 +1,18 @@
 package com.webank.databrain;
 
+import cn.hutool.json.JSONUtil;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.account.RegisterRequestVO;
+import com.webank.databrain.model.common.Paging;
+import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.CreateProductRequest;
+import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.ProductService;
-import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductTest extends  ServerApplicationTests{
-
-
     @Autowired
     private ProductService productService;
 
@@ -36,5 +37,11 @@ public class ProductTest extends  ServerApplicationTests{
         createProductRequest.setDid(userId);
         String did = productService.createProduct(createProductRequest);
         System.out.println("did = " + did);
+    }
+
+    @Test
+    void pageQueryTest() throws Exception {
+        PagingResult<ProductDetail> result =  productService.pageQueryProducts(new Paging(1,10));
+        System.out.println(JSONUtil.toJsonStr(result));
     }
 }
