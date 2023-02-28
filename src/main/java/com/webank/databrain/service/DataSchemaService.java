@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,7 +9,9 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.ISchemaService;
 import com.webank.databrain.db.dao.IVisitInfoService;
 import com.webank.databrain.db.entity.DataSchemaDataObject;
+import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.webank.databrain.db.entity.VisitInfo;
+import com.webank.databrain.db.mapper.SchemaMapper;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.*;
@@ -52,85 +55,24 @@ public class DataSchemaService {
     @Autowired
     private AccountService accountService;
 
-    public PagingResult<DataSchemaDetail> pageQuerySchemaByProvider(String providerId, Paging paging) {
-        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().eq("providerId",providerId));
-        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
-        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
+    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, long tagId, String keyWord) {
+        QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
+            wrappers.eq("product_id",productId);
+        }
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(providerId)){
+            wrappers.eq("provider_id",productId);
+        }
+        if(tagId > 0){
+            wrappers.eq("tag_id",tagId);
+        }
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
+            wrappers.like("description",keyWord);
+        }
+        wrappers.orderByDesc("createTime");
 
-        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
-            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
-            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
-            dataSchemaDetails.add(dataSchemaDetail);
-        });
-        return new PagingResult<>(
-                dataSchemaDetails,
-                result.getCurrent(),
-                result.getSize(),
-                result.getTotal(),
-                result.getPages());
-    }
 
-    public PagingResult<DataSchemaDetail> pageQuerySchemaByProductId(String productId, Paging paging) {
-        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().eq("productId",productId));
-        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
-        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
-
-        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
-            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
-            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
-            dataSchemaDetails.add(dataSchemaDetail);
-        });
-        return new PagingResult<>(
-                dataSchemaDetails,
-                result.getCurrent(),
-                result.getSize(),
-                result.getTotal(),
-                result.getPages());
-    }
-
-    public PagingResult<DataSchemaDetail> pageQuerySchemaByTag(long tagId, Paging paging) {
-        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().eq("tag_id",tagId));
-        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
-        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
-
-        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
-            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
-            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
-            dataSchemaDetails.add(dataSchemaDetail);
-        });
-        return new PagingResult<>(
-                dataSchemaDetails,
-                result.getCurrent(),
-                result.getSize(),
-                result.getTotal(),
-                result.getPages());
-    }
-
-    public PagingResult<DataSchemaDetail> pageQuerySchemaBySearch(String keyword, Paging paging) {
-        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().like("description",keyword).orderByDesc("createTime"));
-        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
-        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
-
-        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
-            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
-            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
-            dataSchemaDetails.add(dataSchemaDetail);
-        });
-        return new PagingResult<>(
-                dataSchemaDetails,
-                result.getCurrent(),
-                result.getSize(),
-                result.getTotal(),
-                result.getPages());
-    }
-
-    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging) {
-        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),
-                Wrappers.<DataSchemaDataObject>query().orderByDesc("createTime"));
+        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),wrappers);
         List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
         List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
 

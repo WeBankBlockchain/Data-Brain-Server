@@ -24,57 +24,18 @@ public class DataSchemaController {
     @PostMapping(value = "/pageQuerySchema")
     public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
             @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize
+            @RequestParam(name = "pageSize") int pageSize,
+            @RequestParam(name = "productId") String productId,
+            @RequestParam(name = "providerId") String providerId,
+            @RequestParam(name = "tagId") long tagId,
+            @RequestParam(name = "keyWord") String keyWord
+
     ){
         log.info("pageQuerySchema pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(pageNo,pageSize));;
+        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(pageNo,pageSize),
+                productId,providerId,tagId,keyWord);
         return CommonResponse.createSuccessResult(result);
     }
-
-    @PostMapping(value = "/pageQuerySchemaBySearch")
-    public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaBySearch(
-            @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "keyWord") String keyWord
-    ){
-        log.info("pageQuerySchemaBySearch pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaBySearch(keyWord,new Paging(pageNo,pageSize));;
-        return CommonResponse.createSuccessResult(result);
-    }
-
-    @PostMapping(value = "/pageQuerySchemaByProductId")
-    public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaByProductId(
-            @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "productId") String productId
-    ){
-        log.info("pageQuerySchemaByProductId pageNo = {}, pageSize = {}",pageNo,pageSize);
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaByProductId(productId,new Paging(pageNo,pageSize));;
-        return CommonResponse.createSuccessResult(result);
-    }
-
-    @PostMapping(value = "/pageQuerySchemasByProvider")
-    public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemasByProvider(
-            @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "providerId") String providerId
-    ){
-        log.info("pageQuerySchemaByProvider providerId = {}",providerId);
-        PagingResult<DataSchemaDetail> result  = schemaService.pageQuerySchemaByProvider(providerId,new Paging(pageNo,pageSize));;
-        return CommonResponse.createSuccessResult(result);
-    }
-
-    @PostMapping(value = "/pageQuerySchemaByTag")
-    public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchemaByTag(
-            @RequestParam(name = "pageNo") int pageNo,
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "tagId") long tagId
-    ){
-        log.info("pageQuerySchemaByProvider tagId = {}",tagId);
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchemaByTag(tagId,new Paging(pageNo,pageSize));;
-        return CommonResponse.createSuccessResult(result);
-    }
-
 
 
     @PostMapping(value = "/createSchema")
