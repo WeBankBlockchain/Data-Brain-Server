@@ -27,7 +27,7 @@ public class DataSchemaController {
             @RequestParam(name = "pageSize") int pageSize,
             @RequestParam(name = "productId",required = false) String productId,
             @RequestParam(name = "providerId",required = false) String providerId,
-            @RequestParam(name = "tagId",required = false) long tagId,
+            @RequestParam(name = "tagId",required = false, defaultValue = "0") long tagId,
             @RequestParam(name = "keyWord",required = false) String keyWord
 
     ){
