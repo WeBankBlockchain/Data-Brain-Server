@@ -46,7 +46,7 @@
     </select>
 
     <update id="updateReviewStatus">
-        UPDATE `account` set review_status=#{status}, review_time = #{timestamp} WHERE did = #{did};
+        UPDATE `account` set review_state=#{status}, review_time = #{reviewTime} WHERE did = #{did};
     </update>
 
 </mapper>

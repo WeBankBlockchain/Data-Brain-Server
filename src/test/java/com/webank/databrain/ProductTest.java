@@ -25,11 +25,11 @@ public class ProductTest extends  ServerApplicationTests{
         RegisterRequestVO request = new RegisterRequestVO();
         request.setAccountType(AccountType.Enterprise);
         request.setPassword("123456");
-        request.setUsername("test2");
-        request.setDetailJson("{\"name\" : \"user\"}");
+        request.setUsername("ggggggg");
+        request.setDetailJson("{\"name\" : \"aauser\"}");
         String userId = accountService.registerAccount(request);
 
-        accountService.auditAccount("test2",true);
+        accountService.auditAccount("ggggggg",true);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("腾讯数据目录");

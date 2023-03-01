@@ -46,6 +46,8 @@ public class AccountService {
     private CryptoSuite cryptoSuite;
 
     @Autowired
+    private CryptoKeyPair witnessKeyPair;
+    @Autowired
     private SysConfig sysConfig;
 
     @Autowired
@@ -136,7 +138,8 @@ public class AccountService {
         }
         byte[] didBytes = AccountUtils.decode(accountDO.getDid());
         //链上审批
-        CryptoKeyPair witnessKeyPair = cryptoSuite.getCryptoKeyPair();
+        CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
+        System.out.println(witnessKeyPair.getHexPrivateKey());
         AccountModule accountModule = AccountModule.load(sysConfig.getContracts().getAccountContract(), client, witnessKeyPair);
         TransactionReceipt txReceipt = accountModule.approve(didBytes, agree);
         BlockchainUtils.ensureTransactionSuccess(txReceipt);

@@ -27,9 +27,12 @@ public class BeanConfig {
     @Bean
     public CryptoSuite cryptoSuite(){
         CryptoSuite suite = new CryptoSuite(sysConfig.getCryptoConfig());
-        suite.setCryptoKeyPair(suite.loadKeyPair(sysConfig.getWitnessPrivateKey()));
-        return new CryptoSuite(sysConfig.getCryptoConfig());
+        return suite;
     }
 
+    @Bean
+    public CryptoKeyPair witnessKeyPair(CryptoSuite cryptoSuite){
+        return cryptoSuite.loadKeyPair(sysConfig.getWitnessPrivateKey());
+    }
 
 }
