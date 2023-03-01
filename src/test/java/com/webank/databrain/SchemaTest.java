@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class SchemaTest extends ServerApplicationTests{
 
 
@@ -53,7 +55,8 @@ public class SchemaTest extends ServerApplicationTests{
         schemaRequest.setUsage("test");
         schemaRequest.setUri("127.0.0.1");
 
-        schemaService.createDataSchema(schemaRequest);
+        String id = schemaService.createDataSchema(schemaRequest);
+        assertThat(id).isNotNull();
     }
 
 
