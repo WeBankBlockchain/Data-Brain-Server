@@ -50,7 +50,7 @@ public class ProductService {
     public List<ProductIdName> getHotProducts(int topN) {
         List<ProductDataObject> productList = productService
                 .query()
-                .select("productId","productName")
+                .select("product_id","product_name")
                 .orderByDesc("pk_id")
                 .last("limit " + topN )
                 .list();

@@ -7,10 +7,13 @@ import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.CreateProductRequest;
 import com.webank.databrain.model.product.ProductDetail;
+import com.webank.databrain.model.product.ProductIdName;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class ProductTest extends  ServerApplicationTests{
     @Autowired
@@ -43,5 +46,8 @@ public class ProductTest extends  ServerApplicationTests{
     void pageQueryTest() throws Exception {
         PagingResult<ProductDetail> result =  productService.pageQueryProducts(new Paging(1,10));
         System.out.println(JSONUtil.toJsonStr(result));
+
+        List<ProductIdName> productIdNames = productService.getHotProducts(10);
+        System.out.println(JSONUtil.toJsonStr(productIdNames));
     }
 }
