@@ -45,8 +45,15 @@ public class SchemaTest extends ServerApplicationTests{
         schemaRequest.setExpireTime(LocalDateTime.now());
         schemaRequest.setDescription("描述");
         schemaRequest.setTagName("科技");
+        schemaRequest.setType(1);
+        schemaRequest.setProductId("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
+        schemaRequest.setProviderId("AAE5B5xS/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
+        schemaRequest.setVisible(1);
+        schemaRequest.setDid("AAE5B5xS/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
+        schemaRequest.setUsage("test");
+        schemaRequest.setUri("127.0.0.1");
 
-        schemaService.createDataSchema()
+        schemaService.createDataSchema(schemaRequest);
     }
 
 

@@ -49,7 +49,9 @@ public class TagService {
     }
 
     public void updateTag(TagDetail tagDetail) {
-
-
+        TagDataObject tagDataObject = new TagDataObject();
+        BeanUtils.copyProperties(tagDetail,tagDataObject);
+        tagDataObject.setUpdateTime(LocalDateTime.now());
+        tagDbService.saveOrUpdate(tagDataObject);
     }
 }
