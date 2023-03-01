@@ -66,7 +66,7 @@ public class DataSchemaService {
     @Autowired
     private TagService tagService;
 
-    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, long tagId, String keyWord) {
+    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, String tag, String keyWord) {
         QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
             wrappers.eq("product_id",productId);
@@ -74,8 +74,8 @@ public class DataSchemaService {
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(providerId)){
             wrappers.eq("provider_id",productId);
         }
-        if(tagId > 0){
-            wrappers.eq("tag_id",tagId);
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(tag)){
+            wrappers.eq("tag",tag);
         }
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
             wrappers.like("description",keyWord);

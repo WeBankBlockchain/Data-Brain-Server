@@ -13,7 +13,7 @@ public class QuerySchemaRequest {
 
     private String providerId;
 
-    private long tagId = 0;
+    private String tag;
 
     private String keyWord;
 

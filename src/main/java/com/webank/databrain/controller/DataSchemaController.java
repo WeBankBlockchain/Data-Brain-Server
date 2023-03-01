@@ -38,7 +38,7 @@ public class DataSchemaController {
                 querySchemaRequest.getPageSize()),
                 querySchemaRequest.getProductId(),
                 querySchemaRequest.getProviderId(),
-                querySchemaRequest.getTagId(),
+                querySchemaRequest.getTag(),
                 querySchemaRequest.getKeyWord()
         );
         return CommonResponse.createSuccessResult(result);
