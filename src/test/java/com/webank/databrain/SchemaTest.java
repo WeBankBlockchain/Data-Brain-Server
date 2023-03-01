@@ -41,7 +41,7 @@ public class SchemaTest extends ServerApplicationTests{
     @Test
     void schemaCreateTest() throws Exception {
         CreateDataSchemaRequest schemaRequest  = new CreateDataSchemaRequest();
-        schemaRequest.setSchema("{\"test\":\"String\"....}");
+        schemaRequest.setSchema("{\"test2\":\"String\"....}");
         schemaRequest.setSchemaName("测试目录");
         schemaRequest.setCondition("查询条件");
         schemaRequest.setPrice(123);

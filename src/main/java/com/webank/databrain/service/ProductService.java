@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import cn.hutool.core.codec.Base64;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -100,9 +101,10 @@ public class ProductService {
                 .getBytes(StandardCharsets.UTF_8)));
         BlockchainUtils.ensureTransactionSuccess(receipt);
 
-        String productId = StringUtils.fromByteArray(productModule.getCreateProductOutput(receipt).getValue1());
+        String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
         ProductDataObject product = new ProductDataObject();
         product.setProductId(productId);
+        product.setProviderId(productRequest.getDid());
         product.setProductName(productRequest.getProductName());
         product.setInformation(productRequest.getInformation());
         product.setCreateTime(LocalDateTime.now());

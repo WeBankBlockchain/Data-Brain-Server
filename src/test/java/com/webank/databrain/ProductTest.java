@@ -32,7 +32,7 @@ public class ProductTest extends  ServerApplicationTests{
 //        accountService.auditAccount("ggggggg2",true);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("腾讯数据目录");
+        createProductRequest.setProductName("华为数据目录");
         createProductRequest.setInformation("详细信息.....");
         createProductRequest.setDid("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=");
         String did = productService.createProduct(createProductRequest);

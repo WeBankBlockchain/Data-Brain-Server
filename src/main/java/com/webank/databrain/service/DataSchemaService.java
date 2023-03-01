@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import cn.hutool.core.codec.Base64;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -131,12 +132,15 @@ public class DataSchemaService {
                 client,
                 keyPair);
 
-        byte[] hash = cryptoSuite.hash((schemaRequest.getProductId() + schemaRequest.getSchema() + schemaRequest.getProviderId())
+        byte[] hash = cryptoSuite.hash((schemaRequest.getProductId() +
+                schemaRequest.getSchema() +
+                schemaRequest.getSchemaName() +
+                schemaRequest.getProviderId())
                 .getBytes(StandardCharsets.UTF_8));
         TransactionReceipt receipt = dataSchemaModule.createDataSchema(hash);
         BlockchainUtils.ensureTransactionSuccess(receipt);
 
-        String dataSchemaId = StringUtils.fromByteArray(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
+        String dataSchemaId = Base64.encode(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
 
         TagDetail tagDetail = tagService.getTagByName(schemaRequest.getTagName());
         if(tagDetail == null){
