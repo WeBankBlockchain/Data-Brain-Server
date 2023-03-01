@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ProductIdName {
 
-    private long productId;
+    private String productId;
 
     private String productName;
 }
