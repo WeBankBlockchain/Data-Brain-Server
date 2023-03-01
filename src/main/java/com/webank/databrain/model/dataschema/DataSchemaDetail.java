@@ -10,6 +10,8 @@ public class DataSchemaDetail {
 
     private String schemaId;
 
+    private String schemaName;
+
     private String providerId;
 
     private String productId;
