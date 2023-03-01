@@ -29,7 +29,9 @@ public class SchemaTest extends ServerApplicationTests{
 
     @Test
     void schemaQueryTest() throws Exception {
-        PagingResult<DataSchemaDetail> result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,null,null);
+
+
+        PagingResult<DataSchemaDetail> result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,null,"数据");
         System.out.println(JSONUtil.toJsonStr(result));
 
         DataSchemaDetailWithVisit visit = schemaService.getDataSchemaById("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZxM=");

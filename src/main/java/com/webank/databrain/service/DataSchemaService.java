@@ -78,9 +78,9 @@ public class DataSchemaService {
             wrappers.eq("tag",tag);
         }
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
-            wrappers.like("description",keyWord)
-                    .like("product_name",keyWord)
-                    .like("provider_name",keyWord)
+            wrappers.like("description", keyWord).or()
+                    .like("product_name",keyWord).or()
+                    .like("provider_name",keyWord).or()
                     .like("schema_name",keyWord);
         }
         wrappers.orderByDesc("create_time");
