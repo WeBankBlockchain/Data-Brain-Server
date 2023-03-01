@@ -10,11 +10,13 @@ import java.time.LocalDateTime;
 @Data
 public class CreateDataSchemaRequest extends CommonRequest {
 
-    private Long providerId;
+    private String schemaName;
+
+    private String providerId;
 
     private Long tagId;
 
-    private Long productId;
+    private String productId;
 
     private Integer version;
 

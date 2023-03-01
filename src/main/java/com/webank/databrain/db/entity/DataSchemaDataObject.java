@@ -43,6 +43,8 @@ public class DataSchemaDataObject implements Serializable {
 
     private Long tagId;
 
+    private String schemaName;
+
 
     @ApiModelProperty(value = "产品id")
     private String productId;

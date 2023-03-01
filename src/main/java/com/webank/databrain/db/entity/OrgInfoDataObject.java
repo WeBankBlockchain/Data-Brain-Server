@@ -33,6 +33,9 @@ public class OrgInfoDataObject implements Serializable {
     @ApiModelProperty(value = "DID")
     private String orgId;
 
+    private String orgName;
+
+
     @ApiModelProperty(value = "证件类型")
     private Integer certType;
 

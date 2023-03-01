@@ -1,10 +1,13 @@
 package com.webank.databrain.service;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.webank.databrain.db.dao.IUserInfoDbService;
+import com.webank.databrain.db.entity.DataSchemaDataObject;
+import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
@@ -22,6 +25,7 @@ import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -138,5 +142,14 @@ public class AccountService {
         BlockchainUtils.ensureTransactionSuccess(txReceipt);
         //修改数据库状态
         accountDAO.updateReviewStatus(accountDO.getDid(), agree?ReviewStatus.Approved:ReviewStatus.Denied, LocalDateTime.now());
+    }
+
+
+    public OrgUserDetail getOrgInfo(String providerId){
+        OrgInfoDataObject orgInfoDataObject = orgDAO.getOne(
+                Wrappers.<OrgInfoDataObject>query().eq("org_id",providerId));
+        OrgUserDetail orgUserDetail = new OrgUserDetail();
+        BeanUtils.copyProperties(orgInfoDataObject,orgUserDetail);
+        return  orgUserDetail;
     }
 }

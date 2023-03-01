@@ -73,6 +73,7 @@ CREATE TABLE `tag` (
 CREATE TABLE `schema_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `schema_id` varchar(255) NOT NULL DEFAULT '' COMMENT '目录id',
+   `schema_name` varchar(255) NOT NULL DEFAULT '' COMMENT '目录名称',
    `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT 'tagId',
    `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',

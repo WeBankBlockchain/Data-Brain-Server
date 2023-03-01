@@ -9,12 +9,14 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.ISchemaService;
 import com.webank.databrain.db.dao.IVisitInfoService;
 import com.webank.databrain.db.entity.DataSchemaDataObject;
-import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.webank.databrain.db.entity.VisitInfo;
-import com.webank.databrain.db.mapper.SchemaMapper;
+import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.model.account.OrgUserDetail;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.*;
+import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -104,6 +106,15 @@ public class DataSchemaService {
 
     @Transactional
     public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws TransactionException {
+        OrgUserDetail orgUserDetail = accountService.getOrgInfo(schemaRequest.getProviderId());
+        if(orgUserDetail == null){
+            throw new DataBrainException(ErrorEnums.DidNotExists);
+        }
+        ProductDetail productDetail = productService.getProductDetail(schemaRequest.getProductId());
+        if(productDetail == null){
+           throw new DataBrainException(ErrorEnums.ProductNotExists);
+        }
+        String productName = productDetail.getProductName();
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
@@ -121,6 +132,8 @@ public class DataSchemaService {
         DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
         BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
         dataSchemaDataObject.setSchemaId(dataSchemaId);
+        dataSchemaDataObject.setProductName(productName);
+        dataSchemaDataObject.setProviderName(orgUserDetail.getOrgName());
         schemaService.save(dataSchemaDataObject);
         log.info("save dataSchemaDataObject finish, schemaId = {}", dataSchemaId);
 
