@@ -42,7 +42,7 @@ public class SchemaTest extends ServerApplicationTests{
     void schemaCreateTest() throws Exception {
         CreateDataSchemaRequest schemaRequest  = new CreateDataSchemaRequest();
         schemaRequest.setSchema("{\"test2\":\"String\"....}");
-        schemaRequest.setSchemaName("测试目录");
+        schemaRequest.setSchemaName("测试目录1245151");
         schemaRequest.setCondition("查询条件");
         schemaRequest.setPrice(123);
         schemaRequest.setEffectTime(LocalDateTime.MAX);

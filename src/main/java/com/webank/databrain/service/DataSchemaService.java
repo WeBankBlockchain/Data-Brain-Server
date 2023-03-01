@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.blockchain.DataSchemaModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.ISchemaService;
@@ -27,6 +28,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderService;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.fisco.bcos.sdk.v3.utils.StringUtils;
@@ -115,7 +117,8 @@ public class DataSchemaService {
     }
 
     @Transactional
-    public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws TransactionException {
+    public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
+
         OrgUserDetail orgUserDetail = accountService.getOrgInfo(schemaRequest.getProviderId());
         if(orgUserDetail == null){
             throw new DataBrainException(ErrorEnums.DidNotExists);
@@ -137,6 +140,9 @@ public class DataSchemaService {
                 schemaRequest.getSchemaName() +
                 schemaRequest.getProviderId())
                 .getBytes(StandardCharsets.UTF_8));
+
+        String address = keyPair.getAddress();
+
         TransactionReceipt receipt = dataSchemaModule.createDataSchema(hash);
         BlockchainUtils.ensureTransactionSuccess(receipt);
 

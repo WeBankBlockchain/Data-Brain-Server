@@ -9,7 +9,7 @@ public class Deployer {
 
     public static void main(String[] args) throws Exception{
         //Load config
-        Client client = BcosSDK.build("conf/config.toml").getClient();
+        Client client = BcosSDK.build("config/config.toml").getClient();
         System.out.println(client);
         //Witness key
         String witnessPrivateKey = "11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f";
