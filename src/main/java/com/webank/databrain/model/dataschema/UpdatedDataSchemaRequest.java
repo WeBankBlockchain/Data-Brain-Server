@@ -11,11 +11,11 @@ public class UpdatedDataSchemaRequest extends CommonRequest {
 
     private String schemaId;
 
-    private Long providerId;
+    private String providerId;
 
-    private Long tagId;
+    private String tag;
 
-    private Long productId;
+    private String productId;
 
     private Integer version;
 

@@ -9,4 +9,8 @@ public class QueryProductRequest {
 
     private int pageSize = 10;
 
+    private String productId;
+
+    private int topN;
+
 }

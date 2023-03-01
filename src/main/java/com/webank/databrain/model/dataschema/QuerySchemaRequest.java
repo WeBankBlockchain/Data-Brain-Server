@@ -17,4 +17,6 @@ public class QuerySchemaRequest {
 
     private String keyWord;
 
+    private String schemaId;
+
 }

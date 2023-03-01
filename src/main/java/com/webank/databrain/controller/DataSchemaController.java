@@ -53,10 +53,10 @@ public class DataSchemaController {
     }
 
     @PostMapping(value = "/querySchemaById")
-    public CommonResponse<DataSchemaDetailWithVisit> querySchemaById(@RequestParam(name = "schemaId") String schemaId
+    public CommonResponse<DataSchemaDetailWithVisit> querySchemaById( @RequestBody QuerySchemaRequest querySchemaRequest
     ){
-        log.info("querySchemaById schemaId = {}",schemaId);
-        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(schemaId);;
+        log.info("querySchemaById schemaId = {}",querySchemaRequest.getSchemaId());
+        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(querySchemaRequest.getSchemaId());
         return CommonResponse.createSuccessResult(result);
     }
 

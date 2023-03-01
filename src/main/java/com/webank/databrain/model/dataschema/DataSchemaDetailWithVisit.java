@@ -12,11 +12,18 @@ public class DataSchemaDetailWithVisit extends IdName {
 
     private String schemaId;
 
-    private Long providerId;
+    private String schemaName;
 
-    private Long tagId;
 
-    private Long productId;
+    private String providerId;
+
+    private String productName;
+
+    private String providerName;
+
+    private String tag;
+
+    private String productId;
 
     private Integer version;
 

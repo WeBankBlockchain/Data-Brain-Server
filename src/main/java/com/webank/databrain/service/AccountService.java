@@ -139,7 +139,6 @@ public class AccountService {
         byte[] didBytes = AccountUtils.decode(accountDO.getDid());
         //链上审批
         CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
-        System.out.println(witnessKeyPair.getHexPrivateKey());
         AccountModule accountModule = AccountModule.load(sysConfig.getContracts().getAccountContract(), client, witnessKeyPair);
         TransactionReceipt txReceipt = accountModule.approve(didBytes, agree);
         BlockchainUtils.ensureTransactionSuccess(txReceipt);

@@ -14,7 +14,7 @@ public class CreateDataSchemaRequest extends CommonRequest {
 
     private String providerId;
 
-    private Long tagId;
+    private String tagName;
 
     private String productId;
 

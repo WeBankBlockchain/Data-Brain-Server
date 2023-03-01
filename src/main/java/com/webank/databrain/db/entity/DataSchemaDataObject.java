@@ -41,7 +41,7 @@ public class DataSchemaDataObject implements Serializable {
 
     private String providerName;
 
-    private Long tagId;
+    private String tag;
 
     private String schemaName;
 

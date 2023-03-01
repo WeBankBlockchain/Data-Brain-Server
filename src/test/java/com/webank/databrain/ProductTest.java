@@ -22,19 +22,19 @@ public class ProductTest extends  ServerApplicationTests{
 
     @Test
     void productTest() throws Exception {
-        RegisterRequestVO request = new RegisterRequestVO();
-        request.setAccountType(AccountType.Enterprise);
-        request.setPassword("123456");
-        request.setUsername("ggggggg");
-        request.setDetailJson("{\"name\" : \"aauser\"}");
-        String userId = accountService.registerAccount(request);
-
-        accountService.auditAccount("ggggggg",true);
+//        RegisterRequestVO request = new RegisterRequestVO();
+//        request.setAccountType(AccountType.Enterprise);
+//        request.setPassword("123456");
+//        request.setUsername("ggggggg2");
+//        request.setDetailJson("{\"name\" : \"aauser\"}");
+//        String userId = accountService.registerAccount(request);
+//
+//        accountService.auditAccount("ggggggg2",true);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("腾讯数据目录");
         createProductRequest.setInformation("详细信息.....");
-        createProductRequest.setDid(userId);
+        createProductRequest.setDid("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=");
         String did = productService.createProduct(createProductRequest);
         System.out.println("did = " + did);
     }

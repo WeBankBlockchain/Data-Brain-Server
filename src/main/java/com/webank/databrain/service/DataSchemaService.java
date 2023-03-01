@@ -17,8 +17,11 @@ import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.*;
 import com.webank.databrain.model.product.ProductDetail;
+import com.webank.databrain.model.tag.CreateTagRequest;
+import com.webank.databrain.model.tag.TagDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -59,6 +62,9 @@ public class DataSchemaService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private TagService tagService;
 
     public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, long tagId, String keyWord) {
         QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
@@ -118,7 +124,7 @@ public class DataSchemaService {
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContracts().getDataSchemaContract(),
                 client,
                 keyPair);
 
@@ -129,11 +135,23 @@ public class DataSchemaService {
 
         String dataSchemaId = StringUtils.fromByteArray(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
 
+        TagDetail tagDetail = tagService.getTagByName(schemaRequest.getTagName());
+        if(tagDetail == null){
+            CreateTagRequest createTagRequest = new CreateTagRequest();
+            createTagRequest.setTag(schemaRequest.getTagName());
+
+            tagService.createTag(createTagRequest);
+        } else {
+            tagDetail.setSchemaIdList(tagDetail.getSchemaIdList() + "," + dataSchemaId);
+            tagService.updateTag(tagDetail);
+        }
+
         DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
         BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
         dataSchemaDataObject.setSchemaId(dataSchemaId);
         dataSchemaDataObject.setProductName(productName);
         dataSchemaDataObject.setProviderName(orgUserDetail.getOrgName());
+        dataSchemaDataObject.setTag(schemaRequest.getTagName());
         schemaService.save(dataSchemaDataObject);
         log.info("save dataSchemaDataObject finish, schemaId = {}", dataSchemaId);
 

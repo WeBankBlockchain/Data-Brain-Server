@@ -38,18 +38,18 @@ public class ProductController {
     }
 
     @PostMapping(value = "/queryProductById")
-    public CommonResponse<ProductDetail> queryProductById(@RequestParam(name = "productId") String productId
+    public CommonResponse<ProductDetail> queryProductById(@RequestBody QueryProductRequest queryProductRequest
     ) {
-        log.info("pageQueryProduct productId = {}", productId);
-        ProductDetail result =productService.getProductDetail(productId);
+        log.info("pageQueryProduct productId = {}", queryProductRequest.getProductId());
+        ProductDetail result =productService.getProductDetail(queryProductRequest.getProductId());
         return CommonResponse.createSuccessResult(result);
     }
 
     @PostMapping(value = "/getHotProducts")
-    public CommonResponse<List<ProductIdName>> getHotProducts(@RequestParam(name = "topN") int topN
+    public CommonResponse<List<ProductIdName>> getHotProducts(@RequestBody QueryProductRequest queryProductRequest
     ){
-        log.info("getHotProducts topN = {}",topN);
-        List<ProductIdName> result = productService.getHotProducts(topN);
+        log.info("getHotProducts topN = {}", queryProductRequest.getTopN());
+        List<ProductIdName> result = productService.getHotProducts(queryProductRequest.getTopN());
         return CommonResponse.createSuccessResult(result);
     }
 

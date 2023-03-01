@@ -18,7 +18,7 @@ public class DataSchemaDetail {
 
     private String providerName;
 
-    private Long tagId;
+    private String tag;
 
     private Integer version;
 
