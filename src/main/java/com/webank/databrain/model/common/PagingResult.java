@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PagingResult<T> {
     //data list in this page
-    private List<T> data;
+    private List<T> items;
 
     //current page
     private long page;
