@@ -118,11 +118,12 @@ public class AccountService {
         return result;
     }
 
-    public List<IdName> listHotOrgs(int topN) {
-        return orgDAO.listHotOrgs(topN);
+    public List<IdName> listHotOrgs(int size) {
+        return orgDAO.listHotOrgs(size);
     }
 
-    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) {
+    public PagingResult<OrgSummary> listOrgsByPage(ListOrgsByPageRequestVO request) {
+        Paging paging = new Paging(request.getPageNo(), request.getPageSize());
         return orgDAO.listOrgsByPage(paging);
     }
 
@@ -152,9 +153,9 @@ public class AccountService {
     }
 
 
-    public OrgUserDetail getOrgInfo(String providerId){
+    public OrgUserDetail getOrgInfo(String did){
         OrgInfoDataObject orgInfoDataObject = orgDAO.getOne(
-                Wrappers.<OrgInfoDataObject>query().eq("org_id",providerId));
+                Wrappers.<OrgInfoDataObject>query().eq("org_id",did));
         OrgUserDetail orgUserDetail = new OrgUserDetail();
         BeanUtils.copyProperties(orgInfoDataObject,orgUserDetail);
         return  orgUserDetail;
