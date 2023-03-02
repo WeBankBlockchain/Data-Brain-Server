@@ -16,9 +16,9 @@ system:
     salt: "salt_string"
     witness-private-key: '11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f'
     contracts:
-        account-contract: "0xbc902e16e3edcc8c17cf4160e65c62168915fce1"
-        product-contract: "0x024671923ced56a7e9fc8a1b348353474bcaae48"
-        dataSchema-contract: "0xc96f43658a73860c6253db6e143c61c02bbef1d6"
+        account-contract: "0x963f375f4d1d1969bbd318628910d080506131b4"
+        product-contract: "0xb3aa7a6f43eb2cb0cf2099f4f5e170efc63ee1d0"
+        dataSchema-contract: "0xe7d7b002e51431b300ddc00b2c059ccc41ce4660"
 
 swagger:
     enabled: true

@@ -131,7 +131,7 @@ public class DataSchemaService {
            throw new DataBrainException(ErrorEnums.ProductNotExists);
         }
         String productName = productDetail.getProductName();
-        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+        String privateKey = accountService.getPrivateKey(schemaRequest.getProviderId());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
                 sysConfig.getContracts().getDataSchemaContract(),

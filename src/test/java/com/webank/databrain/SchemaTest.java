@@ -40,6 +40,15 @@ public class SchemaTest extends ServerApplicationTests{
 
     @Test
     void schemaCreateTest() throws Exception {
+        RegisterRequestVO request = new RegisterRequestVO();
+        request.setAccountType(AccountType.Enterprise);
+        request.setPassword("123456");
+        request.setUsername("abcde");
+        request.setDetailJson("{\"name\" : \"aauser\"}");
+        String userId = accountService.registerAccount(request);
+
+        accountService.auditAccount("abcde",true);
+
         CreateDataSchemaRequest schemaRequest  = new CreateDataSchemaRequest();
         schemaRequest.setSchema("{\"test2\":\"String\"....}");
         schemaRequest.setSchemaName("测试目录1245151");
@@ -51,7 +60,7 @@ public class SchemaTest extends ServerApplicationTests{
         schemaRequest.setTagName("科技");
         schemaRequest.setType(1);
         schemaRequest.setProductId("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
-        schemaRequest.setProviderId("AAE5B5xS/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
+        schemaRequest.setProviderId(userId);
         schemaRequest.setVisible(1);
         schemaRequest.setDid("AAE5B5xS/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
         schemaRequest.setUsage("test");

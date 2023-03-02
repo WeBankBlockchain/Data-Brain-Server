@@ -25,14 +25,14 @@ public class ProductTest extends  ServerApplicationTests{
 
     @Test
     void productTest() throws Exception {
-//        RegisterRequestVO request = new RegisterRequestVO();
-//        request.setAccountType(AccountType.Enterprise);
-//        request.setPassword("123456");
-//        request.setUsername("ggggggg2");
-//        request.setDetailJson("{\"name\" : \"aauser\"}");
-//        String userId = accountService.registerAccount(request);
-//
-//        accountService.auditAccount("ggggggg2",true);
+        RegisterRequestVO request = new RegisterRequestVO();
+        request.setAccountType(AccountType.Enterprise);
+        request.setPassword("123456");
+        request.setUsername("ggggggg2");
+        request.setDetailJson("{\"name\" : \"aauser\"}");
+        String userId = accountService.registerAccount(request);
+
+        accountService.auditAccount("ggggggg2",true);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("华为数据目录");

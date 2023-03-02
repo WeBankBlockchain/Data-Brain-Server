@@ -69,6 +69,7 @@ public class AccountService {
 
     @Transactional
     public String registerAccount(RegisterRequestVO request) throws Exception{
+        //TODO: 判断username
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain
@@ -76,7 +77,7 @@ public class AccountService {
                 sysConfig.getContracts().getAccountContract(),
                 client,
                 keyPair);
-        TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), new byte[32]);
+        TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), cryptoSuite.hash(request.getUsername().getBytes()));
         byte[] didBytes = accountContract.getRegisterOutput(txReceipt).getValue1();
         BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
         log.info("blockchain generate did : {}", AccountUtils.encode(didBytes));
