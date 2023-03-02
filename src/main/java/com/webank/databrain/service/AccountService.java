@@ -24,6 +24,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,9 @@ public class AccountService {
     @Autowired
     private ITokenHandler tokenHandler;
 
+    @Autowired
+    private TransactionDecoderInterface txDecoder;
+
     @Transactional
     public String registerAccount(RegisterRequestVO request) throws Exception{
         //Generation private key
@@ -74,7 +78,7 @@ public class AccountService {
                 keyPair);
         TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), new byte[32]);
         byte[] didBytes = accountContract.getRegisterOutput(txReceipt).getValue1();
-        BlockchainUtils.ensureTransactionSuccess(txReceipt);
+        BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
         log.info("blockchain generate did : {}", AccountUtils.encode(didBytes));
         //Save to database
         String username = request.getUsername();
@@ -141,7 +145,7 @@ public class AccountService {
         CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
         AccountModule accountModule = AccountModule.load(sysConfig.getContracts().getAccountContract(), client, witnessKeyPair);
         TransactionReceipt txReceipt = accountModule.approve(didBytes, agree);
-        BlockchainUtils.ensureTransactionSuccess(txReceipt);
+        BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
         //修改数据库状态
         accountDAO.updateReviewStatus(accountDO.getDid(), agree?ReviewStatus.Approved:ReviewStatus.Denied, LocalDateTime.now());
     }

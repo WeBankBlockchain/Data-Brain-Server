@@ -28,6 +28,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderService;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.fisco.bcos.sdk.v3.utils.ByteUtils;
@@ -69,6 +70,8 @@ public class DataSchemaService {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private TransactionDecoderInterface txDecoder;
     public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, String tag, String keyWord) {
         QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
@@ -144,7 +147,7 @@ public class DataSchemaService {
         String address = keyPair.getAddress();
 
         TransactionReceipt receipt = dataSchemaModule.createDataSchema(hash);
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         String dataSchemaId = Base64.encode(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
 
@@ -189,7 +192,7 @@ public class DataSchemaService {
                 .getBytes(StandardCharsets.UTF_8));
         TransactionReceipt receipt = dataSchemaModule.modifyDataSchema(
                 ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()), hash);
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
         BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
@@ -213,7 +216,7 @@ public class DataSchemaService {
 
         TransactionReceipt receipt = dataSchemaModule.deleteDataSchema(
                 ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()));
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
         log.info("deleteDataSchema finish, schemaId = {}", schemaRequest.getDid());
     }
 }

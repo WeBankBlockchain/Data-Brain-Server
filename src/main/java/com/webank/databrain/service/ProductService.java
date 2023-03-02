@@ -17,6 +17,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.fisco.bcos.sdk.v3.utils.StringUtils;
@@ -46,6 +47,9 @@ public class ProductService {
 
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private TransactionDecoderInterface txDecoder;
 
     public List<ProductIdName> getHotProducts(int topN) {
         List<ProductDataObject> productList = productService
@@ -99,7 +103,7 @@ public class ProductService {
         TransactionReceipt receipt = productModule.createProduct(cryptoSuite.hash((
                 productRequest.getProductName() + productRequest.getInformation())
                 .getBytes(StandardCharsets.UTF_8)));
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
         ProductDataObject product = new ProductDataObject();
@@ -125,7 +129,7 @@ public class ProductService {
                 cryptoSuite.hash((
                 productRequest.getProductName() + productRequest.getInformation())
                 .getBytes(StandardCharsets.UTF_8)));
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         ProductDataObject product = new ProductDataObject();
         product.setProductId(productRequest.getProductId());
@@ -145,7 +149,7 @@ public class ProductService {
         TransactionReceipt receipt = productModule.deleteProduct(
                 ByteUtils.hexStringToBytes(productRequest.getProductId())
                );
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
     }
 
     public void approveProduct(ApproveProductRequest productRequest) throws TransactionException {
@@ -158,7 +162,7 @@ public class ProductService {
         TransactionReceipt receipt = productModule.approveProduct(
                 ByteUtils.hexStringToBytes(productRequest.getProductId()), productRequest.isAgree()
         );
-        BlockchainUtils.ensureTransactionSuccess(receipt);
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().
                 eq("productId",productRequest.getProductId()));
