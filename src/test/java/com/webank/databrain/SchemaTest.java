@@ -42,19 +42,19 @@ public class SchemaTest extends ServerApplicationTests{
     void schemaCreateTest() throws Exception {
         RegisterRequestVO request = new RegisterRequestVO();
         request.setAccountType(AccountType.Enterprise);
-        request.setPassword("123456");
-        request.setUsername("abcde");
-        request.setDetailJson("{\"name\" : \"aauser\"}");
+        request.setPassword("123456123");
+        request.setUsername("abcdeed1121");
+        request.setDetailJson("{\"name\" : \"aause123123r\"}");
         String userId = accountService.registerAccount(request);
 
-        accountService.auditAccount("abcde",true);
+        accountService.auditAccount("abcdeed1121",true);
 
         CreateDataSchemaRequest schemaRequest  = new CreateDataSchemaRequest();
-        schemaRequest.setSchema("{\"test2\":\"String\"....}");
+        schemaRequest.setSchema("{\"test24\":\"String\"....}");
         schemaRequest.setSchemaName("测试目录1245151");
         schemaRequest.setCondition("查询条件");
         schemaRequest.setPrice(123);
-        schemaRequest.setEffectTime(LocalDateTime.MAX);
+        schemaRequest.setEffectTime(LocalDateTime.now());
         schemaRequest.setExpireTime(LocalDateTime.now());
         schemaRequest.setDescription("描述");
         schemaRequest.setTagName("科技");
@@ -62,7 +62,7 @@ public class SchemaTest extends ServerApplicationTests{
         schemaRequest.setProductId("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
         schemaRequest.setProviderId(userId);
         schemaRequest.setVisible(1);
-        schemaRequest.setDid("AAE5B5xS/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
+        schemaRequest.setDid(userId);
         schemaRequest.setUsage("test");
         schemaRequest.setUri("127.0.0.1");
 

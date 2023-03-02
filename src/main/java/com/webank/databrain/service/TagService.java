@@ -33,6 +33,9 @@ public class TagService {
 
     public TagDetail getTagByName(String tag){
         TagDataObject tagDataObject = tagDbService.getOne(Wrappers.<TagDataObject>query().eq("tag",tag));
+        if(tagDataObject == null){
+            return null;
+        }
         TagDetail tagDetail = new TagDetail();
         BeanUtils.copyProperties(tagDataObject,tagDetail);
         tagDetail.setTagId(tagDataObject.getPkId());
