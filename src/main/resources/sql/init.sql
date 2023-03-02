@@ -34,14 +34,15 @@ CREATE TABLE `user_info` (
 CREATE TABLE `org_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `org_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
-   `org_name` varchar(255) NOT NULL DEFAULT '' COMMENT '机构名称',
+   `org_name` varchar(255) NOT NULL COMMENT '机构名称',
    `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
    `cert_content` text COMMENT '证件内容',
    `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
-   UNIQUE KEY (`org_id`)
+   UNIQUE KEY (`org_id`),
+   UNIQUE KEY (`org_name`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 产品表 --

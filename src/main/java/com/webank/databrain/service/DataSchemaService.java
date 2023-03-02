@@ -144,8 +144,6 @@ public class DataSchemaService {
                 schemaRequest.getProviderId())
                 .getBytes(StandardCharsets.UTF_8));
 
-        String address = keyPair.getAddress();
-
         TransactionReceipt receipt = dataSchemaModule.createDataSchema(hash);
         BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
@@ -155,11 +153,12 @@ public class DataSchemaService {
         if(tagDetail == null){
             CreateTagRequest createTagRequest = new CreateTagRequest();
             createTagRequest.setTag(schemaRequest.getTagName());
-
             tagService.createTag(createTagRequest);
+            log.info("createTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
         } else {
             tagDetail.setSchemaIdList(tagDetail.getSchemaIdList() + "," + dataSchemaId);
             tagService.updateTag(tagDetail);
+            log.info("updateTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
         }
 
         DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
