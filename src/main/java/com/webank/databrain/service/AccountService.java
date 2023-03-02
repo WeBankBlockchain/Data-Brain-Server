@@ -1,13 +1,14 @@
 package com.webank.databrain.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.webank.databrain.db.dao.IUserInfoDbService;
-import com.webank.databrain.db.entity.DataSchemaDataObject;
 import com.webank.databrain.db.entity.OrgInfoDataObject;
+import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
@@ -153,11 +154,43 @@ public class AccountService {
     }
 
 
-    public OrgUserDetail getOrgInfo(String did){
+
+    public AccountDetailResponse getAccountDetail(String did){
+        AccountDO accountDO = accountDAO.getAccountByDid(did);
+        if (accountDO == null){
+            throw new DataBrainException(ErrorEnums.DidNotExists);
+        }
+        Object detail = null;
+        if (accountDO.getAccountType() == AccountType.NormalUser){
+            detail = this.getNormalUserDetail(did);
+        }
+        else if(accountDO.getAccountType() == AccountType.Enterprise){
+            detail = this.getOrgDetail(did);
+        }
+
+        AccountDetailResponse ret = new AccountDetailResponse();
+        ret.setDid(did);
+        ret.setAddress(cryptoSuite.loadKeyPair(accountDO.getPrivateKey()).getAddress());
+        ret.setType(accountDO.getAccountType().name());
+        ret.setReviewStatus(accountDO.getReviewStatus().name());
+        ret.setDetail(detail);
+
+        return ret;
+    }
+
+    public OrgUserDetail getOrgDetail(String did){
         OrgInfoDataObject orgInfoDataObject = orgDAO.getOne(
                 Wrappers.<OrgInfoDataObject>query().eq("org_id",did));
         OrgUserDetail orgUserDetail = new OrgUserDetail();
         BeanUtils.copyProperties(orgInfoDataObject,orgUserDetail);
         return  orgUserDetail;
+    }
+
+    public NormalUserDetail getNormalUserDetail(String did){
+        UserInfoDataObject userDetailDataObject = userInfoDAO.getOne(
+                Wrappers.<UserInfoDataObject>query().eq("user_id",did));
+        NormalUserDetail userDetail = new NormalUserDetail();
+        BeanUtils.copyProperties(userDetailDataObject, userDetailDataObject);
+        return userDetail;
     }
 }

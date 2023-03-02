@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.entity.AccountDataObject;
 import com.webank.databrain.db.mapper.AccountMapper;
+import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.model.account.AccountDO;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +45,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDataOb
         AccountDataObject accountDataObject =  baseMapper.selectByDid(did);
         AccountDO ret = new AccountDO();
         BeanUtils.copyProperties(accountDataObject, ret);
+        ret.setAccountType(AccountType.values()[accountDataObject.getAccountType()]);
+        ret.setReviewStatus(ReviewStatus.values()[accountDataObject.getReviewState()]);
         return ret;
     }
 

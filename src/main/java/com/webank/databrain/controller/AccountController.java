@@ -34,24 +34,24 @@ public class AccountController {
         return CommonResponse.createSuccessResult(result);
     }
 
-    @ApiOperation(value = "热门机构")
-    @PostMapping("hotorgs")
-    public CommonResponse listHotOrgs(@RequestBody HotOrgsRequestVO request) {
+    @ApiOperation(value = "热门公司")
+    @PostMapping("getHotCompanies")
+    public CommonResponse getHotCompanies(@RequestBody HotOrgsRequestVO request) {
         List<IdName> idNames = accountService.listHotOrgs(request.getTopN());
         return CommonResponse.createSuccessResult(idNames);
     }
 //
-    @ApiOperation(value = "机构列表")
-    @PostMapping("orgs")
-    public CommonResponse listOrgsByPage(@RequestBody ListOrgsByPageRequestVO request) {
+    @ApiOperation(value = "公司列表")
+    @PostMapping("/pageQueryCompany")
+    public CommonResponse pageQueryCompany(@RequestBody ListOrgsByPageRequestVO request) {
         PagingResult<OrgSummary> orgs = accountService.listOrgsByPage(request);
         return CommonResponse.createSuccessResult(orgs);
     }
 //
-    @ApiOperation(value = "机构详情")
-    @PostMapping("org/detail")
-    public CommonResponse getOrgDetail(@RequestBody GetOrgDetailRequestVO request) {
-        OrgUserDetail detail = accountService.getOrgInfo(request.getDid());
+    @ApiOperation(value = "账户详情")
+    @PostMapping("queryAccountById")
+    public CommonResponse queryAccountById(@RequestBody GetOrgDetailRequestVO request) {
+        AccountDetailResponse detail = accountService.getAccountDetail(request.getDid());
         return CommonResponse.createSuccessResult(detail);
     }
 

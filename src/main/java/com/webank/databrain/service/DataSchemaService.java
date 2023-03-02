@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.blockchain.DataSchemaModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.ISchemaService;
@@ -23,16 +22,13 @@ import com.webank.databrain.model.tag.CreateTagRequest;
 import com.webank.databrain.model.tag.TagDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
-import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderService;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.fisco.bcos.sdk.v3.utils.ByteUtils;
-import org.fisco.bcos.sdk.v3.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,7 +118,7 @@ public class DataSchemaService {
     @Transactional
     public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
 
-        OrgUserDetail orgUserDetail = accountService.getOrgInfo(schemaRequest.getProviderId());
+        OrgUserDetail orgUserDetail = accountService.getOrgDetail(schemaRequest.getProviderId());
         if(orgUserDetail == null){
             throw new DataBrainException(ErrorEnums.DidNotExists);
         }
