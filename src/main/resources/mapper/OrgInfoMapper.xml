@@ -33,11 +33,11 @@
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     </update>
 
-    <select id="listHotOrgs">
-        SELECT o.org_id, o.name FROM `org_info` o LIMIT 0, #{topN};
+    <select id="listHotOrgs" resultMap="idname">
+        SELECT o.org_id as did, o.org_name as name FROM `org_info` o LIMIT 0, #{topN};
     </select>
 
-    <select id="count">
+    <select id="count" resultType="int">
         SELECT COUNT(1) FROM `org_info`;
     </select>
 
