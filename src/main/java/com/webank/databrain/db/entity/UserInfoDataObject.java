@@ -39,9 +39,6 @@ public class UserInfoDataObject implements Serializable {
     @ApiModelProperty(value = "联系方式")
     private String contact;
 
-    @ApiModelProperty(value = "联系地址")
-    private String location;
-
     @ApiModelProperty(value = "邮箱")
     private String email;
 
