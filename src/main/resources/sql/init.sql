@@ -20,7 +20,6 @@ CREATE TABLE `user_info` (
    `user_id` varchar(255) NOT NULL DEFAULT '' COMMENT 'DID',
    `name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
    `contact` varchar(32) NOT NULL DEFAULT '' COMMENT '联系方式',
-   `location` varchar(128) NOT NULL DEFAULT '' COMMENT '联系地址',
    `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱',
    `cert_type` int(4) NOT NULL DEFAULT 0 comment '证件类型',
    `cert_num` varchar(128) NOT NULL DEFAULT '' COMMENT '证件号',
