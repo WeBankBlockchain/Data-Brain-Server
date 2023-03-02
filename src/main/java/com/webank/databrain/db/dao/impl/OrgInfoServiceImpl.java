@@ -49,9 +49,11 @@ public class OrgInfoServiceImpl extends ServiceImpl<OrgInfoMapper, OrgInfoDataOb
         ret.setPageSize(limitSize);
         ret.setTotalItems(total);
         ret.setTotalPages((total + limitSize - 1) / limitSize);//上取整
-        ret.setData(orgs.stream().map(o->{
+        ret.setItems(orgs.stream().map(o->{
             OrgSummary summary = new OrgSummary();
-            BeanUtils.copyProperties(o, summary);
+            summary.setId(o.getOrgId());
+            summary.setName(o.getOrgName());
+            summary.setCreatedAt(o.getCreateTime().toString());
             return summary;
         }).collect(Collectors.toList()));
         return ret;

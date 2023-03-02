@@ -118,8 +118,8 @@ public class AccountService {
         return result;
     }
 
-    public List<IdName> listHotOrgs(int size) {
-        return orgDAO.listHotOrgs(size);
+    public List<IdName> listHotOrgs(int topN) {
+        return orgDAO.listHotOrgs(topN);
     }
 
     public PagingResult<OrgSummary> listOrgsByPage(ListOrgsByPageRequestVO request) {

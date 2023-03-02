@@ -52,7 +52,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, TagDataObject> implem
         result.setTotalItems(totalCount);
         result.setPage(pageNo);
         result.setPageSize(pageSize);
-        result.setData(idNames.stream().map(idName -> {
+        result.setItems(idNames.stream().map(idName -> {
             TagSummary t = new TagSummary();
             BeanUtils.copyProperties(idName, t);
             return t;
