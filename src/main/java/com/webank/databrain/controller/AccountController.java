@@ -1,24 +1,16 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.model.account.*;
 import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.IdName;
-import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.product.ProductDetail;
 import com.webank.databrain.service.AccountService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/account")
@@ -42,22 +34,25 @@ public class AccountController {
         return CommonResponse.createSuccessResult(result);
     }
 
-//    public CommonResponse listHotOrgs(int topN) {
-//        return orgDAO.listHotOrgs(topN);
-//    }
+    @ApiOperation(value = "热门机构")
+    @PostMapping("hotorgs")
+    public CommonResponse listHotOrgs(@RequestBody HotOrgsRequestVO request) {
+        List<IdName> idNames = accountService.listHotOrgs(request.getTopN());
+        return CommonResponse.createSuccessResult(idNames);
+    }
 //
-//    public CommonResponse listOrgsByPage(Paging paging) {
-//        return orgDAO.listOrgsByPage(paging);
-//    }
+    @ApiOperation(value = "机构列表")
+    @PostMapping("orgs")
+    public CommonResponse listOrgsByPage(@RequestBody ListOrgsByPageRequestVO request) {
+        PagingResult<OrgSummary> orgs = accountService.listOrgsByPage(request);
+        return CommonResponse.createSuccessResult(orgs);
+    }
 //
-//    public CommonResponse getPrivateKey(String did) {
-//        AccountDO accountDO =  accountDAO.getAccountByDid(did);
-//        if (accountDO == null){
-//            throw new DataBrainException(ErrorEnums.DidNotExists);
-//        }
-//        return accountDO.getPrivateKey();
-//    }
-
-
+    @ApiOperation(value = "机构详情")
+    @PostMapping("org/detail")
+    public CommonResponse getOrgDetail(@RequestBody GetOrgDetailRequestVO request) {
+        OrgUserDetail detail = accountService.getOrgInfo(request.getDid());
+        return CommonResponse.createSuccessResult(detail);
+    }
 
 }
