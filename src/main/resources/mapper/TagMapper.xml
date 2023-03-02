@@ -24,10 +24,10 @@
     </select>
 
     <select id="listHotTags" resultMap="idname">
-        SELECT pk_id as id, tag FROM `tag` t LIMIT 0, #{topN};
+        SELECT pk_id as id, tag as name FROM `tag` t LIMIT 0, #{topN};
     </select>
 
     <select id="listTagsByPage" resultMap="idname">
-        SELECT pk_id as id, tag FROM `tag` t LIMIT #{start}, #{size};
+        SELECT pk_id as id, tag as name FROM `tag` t LIMIT #{start}, #{size};
     </select>
 </mapper>

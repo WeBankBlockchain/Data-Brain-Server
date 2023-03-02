@@ -2,6 +2,7 @@ package com.webank.databrain.controller;
 
 import com.webank.databrain.model.account.*;
 import com.webank.databrain.model.common.CommonResponse;
+import com.webank.databrain.model.common.HotQueryRequest;
 import com.webank.databrain.model.common.IdName;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.service.AccountService;
@@ -36,7 +37,7 @@ public class AccountController {
 
     @ApiOperation(value = "热门公司")
     @PostMapping("getHotCompanies")
-    public CommonResponse getHotCompanies(@RequestBody HotOrgsRequestVO request) {
+    public CommonResponse getHotCompanies(@RequestBody HotQueryRequest request) {
         List<IdName> idNames = accountService.listHotOrgs(request.getTopN());
         return CommonResponse.createSuccessResult(idNames);
     }

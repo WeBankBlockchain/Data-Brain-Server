@@ -1,7 +1,6 @@
 package com.webank.databrain.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IAccountDbService;

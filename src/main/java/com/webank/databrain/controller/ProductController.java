@@ -2,6 +2,7 @@ package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.model.common.CommonResponse;
+import com.webank.databrain.model.common.HotQueryRequest;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.CreateProductRequest;
@@ -46,10 +47,10 @@ public class ProductController {
     }
 
     @PostMapping(value = "/getHotProducts")
-    public CommonResponse<List<ProductIdName>> getHotProducts(@RequestBody QueryProductRequest queryProductRequest
+    public CommonResponse<List<ProductIdName>> getHotProducts(@RequestBody HotQueryRequest hotProductRequest
     ){
-        log.info("getHotProducts topN = {}", queryProductRequest.getTopN());
-        List<ProductIdName> result = productService.getHotProducts(queryProductRequest.getTopN());
+        log.info("getHotProducts topN = {}", hotProductRequest.getTopN());
+        List<ProductIdName> result = productService.getHotProducts(hotProductRequest.getTopN());
         return CommonResponse.createSuccessResult(result);
     }
 
