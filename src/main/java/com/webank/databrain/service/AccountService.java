@@ -83,11 +83,12 @@ public class AccountService {
         log.info("blockchain generate did : {}", AccountUtils.encode(didBytes));
         //Save to database
         String username = request.getUsername();
+        String password = request.getPassword();
         int accountType = request.getAccountType().ordinal();
         String did = AccountUtils.encode(didBytes);
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
-        String pwdHash = cryptoSuite.hash(username + salt);
+        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, salt);
         accountDAO.insert(username, accountType, did, privateKey, salt, pwdHash);
         if (accountType == AccountType.NormalUser.ordinal()){
             NormalUserDetail normalUser = JsonUtils.fromJson(request.getDetailJson(), NormalUserDetail.class);
@@ -107,7 +108,7 @@ public class AccountService {
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
-        String pwdHash = cryptoSuite.hash(password+accountDO.getSalt());
+        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, loginRequest.getPassword(), accountDO.getSalt());
         if (!Objects.equals(pwdHash, accountDO.getPwdhash())) {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
 
