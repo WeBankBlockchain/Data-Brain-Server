@@ -8,7 +8,10 @@ import com.webank.databrain.blockchain.ProductModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.IProductService;
 import com.webank.databrain.db.entity.ProductDataObject;
+import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
+import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.model.account.OrgUserDetail;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.product.*;
@@ -93,6 +96,10 @@ public class ProductService {
     }
 
     public String createProduct(CreateProductRequest productRequest) throws TransactionException {
+        OrgUserDetail orgUserDetail = accountService.getOrgDetail(productRequest.getDid());
+        if(orgUserDetail == null){
+            throw new DataBrainException(ErrorEnums.DidNotExists);
+        }
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
@@ -109,6 +116,7 @@ public class ProductService {
         ProductDataObject product = new ProductDataObject();
         product.setProductId(productId);
         product.setProviderId(productRequest.getDid());
+        product.setProviderName(orgUserDetail.getOrgName());
         product.setProductName(productRequest.getProductName());
         product.setInformation(productRequest.getInformation());
         product.setCreateTime(LocalDateTime.now());
