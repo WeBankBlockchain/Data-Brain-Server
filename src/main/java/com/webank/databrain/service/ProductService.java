@@ -116,7 +116,7 @@ public class ProductService {
         return productId;
     }
 
-    public void updateProduct(UpdateProductRequest productRequest, byte[] signature) throws TransactionException {
+    public String updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
@@ -137,6 +137,8 @@ public class ProductService {
         product.setInformation(productRequest.getInformation());
         product.setUpdateTime(LocalDateTime.now());
         productService.saveOrUpdate(product);
+
+        return productRequest.getProductId();
     }
 
     public void deleteProduct(DeleteProductRequest productRequest) throws TransactionException {

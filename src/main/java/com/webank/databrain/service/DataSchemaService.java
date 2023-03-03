@@ -175,7 +175,7 @@ public class DataSchemaService {
         return dataSchemaId;
     }
 
-    public void updateDataSchema(UpdatedDataSchemaRequest schemaRequest) throws TransactionException {
+    public String updateDataSchema(UpdatedDataSchemaRequest schemaRequest) throws TransactionException {
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
@@ -199,6 +199,7 @@ public class DataSchemaService {
         visitInfoService.saveOrUpdate(visitInfo);
         log.info("save visitInfo finish, schemaId = {}", schemaRequest.getSchemaId());
 
+        return schemaRequest.getSchemaId();
     }
 
     public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {

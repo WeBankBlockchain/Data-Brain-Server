@@ -4,10 +4,7 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
-import com.webank.databrain.model.dataschema.DataSchemaDetail;
-import com.webank.databrain.model.dataschema.DataSchemaDetailWithVisit;
-import com.webank.databrain.model.dataschema.QuerySchemaRequest;
+import com.webank.databrain.model.dataschema.*;
 import com.webank.databrain.service.DataSchemaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +47,13 @@ public class DataSchemaController {
         log.info("createSchema did = {}",createDataSchemaRequest.getDid());
         String productId = schemaService.createDataSchema(createDataSchemaRequest);;
         return CommonResponse.createSuccessResult(productId);
+    }
+
+    @PostMapping(value = "/updateSchema")
+    public CommonResponse<String> updateSchema(@RequestBody UpdatedDataSchemaRequest updatedDataSchemaRequest) throws Exception{
+        log.info("createSchema did = {}",updatedDataSchemaRequest.getDid());
+        String schemaId = schemaService.updateDataSchema(updatedDataSchemaRequest);;
+        return CommonResponse.createSuccessResult(schemaId);
     }
 
     @PostMapping(value = "/querySchemaById")
