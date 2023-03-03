@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataBrainException.class)
     @ResponseBody
     public CommonResponse onException(DataBrainException exception){
-        log.error("OnError: DataBrainException Exception happened {}", exception);
+        log.error("OnError: DataBrainException Exception happened", exception);
         ErrorEnums errorEnums = exception.getError();
         CommonResponse resp = CommonResponse.createFailedResult(errorEnums.getCode(), errorEnums.getMessage());
         log.info("response is {}", resp);
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public CommonResponse onException(Exception exception){
-        log.error("OnError: Exception happened {}", exception);
+        log.error("OnError: Exception happened ", exception);
         ErrorEnums errorEnums = ErrorEnums.UnknownError;
         CommonResponse resp = CommonResponse.createFailedResult(errorEnums.getCode(), exception.getMessage());
         log.info("response is {}", resp);

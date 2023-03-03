@@ -74,7 +74,7 @@ public class AccountService {
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain
         AccountModule accountContract = AccountModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
         TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), cryptoSuite.hash(request.getUsername().getBytes()));
@@ -131,7 +131,7 @@ public class AccountService {
     public String getPrivateKey(String did) {
         AccountDO accountDO =  accountDAO.getAccountByDid(did);
         if (accountDO == null){
-            throw new DataBrainException(ErrorEnums.DidNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         return accountDO.getPrivateKey();
     }
@@ -141,12 +141,12 @@ public class AccountService {
         //获取did
         AccountDO accountDO = accountDAO.getAccountByName(username);
         if (accountDO == null) {
-            throw new DataBrainException(ErrorEnums.UsernameNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         byte[] didBytes = AccountUtils.decode(accountDO.getDid());
         //链上审批
         CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
-        AccountModule accountModule = AccountModule.load(sysConfig.getContracts().getAccountContract(), client, witnessKeyPair);
+        AccountModule accountModule = AccountModule.load(sysConfig.getContractConfig().getAccountContract(), client, witnessKeyPair);
         TransactionReceipt txReceipt = accountModule.approve(didBytes, agree);
         BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
         //修改数据库状态
@@ -158,7 +158,7 @@ public class AccountService {
     public AccountDetailResponse getAccountDetail(String did){
         AccountDO accountDO = accountDAO.getAccountByDid(did);
         if (accountDO == null){
-            throw new DataBrainException(ErrorEnums.DidNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         Object detail = null;
         if (accountDO.getAccountType() == AccountType.NormalUser){

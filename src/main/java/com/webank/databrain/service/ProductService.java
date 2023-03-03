@@ -23,7 +23,6 @@ import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.fisco.bcos.sdk.v3.utils.ByteUtils;
-import org.fisco.bcos.sdk.v3.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,12 +97,12 @@ public class ProductService {
     public String createProduct(CreateProductRequest productRequest) throws TransactionException {
         OrgUserDetail orgUserDetail = accountService.getOrgDetail(productRequest.getDid());
         if(orgUserDetail == null){
-            throw new DataBrainException(ErrorEnums.DidNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContracts().getProductContract(),
+                sysConfig.getContractConfig().getProductContract(),
                 client,
                 keyPair);
 
@@ -128,7 +127,7 @@ public class ProductService {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
 
@@ -153,7 +152,7 @@ public class ProductService {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
         TransactionReceipt receipt = productModule.deleteProduct(
@@ -166,7 +165,7 @@ public class ProductService {
         String privateKey = accountService.getPrivateKey(productRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
         TransactionReceipt receipt = productModule.approveProduct(

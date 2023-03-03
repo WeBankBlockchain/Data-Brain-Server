@@ -15,11 +15,13 @@ system:
     crypto-type: 0
     salt: "salt_string"
     witness-private-key: '11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f'
-    contracts:
+    contractConfig:
         account-contract: "0x963f375f4d1d1969bbd318628910d080506131b4"
         product-contract: "0xb3aa7a6f43eb2cb0cf2099f4f5e170efc63ee1d0"
         dataSchema-contract: "0xe7d7b002e51431b300ddc00b2c059ccc41ce4660"
-    login:
+    loginConfig:
         token-expire-minutes: 30
+    fileConfig:
+        file-dir: "tmp"
 swagger:
     enabled: true

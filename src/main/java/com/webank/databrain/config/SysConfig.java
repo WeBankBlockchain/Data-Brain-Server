@@ -21,10 +21,13 @@ public class SysConfig {
     private String witnessPrivateKey;
 
     @NestedConfigurationProperty
-    private ContractConfig contracts;
+    private ContractConfig contractConfig;
 
     @NestedConfigurationProperty
-    private LoginConfig login;
+    private LoginConfig loginConfig;
+
+    @NestedConfigurationProperty
+    private FileConfig fileConfig;
 
     @Data
     public static class ContractConfig {
@@ -36,6 +39,11 @@ public class SysConfig {
     @Data
     public static class LoginConfig {
         private int tokenExpireMinutes;
+    }
+
+    @Data
+    public static class FileConfig {
+        private String fileDir;
     }
 
 }

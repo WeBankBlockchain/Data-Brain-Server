@@ -26,7 +26,7 @@ public class TokenDAOImpl implements ITokenDAO {
 
     @Override
     public void upsert(String token, String did) {
-        LocalDateTime dateTime = LocalDateTime.now().plusMinutes(sysConfig.getLogin().getTokenExpireMinutes());
+        LocalDateTime dateTime = LocalDateTime.now().plusMinutes(sysConfig.getLoginConfig().getTokenExpireMinutes());
         tokenMapper.upsert(token, did, dateTime);
     }
 

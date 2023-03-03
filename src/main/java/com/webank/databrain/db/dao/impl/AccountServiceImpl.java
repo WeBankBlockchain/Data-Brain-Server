@@ -39,7 +39,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDataOb
     public AccountDO getAccountByName(String username) {
         AccountDataObject accountDataObject =  baseMapper.selectByName(username);
         if(accountDataObject == null){
-            throw new DataBrainException(ErrorEnums.UsernameNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         AccountDO ret = new AccountDO();
         BeanUtils.copyProperties(accountDataObject, ret);

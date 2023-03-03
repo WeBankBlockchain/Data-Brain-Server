@@ -120,7 +120,7 @@ public class DataSchemaService {
 
         OrgUserDetail orgUserDetail = accountService.getOrgDetail(schemaRequest.getProviderId());
         if(orgUserDetail == null){
-            throw new DataBrainException(ErrorEnums.DidNotExists);
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
         ProductDetail productDetail = productService.getProductDetail(schemaRequest.getProductId());
         if(productDetail == null){
@@ -130,7 +130,7 @@ public class DataSchemaService {
         String privateKey = accountService.getPrivateKey(schemaRequest.getProviderId());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-                sysConfig.getContracts().getDataSchemaContract(),
+                sysConfig.getContractConfig().getDataSchemaContract(),
                 client,
                 keyPair);
 
@@ -179,7 +179,7 @@ public class DataSchemaService {
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
 
@@ -206,7 +206,7 @@ public class DataSchemaService {
         String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-                sysConfig.getContracts().getAccountContract(),
+                sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
 
