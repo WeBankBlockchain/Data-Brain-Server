@@ -8,9 +8,11 @@ import com.webank.databrain.model.common.PagingResult;
 import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.dataschema.DataSchemaDetail;
 import com.webank.databrain.model.dataschema.DataSchemaDetailWithVisit;
+import com.webank.databrain.model.dataschema.UpdatedDataSchemaRequest;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.DataSchemaService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -68,6 +70,11 @@ public class SchemaTest extends ServerApplicationTests{
 
         String id = schemaService.createDataSchema(schemaRequest);
         assertThat(id).isNotNull();
+
+        UpdatedDataSchemaRequest updatedDataSchemaRequest = new UpdatedDataSchemaRequest();
+        updatedDataSchemaRequest.setSchemaId(id);
+        BeanUtils.copyProperties(schemaRequest,updatedDataSchemaRequest);
+        schemaService.updateDataSchema(updatedDataSchemaRequest);
     }
 
 

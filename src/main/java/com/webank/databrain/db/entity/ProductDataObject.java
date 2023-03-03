@@ -39,6 +39,9 @@ public class ProductDataObject implements Serializable {
     @ApiModelProperty(value = "提供方id")
     private String providerId;
 
+    private String providerName;
+
+
     @ApiModelProperty(value = "产品详情")
     private String information;
 

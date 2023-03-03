@@ -5,10 +5,7 @@ import com.webank.databrain.model.common.CommonResponse;
 import com.webank.databrain.model.common.HotQueryRequest;
 import com.webank.databrain.model.common.Paging;
 import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.product.CreateProductRequest;
-import com.webank.databrain.model.product.ProductDetail;
-import com.webank.databrain.model.product.ProductIdName;
-import com.webank.databrain.model.product.QueryProductRequest;
+import com.webank.databrain.model.product.*;
 import com.webank.databrain.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +56,13 @@ public class ProductController {
     public CommonResponse<String> createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
         log.info("createProduct did = {}",createProductRequest.getDid());
         String productId = productService.createProduct(createProductRequest);
+        return CommonResponse.createSuccessResult(productId);
+    }
+
+    @PostMapping(value = "/updateProduct")
+    public CommonResponse<String> updateProduct(@RequestBody UpdateProductRequest updateProductRequest) throws Exception{
+        log.info("createProduct did = {}",updateProductRequest.getDid());
+        String productId = productService.updateProduct(updateProductRequest);
         return CommonResponse.createSuccessResult(productId);
     }
 

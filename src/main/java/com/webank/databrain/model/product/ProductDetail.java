@@ -10,6 +10,7 @@ public class ProductDetail {
     private String productId;
     private String productName;
     private String providerId;
+    private String providerName;
     private String information;
     private Integer reviewState;
     private LocalDateTime reviewTime;

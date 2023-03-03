@@ -50,6 +50,7 @@ CREATE TABLE `product` (
    `product_id` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '产品名称',
    `provider_id` varchar(255) NOT NULL DEFAULT '' COMMENT '提供方id',
+   `provider_name` varchar(255) NOT NULL DEFAULT '' COMMENT '提供方名称',
    `information` text COMMENT '产品详情',
    `review_state` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
    `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
