@@ -4,7 +4,6 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.account.*;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,7 +5,9 @@ import com.webank.databrain.db.dao.IAccountDbService;
 import com.webank.databrain.db.entity.AccountDataObject;
 import com.webank.databrain.db.mapper.AccountMapper;
 import com.webank.databrain.enums.AccountType;
+import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
+import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.model.account.AccountDO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, AccountDataOb
 
     public AccountDO getAccountByName(String username) {
         AccountDataObject accountDataObject =  baseMapper.selectByName(username);
+        if(accountDataObject == null){
+            throw new DataBrainException(ErrorEnums.UsernameNotExists);
+        }
         AccountDO ret = new AccountDO();
         BeanUtils.copyProperties(accountDataObject, ret);
         return ret;

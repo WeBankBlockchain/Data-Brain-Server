@@ -108,13 +108,13 @@ public class AccountService {
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
-        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, loginRequest.getPassword(), accountDO.getSalt());
+        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountDO.getSalt());
         if (!Objects.equals(pwdHash, accountDO.getPwdhash())) {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
 
         }
         LoginResult result = new LoginResult();
-        result.setToken(tokenHandler.generateToken());
+        result.setToken(tokenHandler.generateToken(accountDO.getDid()));
         result.setDid(accountDO.getDid());
         return result;
     }

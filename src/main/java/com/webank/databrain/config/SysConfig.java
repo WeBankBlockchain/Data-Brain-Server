@@ -23,11 +23,19 @@ public class SysConfig {
     @NestedConfigurationProperty
     private ContractConfig contracts;
 
+    @NestedConfigurationProperty
+    private LoginConfig login;
+
     @Data
     public static class ContractConfig {
         private String accountContract;
         private String productContract;
         private String dataSchemaContract;
+    }
+
+    @Data
+    public static class LoginConfig {
+        private int tokenExpireMinutes;
     }
 
 }

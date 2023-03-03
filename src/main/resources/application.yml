@@ -19,6 +19,7 @@ system:
         account-contract: "0x963f375f4d1d1969bbd318628910d080506131b4"
         product-contract: "0xb3aa7a6f43eb2cb0cf2099f4f5e170efc63ee1d0"
         dataSchema-contract: "0xe7d7b002e51431b300ddc00b2c059ccc41ce4660"
-
+    login:
+        token-expire-minutes: 30
 swagger:
     enabled: true
