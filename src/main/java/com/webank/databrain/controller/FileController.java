@@ -22,7 +22,7 @@ public class FileController {
     @PostMapping("/upload")
     public CommonResponse handleFileUpload(@RequestParam("file") MultipartFile file) throws Exception {
         String filename = fileService.uploadFile(file);
-        return CommonResponse.createSuccessResult(filename);
+        return CommonResponse.success(filename);
     }
 
     @ApiOperation(value = "下载文件")

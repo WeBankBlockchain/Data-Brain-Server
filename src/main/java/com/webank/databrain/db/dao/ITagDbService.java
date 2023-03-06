@@ -2,8 +2,8 @@ package com.webank.databrain.db.dao;
 
 import com.webank.databrain.db.entity.TagDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.vo.common.IdName;
-import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.dto.common.Paging;
 import com.webank.databrain.model.tag.TagSummary;
 
 import java.util.List;

@@ -24,11 +24,13 @@ public class CommonResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public static <T> CommonResponse<T> createSuccessResult(T data) {
+    public static <T> CommonResponse<T> success(T data) {
         return new CommonResponse<T>(ErrorEnums.Success.getCode(), StringUtils.EMPTY, data);
     }
 
-    public static<T> CommonResponse<T> createFailedResult(String code, String msg) {
+    public static<T> CommonResponse<T> fail(String code, String msg) {
         return new CommonResponse<T>(code, msg, null);
     }
+
+
 }

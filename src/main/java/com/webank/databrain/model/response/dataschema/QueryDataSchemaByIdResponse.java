@@ -1,6 +1,6 @@
 package com.webank.databrain.model.response.dataschema;
 
-import com.webank.databrain.model.vo.dataschema.DataSchemaDetailWithVisit;
+import com.webank.databrain.model.dto.dataschema.DataSchemaDetailWithVisit;
 
 public class QueryDataSchemaByIdResponse extends DataSchemaDetailWithVisit {
 

@@ -6,5 +6,4 @@ import lombok.Data;
 @Data
 public class HotCompaniesRequest extends QueryHotDataRequest {
 
-
 }

@@ -13,8 +13,8 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.vo.common.IdName;
-import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.dto.common.Paging;
 import com.webank.databrain.model.domain.account.AccountDO;
 import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.request.account.LoginRequest;
@@ -24,8 +24,8 @@ import com.webank.databrain.model.response.account.LoginResponse;
 import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
 import com.webank.databrain.model.response.account.QueryAccountByIdResponse;
 import com.webank.databrain.model.response.common.PagedResult;
-import com.webank.databrain.model.vo.account.NormalUserDetail;
-import com.webank.databrain.model.vo.account.OrgUserDetail;
+import com.webank.databrain.model.dto.account.NormalUserDetail;
+import com.webank.databrain.model.dto.account.OrgUserDetail;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +77,6 @@ public class AccountService {
 
     @Transactional
     public String registerAccount(RegisterRequest request) throws Exception{
-        //TODO: 判断username
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain

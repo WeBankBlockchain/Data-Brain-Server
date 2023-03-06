@@ -1,13 +1,16 @@
 package com.webank.databrain.model.response.product;
 
-import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.response.common.BaseHotResponse;
+import lombok.Data;
 
 import java.util.Collection;
+import java.util.List;
 
-public class HotProductsResponse extends BaseHotResponse {
+@Data
+public class HotProductsResponse extends BaseHotResponse<IdName> {
 
-    public HotProductsResponse(Collection<IdName> idNames) {
+    public HotProductsResponse(List<IdName> idNames) {
         super(idNames);
     }
 }

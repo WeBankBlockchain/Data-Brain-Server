@@ -4,7 +4,7 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.request.account.LoginRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.response.account.LoginResponse;
-import com.webank.databrain.model.vo.account.OrgUserDetail;
+import com.webank.databrain.model.dto.account.OrgUserDetail;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;

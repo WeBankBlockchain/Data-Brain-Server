@@ -1,14 +1,17 @@
 package com.webank.databrain.model.response.common;
 
-import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.dto.common.IdName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-public class BaseHotResponse extends ArrayList<IdName> {
-
-    public BaseHotResponse(Collection<IdName> idNames){
-        super(idNames);
-    }
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BaseHotResponse<T>{
+    protected List<T> items;
 }

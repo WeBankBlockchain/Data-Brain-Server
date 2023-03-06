@@ -10,16 +10,17 @@ import com.webank.databrain.db.dao.IProductService;
 import com.webank.databrain.db.entity.ProductDataObject;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.model.vo.account.OrgUserDetail;
-import com.webank.databrain.model.vo.common.IdName;
-import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.dto.account.OrgUserDetail;
+import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.dto.common.Paging;
 import com.webank.databrain.model.request.product.CreateProductRequest;
 import com.webank.databrain.model.request.product.UpdateProductRequest;
+import com.webank.databrain.model.response.common.PagedResult;
 import com.webank.databrain.model.response.product.CreateProductResponse;
 import com.webank.databrain.model.response.product.HotProductsResponse;
 import com.webank.databrain.model.response.product.PageQueryProductResponse;
 import com.webank.databrain.model.response.product.UpdateProductResponse;
-import com.webank.databrain.model.vo.product.ProductDetail;
+import com.webank.databrain.model.dto.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -84,15 +85,15 @@ public class ProductService {
 
         productList.forEach(product -> {
             ProductDetail productDetail = new ProductDetail();
-            BeanUtils.copyProperties(product,productDetail);
+            BeanUtils.copyProperties(product, productDetail);
             productDetails.add(productDetail);
         });
-        return new PageQueryProductResponse(
-                productDetails,
+        return new PageQueryProductResponse(new PagedResult<>(productDetails,
                 result.getCurrent(),
                 result.getSize(),
                 result.getTotal(),
-                result.getPages());
+                result.getPages())
+        );
     }
 
     public ProductDetail getProductDetail(String productId) {

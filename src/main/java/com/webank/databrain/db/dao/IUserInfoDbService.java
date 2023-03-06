@@ -2,7 +2,7 @@ package com.webank.databrain.db.dao;
 
 import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.vo.account.NormalUserDetail;
+import com.webank.databrain.model.dto.account.NormalUserDetail;
 
 /**
  * <p>

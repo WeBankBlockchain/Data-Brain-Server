@@ -1,7 +1,8 @@
 package com.webank.databrain.controller;
 
+import com.webank.databrain.model.request.tags.HotTagsRequest;
 import com.webank.databrain.model.response.common.CommonResponse;
-import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.response.tags.HotTagsResponse;
 import com.webank.databrain.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -21,8 +20,8 @@ public class TagController {
     private TagService tagService;
 
     @PostMapping("getHotTags")
-    public CommonResponse getHotTags(@RequestBody HotQueryRequest request) {
-        List<IdName> hotTags = tagService.listHotTags(request.getTopN());
-        return CommonResponse.createSuccessResult(hotTags);
+    public CommonResponse<HotTagsResponse> getHotTags(@RequestBody HotTagsRequest request) {
+        HotTagsResponse hotTags = tagService.listHotTags(request.getTopN());
+        return CommonResponse.success(hotTags);
     }
 }

@@ -4,7 +4,7 @@ import com.webank.databrain.db.entity.UserInfoDataObject;
 import com.webank.databrain.db.mapper.UserInfoMapper;
 import com.webank.databrain.db.dao.IUserInfoDbService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.webank.databrain.model.vo.account.NormalUserDetail;
+import com.webank.databrain.model.dto.account.NormalUserDetail;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 

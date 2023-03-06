@@ -1,12 +1,11 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.model.request.dataschema.QuerySchemaByIdRequest;
 import com.webank.databrain.model.response.common.CommonResponse;
 import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
 import com.webank.databrain.model.response.dataschema.QueryDataSchemaByIdResponse;
 import com.webank.databrain.model.response.dataschema.UpdateDataSchemaResponse;
-import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.dto.common.Paging;
 import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.request.dataschema.PageQueryDataSchemaRequest;
 import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
@@ -35,7 +34,7 @@ public class DataSchemaController {
                 querySchemaRequest.getPageNo(),
                 querySchemaRequest.getPageSize());
         if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
-            return CommonResponse.createFailedResult(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
+            return CommonResponse.fail(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
         }
         PageQueryDataSchemaResponse response = schemaService.pageQuerySchema(new Paging(
                 querySchemaRequest.getPageNo(),
@@ -45,21 +44,21 @@ public class DataSchemaController {
                 querySchemaRequest.getTag(),
                 querySchemaRequest.getKeyWord()
         );
-        return CommonResponse.createSuccessResult(response);
+        return CommonResponse.success(response);
     }
 
 
     @PostMapping(value = "/createSchema")
     public CommonResponse<CreateDataSchemaResponse> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
         CreateDataSchemaResponse createDataSchemaResponse = schemaService.createDataSchema(createDataSchemaRequest);;
-        return CommonResponse.createSuccessResult(createDataSchemaResponse);
+        return CommonResponse.success(createDataSchemaResponse);
     }
 
     @PostMapping(value = "/updateSchema")
     public CommonResponse<UpdateDataSchemaResponse> updateSchema(@RequestBody UpdateDataSchemaRequest updateDataSchemaRequest) throws Exception{
         String did = SessionUtils.currentAccountDid();
         UpdateDataSchemaResponse response = schemaService.updateDataSchema(did, updateDataSchemaRequest);;
-        return CommonResponse.createSuccessResult(response);
+        return CommonResponse.success(response);
     }
 
     @PostMapping(value = "/querySchemaById")
@@ -67,7 +66,7 @@ public class DataSchemaController {
     ){
         log.info("querySchemaById schemaId = {}",request.getSchemaId());
         QueryDataSchemaByIdResponse result = schemaService.getDataSchemaById(request.getSchemaId());
-        return CommonResponse.createSuccessResult(result);
+        return CommonResponse.success(result);
     }
 
 }

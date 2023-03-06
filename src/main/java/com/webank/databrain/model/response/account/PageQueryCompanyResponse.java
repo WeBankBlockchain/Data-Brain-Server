@@ -1,13 +1,18 @@
 package com.webank.databrain.model.response.account;
 
-import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.response.common.BasePageQueryResult;
 import com.webank.databrain.model.response.common.PagedResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PageQueryCompanyResponse{
+public class PageQueryCompanyResponse extends BasePageQueryResult<IdName> {
 
-    private PagedResult<IdName> result;
+    public PageQueryCompanyResponse(PagedResult<IdName> pagedResult) {
+        super(pagedResult);
+    }
+
+
 }

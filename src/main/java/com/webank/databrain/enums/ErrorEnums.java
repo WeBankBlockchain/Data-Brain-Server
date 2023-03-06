@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public enum ErrorEnums {
     Success("0", "Success"),
-    InvalidCredential("00000001", "用户名或密码不正确"),
-    AccountNotExists("00000002", "Did不存在"),
-    ProductNotExists("00000003", "产品不存在"),
+    InvalidCredential("10000001", "用户名或密码不正确"),
+    AccountNotExists("10000002", "Did不存在"),
+    ProductNotExists("10000003", "产品不存在"),
 
-    FileNotExists("00000005", "文件不存在"),
+    FileNotExists("10000005", "文件不存在"),
     UnknownError("99999999", "");
 
     private String code;
