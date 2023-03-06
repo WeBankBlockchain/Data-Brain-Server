@@ -36,7 +36,7 @@
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `company_id` bigint(20) unsigned NOT NULL COMMENT '账户ID',--chatgpt建议外键采用pkid，因为和具体的did字段解藕了--
    `company_name` varchar(255) NOT NULL COMMENT '公司名称',
-   `company_desc` tinytext NOT NULL COMMENT '公司详情',
+   `company_desc` text NOT NULL COMMENT '公司详情',
    `company_cert_type` int(4) NOT NULL DEFAULT 0 comment '法人证件类型',
    `company_cert_file_uri` varchar(255) COMMENT '公司证件图片链接',
    `company_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '公司联系方式',
@@ -53,7 +53,7 @@
    `product_gid` varchar(255) NOT NULL DEFAULT '' COMMENT '产品id',
    `product_name` varchar(255) NOT NULL DEFAULT '' COMMENT '产品名称',
    `provider_id` bigint(20) unsigned NOT NULL COMMENT '提供方ID',--chatgpt建议外键采用pkid，因为和具体的did字段解藕了--
-   `product_desc` tinytext COMMENT '产品详情',
+   `product_desc` text COMMENT '产品详情',
    `status` int(4) NOT NULL DEFAULT 0 COMMENT '审核状态',
    `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -81,7 +81,7 @@
    `product_id` bigint(20) unsigned NOT NULL COMMENT '产品ID',--chatgpt建议外键采用pkid，因为和具体的did字段解藕了--
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
    `visible` int(4) NOT NULL DEFAULT 0 COMMENT '是否可见',
-   `data_schema_desc` tinytext COMMENT '描述',
+   `data_schema_desc` text COMMENT '描述',
    `data_schema_usage` varchar(64) NOT NULL DEFAULT '' COMMENT '用途',
    `price` int(32) NOT NULL DEFAULT 0 COMMENT '价格',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
