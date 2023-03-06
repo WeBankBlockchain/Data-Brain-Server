@@ -3,7 +3,7 @@ package com.webank.databrain.db.dao;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.db.entity.AccountDataObject;
 import com.webank.databrain.enums.ReviewStatus;
-import com.webank.databrain.model.account.AccountDO;
+import com.webank.databrain.model.domain.account.AccountDO;
 
 import java.time.LocalDateTime;
 

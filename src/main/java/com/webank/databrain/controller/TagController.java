@@ -1,8 +1,7 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.common.CommonResponse;
-import com.webank.databrain.model.common.HotQueryRequest;
-import com.webank.databrain.model.common.IdName;
+import com.webank.databrain.model.response.common.CommonResponse;
+import com.webank.databrain.model.vo.common.IdName;
 import com.webank.databrain.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

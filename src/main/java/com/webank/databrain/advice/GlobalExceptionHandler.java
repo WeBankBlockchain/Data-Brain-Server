@@ -2,7 +2,7 @@ package com.webank.databrain.advice;
 
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.model.common.CommonResponse;
+import com.webank.databrain.model.response.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

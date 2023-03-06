@@ -2,10 +2,8 @@ package com.webank.databrain.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.db.entity.AccountDataObject;
-import com.webank.databrain.model.common.IdName;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * <p>

@@ -1,11 +1,16 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.model.common.CommonResponse;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.dataschema.*;
+import com.webank.databrain.model.response.common.CommonResponse;
+import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
+import com.webank.databrain.model.response.dataschema.UpdateDataSchemaResponse;
+import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
+import com.webank.databrain.model.request.dataschema.PageQueryDataSchemaRequest;
+import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
+import com.webank.databrain.model.response.dataschema.PageQueryDataSchemaResponse;
 import com.webank.databrain.service.DataSchemaService;
+import com.webank.databrain.utils.SessionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +26,8 @@ public class DataSchemaController {
 
 
     @PostMapping(value = "/pageQuerySchema")
-    public CommonResponse<PagingResult<DataSchemaDetail>> pageQuerySchema(
-            @RequestBody QuerySchemaRequest querySchemaRequest
+    public CommonResponse<PageQueryDataSchemaResponse> pageQuerySchema(
+            @RequestBody PageQueryDataSchemaRequest querySchemaRequest
     ){
         log.info("pageQuerySchema pageNo = {}, pageSize = {}",
                 querySchemaRequest.getPageNo(),
@@ -30,7 +35,7 @@ public class DataSchemaController {
         if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
             return CommonResponse.createFailedResult(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
         }
-        PagingResult<DataSchemaDetail> result = schemaService.pageQuerySchema(new Paging(
+        PageQueryDataSchemaResponse response = schemaService.pageQuerySchema(new Paging(
                 querySchemaRequest.getPageNo(),
                 querySchemaRequest.getPageSize()),
                 querySchemaRequest.getProductId(),
@@ -38,29 +43,28 @@ public class DataSchemaController {
                 querySchemaRequest.getTag(),
                 querySchemaRequest.getKeyWord()
         );
-        return CommonResponse.createSuccessResult(result);
+        return CommonResponse.createSuccessResult(response);
     }
 
 
     @PostMapping(value = "/createSchema")
-    public CommonResponse<String> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
-        log.info("createSchema did = {}",createDataSchemaRequest.getDid());
-        String productId = schemaService.createDataSchema(createDataSchemaRequest);;
-        return CommonResponse.createSuccessResult(productId);
+    public CommonResponse<CreateDataSchemaResponse> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
+        CreateDataSchemaResponse createDataSchemaResponse = schemaService.createDataSchema(createDataSchemaRequest);;
+        return CommonResponse.createSuccessResult(createDataSchemaResponse);
     }
 
     @PostMapping(value = "/updateSchema")
-    public CommonResponse<String> updateSchema(@RequestBody UpdatedDataSchemaRequest updatedDataSchemaRequest) throws Exception{
-        log.info("createSchema did = {}",updatedDataSchemaRequest.getDid());
-        String schemaId = schemaService.updateDataSchema(updatedDataSchemaRequest);;
-        return CommonResponse.createSuccessResult(schemaId);
+    public CommonResponse<UpdateDataSchemaResponse> updateSchema(@RequestBody UpdateDataSchemaRequest updateDataSchemaRequest) throws Exception{
+        String did = SessionUtils.currentAccountDid();
+        UpdateDataSchemaResponse response = schemaService.updateDataSchema(did, updateDataSchemaRequest);;
+        return CommonResponse.createSuccessResult(response);
     }
 
     @PostMapping(value = "/querySchemaById")
-    public CommonResponse<DataSchemaDetailWithVisit> querySchemaById( @RequestBody QuerySchemaRequest querySchemaRequest
+    public CommonResponse<DataSchemaDetailWithVisit> querySchemaById( @RequestBody PageQueryDataSchemaRequest request
     ){
-        log.info("querySchemaById schemaId = {}",querySchemaRequest.getSchemaId());
-        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(querySchemaRequest.getSchemaId());
+        log.info("querySchemaById schemaId = {}",request.getSchemaId());
+        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(request.getSchemaId());
         return CommonResponse.createSuccessResult(result);
     }
 

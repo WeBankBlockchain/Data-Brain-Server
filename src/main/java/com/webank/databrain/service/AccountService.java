@@ -13,10 +13,19 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.account.*;
-import com.webank.databrain.model.common.IdName;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.domain.account.AccountDO;
+import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.request.account.LoginRequest;
+import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.response.account.HotCompaniesResponse;
+import com.webank.databrain.model.response.account.LoginResponse;
+import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.response.account.QueryAccountByIdResponse;
+import com.webank.databrain.model.response.common.PagedResult;
+import com.webank.databrain.model.vo.account.NormalUserDetail;
+import com.webank.databrain.model.vo.account.OrgUserDetail;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +42,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -68,7 +76,7 @@ public class AccountService {
     private TransactionDecoderInterface txDecoder;
 
     @Transactional
-    public String registerAccount(RegisterRequestVO request) throws Exception{
+    public String registerAccount(RegisterRequest request) throws Exception{
         //TODO: 判断username
         //Generation private key
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
@@ -101,7 +109,7 @@ public class AccountService {
         return did;
     }
 
-    public LoginResult login(LoginRequestVO loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
         AccountDO accountDO = accountDAO.getAccountByName(username);
@@ -113,19 +121,21 @@ public class AccountService {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
 
         }
-        LoginResult result = new LoginResult();
+        LoginResponse result = new LoginResponse();
         result.setToken(tokenHandler.generateToken(accountDO.getDid()));
         result.setDid(accountDO.getDid());
         return result;
     }
 
-    public List<IdName> listHotOrgs(int topN) {
-        return orgDAO.listHotOrgs(topN);
+    public HotCompaniesResponse listHotOrgs(int topN) {
+        return new HotCompaniesResponse(orgDAO.listHotOrgs(topN));
     }
 
-    public PagingResult<OrgSummary> listOrgsByPage(ListOrgsByPageRequestVO request) {
+    public PageQueryCompanyResponse listOrgsByPage(PageQueryCompanyRequest request) {
         Paging paging = new Paging(request.getPageNo(), request.getPageSize());
-        return orgDAO.listOrgsByPage(paging);
+        PagedResult<IdName> pagingResult = orgDAO.listOrgsByPage(paging);
+
+        return new PageQueryCompanyResponse(pagingResult);
     }
 
     public String getPrivateKey(String did) {
@@ -155,7 +165,7 @@ public class AccountService {
 
 
 
-    public AccountDetailResponse getAccountDetail(String did){
+    public QueryAccountByIdResponse getAccountDetail(String did){
         AccountDO accountDO = accountDAO.getAccountByDid(did);
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.AccountNotExists);
@@ -168,7 +178,7 @@ public class AccountService {
             detail = this.getOrgDetail(did);
         }
 
-        AccountDetailResponse ret = new AccountDetailResponse();
+        QueryAccountByIdResponse ret = new QueryAccountByIdResponse();
         ret.setDid(did);
         ret.setAddress(cryptoSuite.loadKeyPair(accountDO.getPrivateKey()).getAddress());
         ret.setType(accountDO.getAccountType().name());

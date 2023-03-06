@@ -4,11 +4,10 @@ import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.webank.databrain.db.mapper.OrgInfoMapper;
 import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.webank.databrain.model.account.OrgSummary;
-import com.webank.databrain.model.account.OrgUserDetail;
-import com.webank.databrain.model.common.IdName;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.vo.account.OrgUserDetail;
+import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.response.common.PagedResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -36,24 +35,23 @@ public class OrgInfoServiceImpl extends ServiceImpl<OrgInfoMapper, OrgInfoDataOb
         return baseMapper.listHotOrgs(topN);
     }
 
-    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) {
+    public PagedResult<IdName> listOrgsByPage(Paging paging) {
         int total = baseMapper.count();
 
         int startOffset = (paging.getPageNo() - 1) * paging.getPageSize();
         int limitSize = paging.getPageSize();
         List<OrgInfoDataObject> orgs = baseMapper.listOrgsByPage(startOffset, limitSize);
 
-        PagingResult<OrgSummary> ret = new PagingResult<>();
+        PagedResult<IdName> ret = new PagedResult<>();
 
         ret.setPage(paging.getPageNo());
         ret.setPageSize(limitSize);
         ret.setTotalItems(total);
         ret.setTotalPages((total + limitSize - 1) / limitSize);//上取整
         ret.setItems(orgs.stream().map(o->{
-            OrgSummary summary = new OrgSummary();
+            IdName summary = new IdName();
             summary.setId(o.getOrgId());
             summary.setName(o.getOrgName());
-            summary.setCreatedAt(o.getCreateTime().toString());
             return summary;
         }).collect(Collectors.toList()));
         return ret;

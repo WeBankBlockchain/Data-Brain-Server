@@ -2,7 +2,7 @@ package com.webank.databrain.db.mapper;
 
 import com.webank.databrain.db.entity.TagDataObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.webank.databrain.model.common.IdName;
+import com.webank.databrain.model.vo.common.IdName;
 
 import java.util.List;
 

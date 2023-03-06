@@ -1,7 +1,10 @@
 package com.webank.databrain;
 
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.account.*;
+import com.webank.databrain.model.request.account.LoginRequest;
+import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.response.account.LoginResponse;
+import com.webank.databrain.model.vo.account.OrgUserDetail;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
@@ -16,7 +19,7 @@ public class AccountTest extends ServerApplicationTests{
     public void testEnterpriseRegister() throws Exception{
         String username = "chuyuzhi";
         String password = "12345678";
-        RegisterRequestVO request = new RegisterRequestVO();
+        RegisterRequest request = new RegisterRequest();
         request.setUsername(username);
         request.setPassword(password);
         request.setAccountType(AccountType.NormalUser);
@@ -31,10 +34,10 @@ public class AccountTest extends ServerApplicationTests{
         String username = "chuyuzhi";
         String password = "12345678";
 
-        LoginRequestVO loginRequest = new LoginRequestVO();
+        LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(username);
         loginRequest.setPassword(password);
-        LoginResult loginResult = accountService.login(loginRequest);
+        LoginResponse loginResult = accountService.login(loginRequest);
         System.out.println(loginResult);
     }
 }

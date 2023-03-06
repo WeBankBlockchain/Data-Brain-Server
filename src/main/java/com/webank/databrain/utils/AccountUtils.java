@@ -1,9 +1,7 @@
 package com.webank.databrain.utils;
 
 import cn.hutool.core.codec.Base64;
-import com.webank.databrain.model.account.AccountID;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
-import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 
 public class AccountUtils {
 

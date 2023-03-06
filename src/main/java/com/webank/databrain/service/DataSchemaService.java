@@ -13,13 +13,17 @@ import com.webank.databrain.db.entity.DataSchemaDataObject;
 import com.webank.databrain.db.entity.VisitInfo;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.model.account.OrgUserDetail;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
+import com.webank.databrain.model.response.product.CreateProductResponse;
+import com.webank.databrain.model.vo.account.OrgUserDetail;
+import com.webank.databrain.model.vo.common.Paging;
 import com.webank.databrain.model.dataschema.*;
-import com.webank.databrain.model.product.ProductDetail;
-import com.webank.databrain.model.tag.CreateTagRequest;
-import com.webank.databrain.model.tag.TagDetail;
+import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
+import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
+import com.webank.databrain.model.response.common.PagedResult;
+import com.webank.databrain.model.response.dataschema.PageQueryDataSchemaResponse;
+import com.webank.databrain.model.vo.dataschema.DataSchemaDetail;
+import com.webank.databrain.model.vo.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -68,7 +72,7 @@ public class DataSchemaService {
 
     @Autowired
     private TransactionDecoderInterface txDecoder;
-    public PagingResult<DataSchemaDetail> pageQuerySchema(Paging paging, String productId, String providerId, String tag, String keyWord) {
+    public PageQueryDataSchemaResponse pageQuerySchema(Paging paging, String productId, String providerId, String tag, String keyWord) {
         QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
         if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
             wrappers.eq("product_id",productId);
@@ -96,12 +100,12 @@ public class DataSchemaService {
             BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
             dataSchemaDetails.add(dataSchemaDetail);
         });
-        return new PagingResult<>(
+        return new PageQueryDataSchemaResponse(new PagedResult<>(
                 dataSchemaDetails,
                 result.getCurrent(),
                 result.getSize(),
                 result.getTotal(),
-                result.getPages());
+                result.getPages()));
     }
 
     public DataSchemaDetailWithVisit getDataSchemaById(String schemaId){
@@ -116,7 +120,7 @@ public class DataSchemaService {
     }
 
     @Transactional
-    public String createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
+    public CreateDataSchemaResponse createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
 
         OrgUserDetail orgUserDetail = accountService.getOrgDetail(schemaRequest.getProviderId());
         if(orgUserDetail == null){
@@ -145,17 +149,17 @@ public class DataSchemaService {
 
         String dataSchemaId = Base64.encode(dataSchemaModule.getCreateDataSchemaOutput(receipt).getValue1());
 
-        TagDetail tagDetail = tagService.getTagByName(schemaRequest.getTagName());
-        if(tagDetail == null){
-            CreateTagRequest createTagRequest = new CreateTagRequest();
-            createTagRequest.setTag(schemaRequest.getTagName());
-            tagService.createTag(createTagRequest);
-            log.info("createTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
-        } else {
-            tagDetail.setSchemaIdList(tagDetail.getSchemaIdList() + "," + dataSchemaId);
-            tagService.updateTag(tagDetail);
-            log.info("updateTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
-        }
+//        TagDetail tagDetail = tagService.getTagByName(schemaRequest.getTagName());
+//        if(tagDetail == null){
+//            CreateTagRequest createTagRequest = new CreateTagRequest();
+//            createTagRequest.setTag(schemaRequest.getTagName());
+//            tagService.createTag(createTagRequest);
+//            log.info("createTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
+//        } else {
+//            tagDetail.setSchemaIdList(tagDetail.getSchemaIdList() + "," + dataSchemaId);
+//            tagService.updateTag(tagDetail);
+//            log.info("updateTag finish, schemaId = {}, tag = {}", dataSchemaId, schemaRequest.getTagName());
+//        }
 
         DataSchemaDataObject dataSchemaDataObject = new DataSchemaDataObject();
         BeanUtils.copyProperties(schemaRequest,dataSchemaDataObject);
@@ -172,11 +176,11 @@ public class DataSchemaService {
         visitInfoService.save(visitInfo);
         log.info("save visitInfo finish, schemaId = {}", dataSchemaId);
 
-        return dataSchemaId;
+        return new CreateDataSchemaResponse(dataSchemaId);
     }
 
-    public String updateDataSchema(UpdatedDataSchemaRequest schemaRequest) throws TransactionException {
-        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+    public CreateDataSchemaResponse updateDataSchema(String did, UpdateDataSchemaRequest schemaRequest) throws TransactionException {
+        String privateKey = accountService.getPrivateKey(did);
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
                 sysConfig.getContractConfig().getAccountContract(),
@@ -202,17 +206,17 @@ public class DataSchemaService {
         return schemaRequest.getSchemaId();
     }
 
-    public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {
-        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
-        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-        DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-                sysConfig.getContractConfig().getAccountContract(),
-                client,
-                keyPair);
-
-        TransactionReceipt receipt = dataSchemaModule.deleteDataSchema(
-                ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()));
-        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-        log.info("deleteDataSchema finish, schemaId = {}", schemaRequest.getDid());
-    }
+//    public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {
+//        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
+//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+//        DataSchemaModule dataSchemaModule = DataSchemaModule.load(
+//                sysConfig.getContractConfig().getAccountContract(),
+//                client,
+//                keyPair);
+//
+//        TransactionReceipt receipt = dataSchemaModule.deleteDataSchema(
+//                ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()));
+//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
+//        log.info("deleteDataSchema finish, schemaId = {}", schemaRequest.getDid());
+//    }
 }

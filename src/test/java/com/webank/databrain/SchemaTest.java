@@ -2,13 +2,15 @@ package com.webank.databrain;
 
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.account.RegisterRequestVO;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.dataschema.CreateDataSchemaRequest;
-import com.webank.databrain.model.dataschema.DataSchemaDetail;
+import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.response.common.PagedResult;
+import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
+import com.webank.databrain.model.response.dataschema.PageQueryDataSchemaResponse;
+import com.webank.databrain.model.vo.common.Paging;
 import com.webank.databrain.model.dataschema.DataSchemaDetailWithVisit;
-import com.webank.databrain.model.dataschema.UpdatedDataSchemaRequest;
+import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
+import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
+import com.webank.databrain.model.vo.dataschema.DataSchemaDetail;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.DataSchemaService;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,7 @@ public class SchemaTest extends ServerApplicationTests{
     void schemaQueryTest() throws Exception {
 
 
-        PagingResult<DataSchemaDetail> result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,null,"数据");
+        PageQueryDataSchemaResponse result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,null,"数据");
         System.out.println(JSONUtil.toJsonStr(result));
 
         DataSchemaDetailWithVisit visit = schemaService.getDataSchemaById("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZxM=");
@@ -42,7 +44,7 @@ public class SchemaTest extends ServerApplicationTests{
 
     @Test
     void schemaCreateTest() throws Exception {
-        RegisterRequestVO request = new RegisterRequestVO();
+        RegisterRequest request = new RegisterRequest();
         request.setAccountType(AccountType.Enterprise);
         request.setPassword("123456123");
         request.setUsername("abcdeed1121");
@@ -64,17 +66,16 @@ public class SchemaTest extends ServerApplicationTests{
         schemaRequest.setProductId("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZGM=");
         schemaRequest.setProviderId(userId);
         schemaRequest.setVisible(1);
-        schemaRequest.setDid(userId);
         schemaRequest.setUsage("test");
         schemaRequest.setUri("127.0.0.1");
 
-        String id = schemaService.createDataSchema(schemaRequest);
+        CreateDataSchemaResponse id = schemaService.createDataSchema(schemaRequest);
         assertThat(id).isNotNull();
 
-        UpdatedDataSchemaRequest updatedDataSchemaRequest = new UpdatedDataSchemaRequest();
-        updatedDataSchemaRequest.setSchemaId(id);
+        UpdateDataSchemaRequest updatedDataSchemaRequest = new UpdateDataSchemaRequest();
+        updatedDataSchemaRequest.setSchemaId(id.getDataSchemaId());
         BeanUtils.copyProperties(schemaRequest,updatedDataSchemaRequest);
-        schemaService.updateDataSchema(updatedDataSchemaRequest);
+        schemaService.updateDataSchema(userId, updatedDataSchemaRequest);
     }
 
 

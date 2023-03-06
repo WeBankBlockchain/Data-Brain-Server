@@ -2,11 +2,10 @@ package com.webank.databrain.db.dao;
 
 import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.account.OrgSummary;
-import com.webank.databrain.model.account.OrgUserDetail;
-import com.webank.databrain.model.common.IdName;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
+import com.webank.databrain.model.vo.account.OrgUserDetail;
+import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.response.common.PagedResult;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public interface IOrgInfoDbService extends IService<OrgInfoDataObject> {
 
     public List<IdName> listHotOrgs(int topN);
 
-    public PagingResult<OrgSummary> listOrgsByPage(Paging paging) ;
+    public PagedResult<IdName> listOrgsByPage(Paging paging) ;
 
     public void insert(String did, OrgUserDetail orgUserDetail) ;
 }

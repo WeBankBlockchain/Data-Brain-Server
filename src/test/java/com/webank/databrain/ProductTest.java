@@ -2,13 +2,14 @@ package com.webank.databrain;
 
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.account.RegisterRequestVO;
-import com.webank.databrain.model.common.Paging;
-import com.webank.databrain.model.common.PagingResult;
-import com.webank.databrain.model.product.CreateProductRequest;
-import com.webank.databrain.model.product.ProductDetail;
-import com.webank.databrain.model.product.ProductIdName;
-import com.webank.databrain.model.product.UpdateProductRequest;
+import com.webank.databrain.model.vo.common.IdName;
+import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.vo.common.Paging;
+import com.webank.databrain.model.request.product.CreateProductRequest;
+import com.webank.databrain.model.request.product.UpdateProductRequest;
+import com.webank.databrain.model.response.common.PagedResult;
+import com.webank.databrain.model.response.product.CreateProductResponse;
+import com.webank.databrain.model.vo.product.ProductDetail;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ public class ProductTest extends  ServerApplicationTests{
 
     @Test
     void productTest() throws Exception {
-        RegisterRequestVO request = new RegisterRequestVO();
+        RegisterRequest request = new RegisterRequest();
         request.setAccountType(AccountType.Enterprise);
         request.setPassword("123456");
         request.setUsername("ggggggg2");
@@ -38,23 +39,22 @@ public class ProductTest extends  ServerApplicationTests{
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("华为数据目录");
         createProductRequest.setInformation("详细信息.....");
-        createProductRequest.setDid("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=");
-        String did = productService.createProduct(createProductRequest);
-        System.out.println("did = " + did);
+        CreateProductResponse response = productService.createProduct("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=", createProductRequest);
+        System.out.println("response = " + response);
     }
 
     @Test
     void pageQueryTest() throws Exception {
-        PagingResult<ProductDetail> result =  productService.pageQueryProducts(new Paging(1,10));
+        PagedResult<ProductDetail> result =  productService.pageQueryProducts(new Paging(1,10));
         System.out.println(JSONUtil.toJsonStr(result));
 
-        List<ProductIdName> productIdNames = productService.getHotProducts(10);
+        List<IdName> productIdNames = productService.getHotProducts(10);
         System.out.println(JSONUtil.toJsonStr(productIdNames));
     }
 
     @Test
     void updateProduct() throws Exception {
-        RegisterRequestVO request = new RegisterRequestVO();
+        RegisterRequest request = new RegisterRequest();
         request.setAccountType(AccountType.Enterprise);
         request.setPassword("123456");
         request.setUsername("ggggggg2");
@@ -66,12 +66,11 @@ public class ProductTest extends  ServerApplicationTests{
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("华为数据目录");
         createProductRequest.setInformation("详细信息.....");
-        createProductRequest.setDid("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=");
-        String did = productService.createProduct(createProductRequest);
-        System.out.println("did = " + did);
+        CreateProductResponse createProductResponse = productService.createProduct("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=", createProductRequest);
+
 
         UpdateProductRequest updateProductRequest = new UpdateProductRequest();
-        updateProductRequest.setProductId(did);
+        updateProductRequest.setProductId(createProductResponse.getProductId());
         updateProductRequest.setProductName("华为数据目录1");
         updateProductRequest.setInformation("详细信息");
         productService.updateProduct(updateProductRequest);

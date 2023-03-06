@@ -8,7 +8,7 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.model.account.AccountDO;
+import com.webank.databrain.model.domain.account.AccountDO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
