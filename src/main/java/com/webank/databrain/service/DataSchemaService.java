@@ -14,10 +14,11 @@ import com.webank.databrain.db.entity.VisitInfo;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
+import com.webank.databrain.model.response.dataschema.QueryDataSchemaByIdResponse;
+import com.webank.databrain.model.response.dataschema.UpdateDataSchemaResponse;
 import com.webank.databrain.model.response.product.CreateProductResponse;
 import com.webank.databrain.model.vo.account.OrgUserDetail;
 import com.webank.databrain.model.vo.common.Paging;
-import com.webank.databrain.model.dataschema.*;
 import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
 import com.webank.databrain.model.response.common.PagedResult;
@@ -108,9 +109,9 @@ public class DataSchemaService {
                 result.getPages()));
     }
 
-    public DataSchemaDetailWithVisit getDataSchemaById(String schemaId){
+    public QueryDataSchemaByIdResponse getDataSchemaById(String schemaId){
         DataSchemaDataObject schemaDataObject = schemaService.getOne(Wrappers.<DataSchemaDataObject>query().eq("schema_id",schemaId));
-        DataSchemaDetailWithVisit schemaDetail = new DataSchemaDetailWithVisit();
+        QueryDataSchemaByIdResponse schemaDetail = new QueryDataSchemaByIdResponse();
         BeanUtils.copyProperties(schemaDataObject,schemaDetail);
 
         VisitInfo visitInfo = visitInfoService.getOne(Wrappers.<VisitInfo>query().eq("schema_id",schemaId));
@@ -179,7 +180,7 @@ public class DataSchemaService {
         return new CreateDataSchemaResponse(dataSchemaId);
     }
 
-    public CreateDataSchemaResponse updateDataSchema(String did, UpdateDataSchemaRequest schemaRequest) throws TransactionException {
+    public UpdateDataSchemaResponse updateDataSchema(String did, UpdateDataSchemaRequest schemaRequest) throws TransactionException {
         String privateKey = accountService.getPrivateKey(did);
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
@@ -203,7 +204,7 @@ public class DataSchemaService {
         visitInfoService.saveOrUpdate(visitInfo);
         log.info("save visitInfo finish, schemaId = {}", schemaRequest.getSchemaId());
 
-        return schemaRequest.getSchemaId();
+        return new UpdateDataSchemaResponse(schemaRequest.getSchemaId());
     }
 
 //    public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {

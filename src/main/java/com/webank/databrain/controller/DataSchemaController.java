@@ -1,8 +1,10 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.model.request.dataschema.QuerySchemaByIdRequest;
 import com.webank.databrain.model.response.common.CommonResponse;
 import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
+import com.webank.databrain.model.response.dataschema.QueryDataSchemaByIdResponse;
 import com.webank.databrain.model.response.dataschema.UpdateDataSchemaResponse;
 import com.webank.databrain.model.vo.common.Paging;
 import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
@@ -61,10 +63,10 @@ public class DataSchemaController {
     }
 
     @PostMapping(value = "/querySchemaById")
-    public CommonResponse<DataSchemaDetailWithVisit> querySchemaById( @RequestBody PageQueryDataSchemaRequest request
+    public CommonResponse<QueryDataSchemaByIdResponse> querySchemaById(@RequestBody PageQueryDataSchemaRequest request
     ){
         log.info("querySchemaById schemaId = {}",request.getSchemaId());
-        DataSchemaDetailWithVisit result = schemaService.getDataSchemaById(request.getSchemaId());
+        QueryDataSchemaByIdResponse result = schemaService.getDataSchemaById(request.getSchemaId());
         return CommonResponse.createSuccessResult(result);
     }
 
