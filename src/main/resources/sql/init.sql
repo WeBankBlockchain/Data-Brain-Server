@@ -66,7 +66,6 @@
  CREATE TABLE `t_tag_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `tag_name` varchar(64) NOT NULL DEFAULT '' COMMENT '标签名',
-   `heat` int(32) NOT NULL DEFAULT 0 COMMENT '热度',
    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`pk_id`),
@@ -78,7 +77,6 @@
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `data_schema_gid` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录全局id',
    `data_schema_name` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录名称',
-   `tag_id` bigint(20) unsigned NOT NULL DEFAULT '' COMMENT '标签',
    `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` bigint(20) unsigned NOT NULL COMMENT '产品ID',--chatgpt建议外键采用pkid，因为和具体的did字段解藕了--
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
@@ -91,6 +89,17 @@
    PRIMARY KEY (`pk_id`),
    UNIQUE KEY (`data_schema_gid`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 数据目录-标签关系表 --
+ CREATE TABLE `t_data_schema_tags` (
+   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+   `data_schema_id`  bigint(20) unsigned NOT NULL COMMENT '数据目录id',
+   `tag_id`  bigint(20) unsigned NOT NULL COMMENT '标签id',
+   PRIMARY KEY (`pk_id`),
+   KEY (`data_schema_id`),
+   KEY (`tag_id`),
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- 数据目录访问详情--
  CREATE TABLE `t_data_schema_access_info` (
