@@ -78,7 +78,7 @@
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `data_schema_gid` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录全局id',
    `data_schema_name` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录名称',
-   `tag_id` varchar(64) NOT NULL DEFAULT '' COMMENT '标签',
+   `tag_id` bigint(20) unsigned NOT NULL DEFAULT '' COMMENT '标签',
    `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方id',
    `product_id` bigint(20) unsigned NOT NULL COMMENT '产品ID',--chatgpt建议外键采用pkid，因为和具体的did字段解藕了--
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
