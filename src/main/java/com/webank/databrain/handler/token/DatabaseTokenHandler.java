@@ -2,6 +2,7 @@ package com.webank.databrain.handler.token;
 
 import com.webank.databrain.db.dao.ITokenDAO;
 import com.webank.databrain.handler.token.generator.ITokenGenerator;
+import org.fisco.bcos.sdk.v3.transaction.manager.AssembleTransactionProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
