@@ -49,11 +49,11 @@ public class AccountController {
         return CommonResponse.success(response);
     }
 //
-//    @ApiOperation(value = "账户详情")
-//    @PostMapping("queryAccountById")
-//    public CommonResponse<QueryAccountByIdResponse> queryAccountById(@RequestBody QueryAccountByIdRequest request) {
-//        QueryAccountByIdResponse detail = accountService.getAccountDetail(request.getDid());
-//        return CommonResponse.success(detail);
-//    }
+    @ApiOperation(value = "账户详情")
+    @PostMapping("queryAccountById")
+    public CommonResponse<QueryAccountByIdResponse> queryAccountById(@RequestBody QueryAccountByIdRequest request) {
+        QueryAccountByIdResponse detail = accountService.getAccountDetail(request.getDid());
+        return CommonResponse.success(detail);
+    }
 
 }

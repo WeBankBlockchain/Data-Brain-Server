@@ -26,4 +26,9 @@ public class AccountInfoDAOImpl extends ServiceImpl<AccountInfoMapper, AccountIn
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.listCompany(start, pageSize);
     }
+
+    @Override
+    public List<CompanyJoinAccountDataObject> listHotCompany(int topN) {
+        return baseMapper.listHotCompany(topN);
+    }
 }

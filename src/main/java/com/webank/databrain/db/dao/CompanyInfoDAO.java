@@ -13,4 +13,5 @@ import com.webank.databrain.db.entity.CompanyInfoDataObject;
  */
 public interface CompanyInfoDAO extends IService<CompanyInfoDataObject> {
 
+
 }

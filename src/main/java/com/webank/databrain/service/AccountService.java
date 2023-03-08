@@ -29,6 +29,7 @@ import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.response.account.HotCompaniesResponse;
 import com.webank.databrain.model.response.account.LoginResponse;
 import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.response.account.QueryAccountByIdResponse;
 import com.webank.databrain.model.response.common.PagedResult;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
@@ -156,20 +157,14 @@ public class AccountService {
         String token = tokenHandler.generateToken(accountInfo.getPkId());
         LoginResponse result = new LoginResponse();
         result.setToken(token);
-        result.setDid(accountInfo.getDid());
         return result;
     }
 
     public HotCompaniesResponse listHotOrgs(int topN) {
-                List<CompanyInfoDataObject> companyList = companyInfoDAO
-                .query()
-                .select("account_id","company_name")
-                .orderByDesc("pk_id")
-                .last("limit " + topN )
-                .list();
-        List<IdName> idNames = companyList.stream().map(c->{
+        List<CompanyJoinAccountDataObject> companyInfoDataObjects = accountDAO.listHotCompany(topN);
+        List<IdName> idNames = companyInfoDataObjects.stream().map(c->{
             IdName idName = new IdName();
-            idName.setId(String.valueOf(c.getAccountId()));
+            idName.setId(String.valueOf(c.getDid()));
             idName.setName(c.getCompanyName());
             return idName;
         }).collect(Collectors.toList());
@@ -178,13 +173,10 @@ public class AccountService {
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        QueryWrapper<CompanyInfoDataObject> wrappers = Wrappers.query();
-        wrappers.orderByDesc("pk_id");
-        IPage<CompanyInfoDataObject> paging = companyInfoDAO.page(new Page<>(request.getPageNo(),request.getPageSize()));
-        List<CompanyInfoDataObject> items = paging.getRecords();
-        List<IdName> outputs = items.stream().map(c->{
+        List<CompanyJoinAccountDataObject> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
+        List<IdName> outputs = companyInfoDataObjects.stream().map(c->{
             IdName idName = new IdName();
-            idName.setId(String.valueOf(c.getAccountId()));
+            idName.setId(String.valueOf(c.getDid()));
             idName.setName(c.getCompanyName());
             return idName;
         }).collect(Collectors.toList());
@@ -201,6 +193,31 @@ public class AccountService {
 //        }
 //        return accountDO.getPrivateKey();
 //    }
+
+    public QueryAccountByIdResponse getAccountDetail(String did) {
+        return null;
+//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+//        AccountDO accountDO = accountDAO.getOne(Wdid);
+//        if (accountDO == null){
+//            throw new DataBrainException(ErrorEnums.AccountNotExists);
+//        }
+//        Object detail = null;
+//        if (accountDO.getAccountType() == AccountType.Personal){
+//            detail = this.getNormalUserDetail(did);
+//        }
+//        else if(accountDO.getAccountType() == AccountType.Enterprise){
+//            detail = this.getOrgDetail(did);
+//        }
+//
+//        QueryAccountByIdResponse ret = new QueryAccountByIdResponse();
+//        ret.setDid(did);
+//        ret.setAddress(cryptoSuite.loadKeyPair(accountDO.getPrivateKey()).getAddress());
+//        ret.setType(accountDO.getAccountType().name());
+//        ret.setReviewStatus(accountDO.getReviewStatus().name());
+//        ret.setDetail(detail);
+//
+//        return ret;
+    }
 //
 //
 //    public void auditAccount(String username, boolean agree) throws Exception{
@@ -222,27 +239,7 @@ public class AccountService {
 //
 //
 //    public QueryAccountByIdResponse getAccountDetail(String did){
-//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-//        AccountDO accountDO = accountDAO.getAccountByDid(did);
-//        if (accountDO == null){
-//            throw new DataBrainException(ErrorEnums.AccountNotExists);
-//        }
-//        Object detail = null;
-//        if (accountDO.getAccountType() == AccountType.Personal){
-//            detail = this.getNormalUserDetail(did);
-//        }
-//        else if(accountDO.getAccountType() == AccountType.Enterprise){
-//            detail = this.getOrgDetail(did);
-//        }
-//
-//        QueryAccountByIdResponse ret = new QueryAccountByIdResponse();
-//        ret.setDid(did);
-//        ret.setAddress(cryptoSuite.loadKeyPair(accountDO.getPrivateKey()).getAddress());
-//        ret.setType(accountDO.getAccountType().name());
-//        ret.setReviewStatus(accountDO.getReviewStatus().name());
-//        ret.setDetail(detail);
-//
-//        return ret;
+
 //    }
 //
 //    public CompanyDetail getOrgDetail(String did){

@@ -17,4 +17,6 @@ import java.util.List;
 public interface AccountInfoDAO extends IService<AccountInfoDataObject> {
 
     List<CompanyJoinAccountDataObject> listCompany(int pageNo, int pageSize);
+
+    List<CompanyJoinAccountDataObject> listHotCompany(int topN);
 }
