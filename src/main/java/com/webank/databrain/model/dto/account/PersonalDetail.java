@@ -4,7 +4,7 @@ import lombok.Data;
 
 //{\"name\":\"aaa\",\"contact\":\"bbb\",\"email\":\"ddd\",\"certType\":\"eee\",\"certNum\":\"fff\"}
 @Data
-public class NormalUserDetail {
+public class PersonalDetail {
 
     private String name;
 
@@ -12,7 +12,7 @@ public class NormalUserDetail {
 
     private String email;
 
-    private String certType;
+    private int certType;
 
     private String certNum;
 

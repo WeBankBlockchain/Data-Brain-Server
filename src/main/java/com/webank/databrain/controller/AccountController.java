@@ -28,32 +28,32 @@ public class AccountController {
         return CommonResponse.success(new RegisterResponse(did));
     }
 
-    @ApiOperation(value = "登陆")
-    @PostMapping("login")
-    public CommonResponse<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse result = accountService.login(request);
-        return CommonResponse.success(result);
-    }
-
-    @ApiOperation(value = "热门公司")
-    @PostMapping("getHotCompanies")
-    public CommonResponse<HotCompaniesResponse> getHotCompanies(@RequestBody HotCompaniesRequest request) {
-        HotCompaniesResponse hotCompaniesResponse = accountService.listHotOrgs(request.getTopN());
-        return CommonResponse.success(hotCompaniesResponse);
-    }
+//    @ApiOperation(value = "登陆")
+//    @PostMapping("login")
+//    public CommonResponse<LoginResponse> login(@RequestBody LoginRequest request) {
+//        LoginResponse result = accountService.login(request);
+//        return CommonResponse.success(result);
+//    }
 //
-    @ApiOperation(value = "公司列表")
-    @PostMapping("/pageQueryCompany")
-    public CommonResponse<PageQueryCompanyResponse> pageQueryCompany(@RequestBody PageQueryCompanyRequest request) {
-        PageQueryCompanyResponse response = accountService.listOrgsByPage(request);
-        return CommonResponse.success(response);
-    }
-//
-    @ApiOperation(value = "账户详情")
-    @PostMapping("queryAccountById")
-    public CommonResponse<QueryAccountByIdResponse> queryAccountById(@RequestBody QueryAccountByIdRequest request) {
-        QueryAccountByIdResponse detail = accountService.getAccountDetail(request.getDid());
-        return CommonResponse.success(detail);
-    }
+//    @ApiOperation(value = "热门公司")
+//    @PostMapping("getHotCompanies")
+//    public CommonResponse<HotCompaniesResponse> getHotCompanies(@RequestBody HotCompaniesRequest request) {
+//        HotCompaniesResponse hotCompaniesResponse = accountService.listHotOrgs(request.getTopN());
+//        return CommonResponse.success(hotCompaniesResponse);
+//    }
+////
+//    @ApiOperation(value = "公司列表")
+//    @PostMapping("/pageQueryCompany")
+//    public CommonResponse<PageQueryCompanyResponse> pageQueryCompany(@RequestBody PageQueryCompanyRequest request) {
+//        PageQueryCompanyResponse response = accountService.listOrgsByPage(request);
+//        return CommonResponse.success(response);
+//    }
+////
+//    @ApiOperation(value = "账户详情")
+//    @PostMapping("queryAccountById")
+//    public CommonResponse<QueryAccountByIdResponse> queryAccountById(@RequestBody QueryAccountByIdRequest request) {
+//        QueryAccountByIdResponse detail = accountService.getAccountDetail(request.getDid());
+//        return CommonResponse.success(detail);
+//    }
 
 }

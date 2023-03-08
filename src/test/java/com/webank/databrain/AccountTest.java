@@ -4,7 +4,7 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.request.account.LoginRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.response.account.LoginResponse;
-import com.webank.databrain.model.dto.account.OrgUserDetail;
+import com.webank.databrain.model.dto.account.CompanyDetail;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
@@ -22,9 +22,9 @@ public class AccountTest extends ServerApplicationTests{
         RegisterRequest request = new RegisterRequest();
         request.setUsername(username);
         request.setPassword(password);
-        request.setAccountType(AccountType.NormalUser);
-        OrgUserDetail orgUserDetail = new OrgUserDetail();
-        orgUserDetail.setOrgName("facebook");
+        request.setAccountType(AccountType.Personal);
+        CompanyDetail orgUserDetail = new CompanyDetail();
+        orgUserDetail.setCompanyName("facebook");
         request.setDetailJson(JsonUtils.toJson(orgUserDetail));
         accountService.registerAccount(request);
     }

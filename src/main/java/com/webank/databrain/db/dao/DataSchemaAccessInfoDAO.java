@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
-import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
 
 /**
  * <p>

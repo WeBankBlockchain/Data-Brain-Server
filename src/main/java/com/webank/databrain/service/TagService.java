@@ -1,6 +1,6 @@
 package com.webank.databrain.service;
 
-import com.webank.databrain.db.dao.ITagDbService;
+//import com.webank.databrain.db.dao.ITagDbService;
 import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.response.tags.HotTagsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,13 @@ import java.util.List;
 @Service
 public class TagService {
 
-    @Autowired
-    private ITagDbService tagDbService;
-
-    public HotTagsResponse listHotTags(int topN) {
-        List<IdName> items = tagDbService.listHotTags(topN);
-        return new HotTagsResponse(items);
-    }
+//    @Autowired
+//    private ITagDbService tagDbService;
+//
+//    public HotTagsResponse listHotTags(int topN) {
+//        List<IdName> items = tagDbService.listHotTags(topN);
+//        return new HotTagsResponse(items);
+//    }
 
 //    public PagingResult<TagSummary> listAllTags(Paging paging) {
 //        return tagDbService.listTagsByPage(paging);

@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/tag")
 public class TagController {
 
-    @Autowired
-    private TagService tagService;
-
-    @PostMapping("getHotTags")
-    public CommonResponse<HotTagsResponse> getHotTags(@RequestBody HotTagsRequest request) {
-        HotTagsResponse hotTags = tagService.listHotTags(request.getTopN());
-        return CommonResponse.success(hotTags);
-    }
+//    @Autowired
+//    private TagService tagService;
+//
+//    @PostMapping("getHotTags")
+//    public CommonResponse<HotTagsResponse> getHotTags(@RequestBody HotTagsRequest request) {
+//        HotTagsResponse hotTags = tagService.listHotTags(request.getTopN());
+//        return CommonResponse.success(hotTags);
+//    }
 }

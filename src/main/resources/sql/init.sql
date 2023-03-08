@@ -45,7 +45,7 @@ show databases;
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `company_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
    `company_name` varchar(255) NOT NULL COMMENT '公司名称',
-   `company_desc` text NOT NULL COMMENT '公司详情',
+   `company_desc` text COMMENT '公司详情',
    `company_cert_type` int(4) NOT NULL DEFAULT 0 comment '法人证件类型',
    `company_cert_file_uri` varchar(255) COMMENT '公司证件图片链接',
    `company_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '公司联系方式',

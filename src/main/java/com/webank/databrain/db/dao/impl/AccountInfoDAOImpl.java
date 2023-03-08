@@ -1,9 +1,9 @@
 package com.webank.databrain.db.dao.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.entity.AccountInfoDataObject;
 import com.webank.databrain.db.mapper.AccountInfoMapper;
-import com.webank.databrain.db.dao.AccountInfoDAO;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
