@@ -2,10 +2,12 @@ package com.webank.databrain;
 
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.request.account.LoginRequest;
+import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.dto.account.CompanyDetailInput;
 import com.webank.databrain.model.response.account.HotCompaniesResponse;
 import com.webank.databrain.model.response.account.LoginResponse;
+import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
@@ -64,6 +66,16 @@ public class AccountTest extends ServerApplicationTests{
     @Test
     public void testHotCompanies() throws Exception{
         HotCompaniesResponse response = accountService.listHotOrgs(5);
+        System.out.println(JsonUtils.toJson(response));
+
+    }
+
+    @Test
+    public void testListCompanyByPage() throws Exception{
+        PageQueryCompanyRequest request = new PageQueryCompanyRequest();
+        request.setPageNo(1);
+        request.setPageSize(2);
+        PageQueryCompanyResponse response = accountService.listCompanyByPage(request);
         System.out.println(JsonUtils.toJson(response));
 
     }

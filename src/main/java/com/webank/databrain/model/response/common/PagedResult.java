@@ -19,10 +19,10 @@ public class PagedResult<T> {
     //number of items in this page
     private long pageSize;
 
-    //the total number of items available across all pages
-    private long totalItems;
-
-    //the total number of pages available
-    private long totalPages;
+//    //the total number of items available across all pages
+//    private long totalItems;
+//
+//    //the total number of pages available
+//    private long totalPages;
 
 }

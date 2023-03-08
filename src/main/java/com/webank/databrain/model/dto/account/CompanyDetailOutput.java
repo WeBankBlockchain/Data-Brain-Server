@@ -3,7 +3,8 @@ package com.webank.databrain.model.dto.account;
 import lombok.Data;
 
 @Data
-public class CompanyDetailInput {
+public class CompanyDetailOutput {
+    private String did;
 
     private String companyName;
 
@@ -14,5 +15,4 @@ public class CompanyDetailInput {
     private String contact;
 
     private int certType;
-
 }

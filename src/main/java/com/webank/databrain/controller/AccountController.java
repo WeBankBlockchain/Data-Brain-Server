@@ -41,14 +41,14 @@ public class AccountController {
         HotCompaniesResponse hotCompaniesResponse = accountService.listHotOrgs(request.getTopN());
         return CommonResponse.success(hotCompaniesResponse);
     }
-////
-//    @ApiOperation(value = "公司列表")
-//    @PostMapping("/pageQueryCompany")
-//    public CommonResponse<PageQueryCompanyResponse> pageQueryCompany(@RequestBody PageQueryCompanyRequest request) {
-//        PageQueryCompanyResponse response = accountService.listOrgsByPage(request);
-//        return CommonResponse.success(response);
-//    }
-////
+//
+    @ApiOperation(value = "公司列表")
+    @PostMapping("/pageQueryCompany")
+    public CommonResponse<PageQueryCompanyResponse> pageQueryCompany(@RequestBody PageQueryCompanyRequest request) {
+        PageQueryCompanyResponse response = accountService.listCompanyByPage(request);
+        return CommonResponse.success(response);
+    }
+//
 //    @ApiOperation(value = "账户详情")
 //    @PostMapping("queryAccountById")
 //    public CommonResponse<QueryAccountByIdResponse> queryAccountById(@RequestBody QueryAccountByIdRequest request) {

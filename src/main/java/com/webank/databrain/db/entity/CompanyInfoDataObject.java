@@ -66,6 +66,7 @@ public class CompanyInfoDataObject implements Serializable {
     @TableField("company_contact")
     private String companyContact;
 
+
     @TableField("create_time")
     private Date createTime;
 

@@ -1,6 +1,9 @@
 package com.webank.databrain.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
@@ -8,6 +11,7 @@ import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
 import com.webank.databrain.db.entity.AccountInfoDataObject;
 import com.webank.databrain.db.entity.CompanyInfoDataObject;
+import com.webank.databrain.db.entity.CompanyJoinAccountDataObject;
 import com.webank.databrain.db.entity.PersonInfoDataObject;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
@@ -16,13 +20,16 @@ import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.dto.account.CompanyDetailInput;
+import com.webank.databrain.model.dto.account.CompanyDetailOutput;
 import com.webank.databrain.model.dto.account.PersonalDetailInput;
 import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.request.account.LoginRequest;
+import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.response.account.HotCompaniesResponse;
 import com.webank.databrain.model.response.account.LoginResponse;
-import com.webank.databrain.model.response.product.HotProductsResponse;
+import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.response.common.PagedResult;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +45,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.Id;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -171,12 +177,22 @@ public class AccountService {
         return response;
     }
 
-//    public PageQueryCompanyResponse listOrgsByPage(PageQueryCompanyRequest request) {
-//        Paging paging = new Paging(request.getPageNo(), request.getPageSize());
-//        PagedResult<IdName> pagingResult = orgDAO.listOrgsByPage(paging);
-//
-//        return new PageQueryCompanyResponse(pagingResult);
-//    }
+    public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
+        QueryWrapper<CompanyInfoDataObject> wrappers = Wrappers.query();
+        wrappers.orderByDesc("pk_id");
+        IPage<CompanyInfoDataObject> paging = companyInfoDAO.page(new Page<>(request.getPageNo(),request.getPageSize()));
+        List<CompanyInfoDataObject> items = paging.getRecords();
+        List<IdName> outputs = items.stream().map(c->{
+            IdName idName = new IdName();
+            idName.setId(String.valueOf(c.getAccountId()));
+            idName.setName(c.getCompanyName());
+            return idName;
+        }).collect(Collectors.toList());
+        return new PageQueryCompanyResponse(new PagedResult<>(
+                outputs,
+                request.getPageNo(),
+                request.getPageSize()));
+    }
 //
 //    public String getPrivateKey(String did) {
 //        AccountDO accountDO =  accountDAO.getAccountByDid(did);

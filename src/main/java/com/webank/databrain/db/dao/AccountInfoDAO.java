@@ -2,6 +2,9 @@ package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.db.entity.AccountInfoDataObject;
+import com.webank.databrain.db.entity.CompanyJoinAccountDataObject;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.webank.databrain.db.entity.AccountInfoDataObject;
  */
 public interface AccountInfoDAO extends IService<AccountInfoDataObject> {
 
+    List<CompanyJoinAccountDataObject> listCompany(int pageNo, int pageSize);
 }
