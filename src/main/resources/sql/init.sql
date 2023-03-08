@@ -131,7 +131,7 @@ show databases;
     `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'token',
     `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
-    `expiredAt` timestamp NOT NULL COMMENT '过期时间',
+    `expired_at` timestamp NOT NULL COMMENT '过期时间',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`pk_id`),

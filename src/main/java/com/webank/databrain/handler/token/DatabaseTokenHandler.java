@@ -1,22 +1,32 @@
 package com.webank.databrain.handler.token;
 
 
+import com.webank.databrain.config.SysConfig;
+import com.webank.databrain.db.dao.SessionInfoDAO;
+import com.webank.databrain.db.entity.SessionInfoDataObject;
 import com.webank.databrain.handler.token.generator.ITokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class DatabaseTokenHandler implements ITokenHandler{
-
+    @Autowired
+    private SysConfig sysConfig;
     @Autowired
     private ITokenGenerator tokenGenerator;
 
-//    @Autowired
-//    private ITokenDAO tokenDAO;
+    @Autowired
+    private SessionInfoDAO sessionInfoDAO;
     @Override
-    public String generateToken(String did) {
+    public String generateToken(long accountPkId) {
         String token = tokenGenerator.generateToken();
-//        tokenDAO.upsert(token,  did);
+        SessionInfoDataObject dataObject = new SessionInfoDataObject();
+        dataObject.setToken(token);
+        dataObject.setAccountId(accountPkId);
+        dataObject.setExpiredAt(LocalDateTime.now().plusMinutes(sysConfig.getLoginConfig().getTokenExpireMinutes()));
+        sessionInfoDAO.replace(dataObject);
         return token;
     }
 

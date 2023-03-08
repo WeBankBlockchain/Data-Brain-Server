@@ -12,5 +12,5 @@ import com.webank.databrain.db.entity.SessionInfoDataObject;
  * @since 2023-03-08
  */
 public interface SessionInfoDAO extends IService<SessionInfoDataObject> {
-
+    void replace(SessionInfoDataObject dataObject);
 }

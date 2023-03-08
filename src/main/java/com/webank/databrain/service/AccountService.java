@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
@@ -10,11 +11,15 @@ import com.webank.databrain.db.entity.CompanyInfoDataObject;
 import com.webank.databrain.db.entity.PersonInfoDataObject;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
+import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.dto.account.CompanyDetailInput;
 import com.webank.databrain.model.dto.account.PersonalDetailInput;
+import com.webank.databrain.model.request.account.LoginRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.response.account.LoginResponse;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -120,26 +126,27 @@ public class AccountService {
         return did;
     }
 
-//
-//    public LoginResponse login(LoginRequest loginRequest) {
-//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-//        String username = loginRequest.getUsername();
-//        String password = loginRequest.getPassword();
-//        AccountDO accountDO = accountDAO.getAccountByName(username);
-//        if (accountDO == null){
-//            throw new DataBrainException(ErrorEnums.InvalidCredential);
-//        }
-//        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountDO.getSalt());
-//        if (!Objects.equals(pwdHash, accountDO.getPwdhash())) {
-//            throw new DataBrainException(ErrorEnums.InvalidCredential);
-//
-//        }
-//        LoginResponse result = new LoginResponse();
-//        result.setToken(tokenHandler.generateToken(accountDO.getDid()));
-//        result.setDid(accountDO.getDid());
-//        return result;
-//    }
-//
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+        AccountInfoDataObject accountInfo = accountDAO.getOne(Wrappers.<AccountInfoDataObject>query().eq("username", username), false);
+        if (accountInfo == null){
+            throw new DataBrainException(ErrorEnums.InvalidCredential);
+        }
+        String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountInfo.getSalt());
+        if (!Objects.equals(pwdHash, accountInfo.getPwdhash())) {
+            throw new DataBrainException(ErrorEnums.InvalidCredential);
+
+        }
+        String token = tokenHandler.generateToken(accountInfo.getPkId());
+        LoginResponse result = new LoginResponse();
+        result.setToken(token);
+        result.setDid(accountInfo.getDid());
+        return result;
+    }
+
 //    public HotCompaniesResponse listHotOrgs(int topN) {
 //        return new HotCompaniesResponse(orgDAO.listHotOrgs(topN));
 //    }

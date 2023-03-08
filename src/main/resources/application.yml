@@ -20,7 +20,7 @@ system:
         product-contract: "0xb3aa7a6f43eb2cb0cf2099f4f5e170efc63ee1d0"
         dataSchema-contract: "0xe7d7b002e51431b300ddc00b2c059ccc41ce4660"
     loginConfig:
-        token-expire-minutes: 30
+        token-expire-minutes: 2880
     fileConfig:
         file-dir: "tmp"
 swagger:

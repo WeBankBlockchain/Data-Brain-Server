@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionInfoDAOImpl extends ServiceImpl<SessionInfoMapper, SessionInfoDataObject> implements SessionInfoDAO {
 
+    @Override
+    public void replace(SessionInfoDataObject dataObject) {
+        baseMapper.replace(dataObject);
+    }
 }

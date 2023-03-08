@@ -28,13 +28,13 @@ public class AccountController {
         return CommonResponse.success(new RegisterResponse(did));
     }
 
-//    @ApiOperation(value = "登陆")
-//    @PostMapping("login")
-//    public CommonResponse<LoginResponse> login(@RequestBody LoginRequest request) {
-//        LoginResponse result = accountService.login(request);
-//        return CommonResponse.success(result);
-//    }
-//
+    @ApiOperation(value = "登陆")
+    @PostMapping("login")
+    public CommonResponse<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse result = accountService.login(request);
+        return CommonResponse.success(result);
+    }
+
 //    @ApiOperation(value = "热门公司")
 //    @PostMapping("getHotCompanies")
 //    public CommonResponse<HotCompaniesResponse> getHotCompanies(@RequestBody HotCompaniesRequest request) {

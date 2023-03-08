@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -45,14 +46,14 @@ public class SessionInfoDataObject implements Serializable {
     /**
      * 过期时间
      */
-    @TableField("expiredAt")
-    private Date expiredAt;
+    @TableField("expired_at")
+    private LocalDateTime expiredAt;
 
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 
 }
