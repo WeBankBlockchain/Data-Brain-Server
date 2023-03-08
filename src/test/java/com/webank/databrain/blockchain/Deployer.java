@@ -5,6 +5,7 @@ import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 
+//部署智能合约
 public class Deployer {
 
     public static void main(String[] args) throws Exception{

@@ -5,7 +5,7 @@ server:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://116.205.167.248:3306/databrain?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+        url: jdbc:mysql://116.205.167.248:3306/databrain2?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
         username: test
         password: Aa12345!
 
@@ -25,3 +25,4 @@ system:
         file-dir: "tmp"
 swagger:
     enabled: true
+

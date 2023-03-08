@@ -12,8 +12,8 @@ import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.dto.account.CompanyDetail;
-import com.webank.databrain.model.dto.account.PersonalDetail;
+import com.webank.databrain.model.dto.account.CompanyDetailInput;
+import com.webank.databrain.model.dto.account.PersonalDetailInput;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
@@ -95,7 +95,7 @@ public class AccountService {
         accountDAO.save(accountInfoDataObject);
         long accountPkId = accountInfoDataObject.getPkId();
         if (accountType == AccountType.Personal.ordinal()) {
-            PersonalDetail personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetail.class);
+            PersonalDetailInput personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetailInput.class);
             PersonInfoDataObject personInfoDataObject = new PersonInfoDataObject();
             personInfoDataObject.setPersonCertNo(personalDetail.getCertNum());
             personInfoDataObject.setPersonContact(personalDetail.getContact());
@@ -105,8 +105,8 @@ public class AccountService {
             personInfoDataObject.setPersonCertType(personalDetail.getCertType());
 
             personInfoDAO.save(personInfoDataObject);
-        } else if (accountType == AccountType.Enterprise.ordinal()) {
-            CompanyDetail companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetail.class);
+        } else if (accountType == AccountType.Company.ordinal()) {
+            CompanyDetailInput companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetailInput.class);
             CompanyInfoDataObject companyInfoDataObject = new CompanyInfoDataObject();
             companyInfoDataObject.setCompanyContact(companyDetail.getContact());
             companyInfoDataObject.setCompanyName(companyDetail.getCompanyName());

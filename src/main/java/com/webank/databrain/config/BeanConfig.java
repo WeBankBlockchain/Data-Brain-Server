@@ -1,5 +1,6 @@
 package com.webank.databrain.config;
 
+import com.webank.databrain.blockchain.AccountModule;
 import org.fisco.bcos.sdk.v3.BcosSDK;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -9,6 +10,8 @@ import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 public class BeanConfig {

@@ -25,8 +25,8 @@ public class MybatisPlusConfig {
         /* 数据源 */
         sqlSessionFactory.setDataSource(dataSource);
         /* xml扫描 */
-        sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources("classpath:/mapper/*.xml"));
+//        sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
+//                .getResources("classpath:/mapper/*.xml"));
 
         sqlSessionFactory.setGlobalConfig(globalConfig);
 

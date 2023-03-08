@@ -1,43 +1,8 @@
 package com.webank.databrain.service;
 
-import cn.hutool.core.codec.Base64;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.webank.databrain.blockchain.ProductModule;
-import com.webank.databrain.config.SysConfig;
 //import com.webank.databrain.db.dao.IProductService;
 //import com.webank.databrain.db.entity.ProductDataObject;
-import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
-import com.webank.databrain.model.dto.account.CompanyDetail;
-import com.webank.databrain.model.dto.common.IdName;
-import com.webank.databrain.model.dto.common.Paging;
-import com.webank.databrain.model.dto.product.ProductDetail;
-import com.webank.databrain.model.request.product.CreateProductRequest;
-import com.webank.databrain.model.request.product.UpdateProductRequest;
-import com.webank.databrain.model.response.common.PagedResult;
-import com.webank.databrain.model.response.product.CreateProductResponse;
-import com.webank.databrain.model.response.product.HotProductsResponse;
-import com.webank.databrain.model.response.product.PageQueryProductResponse;
-import com.webank.databrain.model.response.product.UpdateProductResponse;
-import com.webank.databrain.utils.BlockchainUtils;
-import com.webank.databrain.utils.SessionUtils;
-import org.fisco.bcos.sdk.v3.client.Client;
-import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
-import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
-import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
-import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
-import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
-import org.fisco.bcos.sdk.v3.utils.ByteUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ProductService {
