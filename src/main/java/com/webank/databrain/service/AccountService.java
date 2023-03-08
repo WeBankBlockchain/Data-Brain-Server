@@ -17,9 +17,12 @@ import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.dto.account.CompanyDetailInput;
 import com.webank.databrain.model.dto.account.PersonalDetailInput;
+import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.request.account.LoginRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
+import com.webank.databrain.model.response.account.HotCompaniesResponse;
 import com.webank.databrain.model.response.account.LoginResponse;
+import com.webank.databrain.model.response.product.HotProductsResponse;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +35,13 @@ import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Id;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -107,7 +114,7 @@ public class AccountService {
             personInfoDataObject.setPersonContact(personalDetail.getContact());
             personInfoDataObject.setPersonEmail(personalDetail.getEmail());
             personInfoDataObject.setPersonName(personalDetail.getName());
-            personInfoDataObject.setPersonId(accountInfoDataObject.getPkId());
+            personInfoDataObject.setAccountId(accountInfoDataObject.getPkId());
             personInfoDataObject.setPersonCertType(personalDetail.getCertType());
 
             personInfoDAO.save(personInfoDataObject);
@@ -117,7 +124,7 @@ public class AccountService {
             companyInfoDataObject.setCompanyContact(companyDetail.getContact());
             companyInfoDataObject.setCompanyName(companyDetail.getCompanyName());
             companyInfoDataObject.setCompanyDesc(companyDetail.getCompanyDesc());
-            companyInfoDataObject.setCompanyId(accountPkId);
+            companyInfoDataObject.setAccountId(accountPkId);
             companyInfoDataObject.setCompanyCertType(companyDetail.getCertType());
             companyInfoDataObject.setCompanyCertFileUri(companyDetail.getLogoUrl());
             companyInfoDAO.save(companyInfoDataObject);
@@ -147,10 +154,23 @@ public class AccountService {
         return result;
     }
 
-//    public HotCompaniesResponse listHotOrgs(int topN) {
-//        return new HotCompaniesResponse(orgDAO.listHotOrgs(topN));
-//    }
-//
+    public HotCompaniesResponse listHotOrgs(int topN) {
+                List<CompanyInfoDataObject> companyList = companyInfoDAO
+                .query()
+                .select("account_id","company_name")
+                .orderByDesc("pk_id")
+                .last("limit " + topN )
+                .list();
+        List<IdName> idNames = companyList.stream().map(c->{
+            IdName idName = new IdName();
+            idName.setId(String.valueOf(c.getAccountId()));
+            idName.setName(c.getCompanyName());
+            return idName;
+        }).collect(Collectors.toList());
+        HotCompaniesResponse response = new HotCompaniesResponse(idNames);
+        return response;
+    }
+
 //    public PageQueryCompanyResponse listOrgsByPage(PageQueryCompanyRequest request) {
 //        Paging paging = new Paging(request.getPageNo(), request.getPageSize());
 //        PagedResult<IdName> pagingResult = orgDAO.listOrgsByPage(paging);

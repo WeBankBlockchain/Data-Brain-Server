@@ -35,12 +35,12 @@ public class AccountController {
         return CommonResponse.success(result);
     }
 
-//    @ApiOperation(value = "热门公司")
-//    @PostMapping("getHotCompanies")
-//    public CommonResponse<HotCompaniesResponse> getHotCompanies(@RequestBody HotCompaniesRequest request) {
-//        HotCompaniesResponse hotCompaniesResponse = accountService.listHotOrgs(request.getTopN());
-//        return CommonResponse.success(hotCompaniesResponse);
-//    }
+    @ApiOperation(value = "热门公司")
+    @PostMapping("getHotCompanies")
+    public CommonResponse<HotCompaniesResponse> getHotCompanies(@RequestBody HotCompaniesRequest request) {
+        HotCompaniesResponse hotCompaniesResponse = accountService.listHotOrgs(request.getTopN());
+        return CommonResponse.success(hotCompaniesResponse);
+    }
 ////
 //    @ApiOperation(value = "公司列表")
 //    @PostMapping("/pageQueryCompany")

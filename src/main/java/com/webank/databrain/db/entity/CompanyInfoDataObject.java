@@ -33,8 +33,8 @@ public class CompanyInfoDataObject implements Serializable {
     /**
      * 账户外键ID
      */
-    @TableField("company_id")
-    private Long companyId;
+    @TableField("account_id")
+    private Long accountId;
 
     /**
      * 公司名称

@@ -33,8 +33,8 @@ public class PersonInfoDataObject implements Serializable {
     /**
      * 账户外键ID
      */
-    @TableField("person_id")
-    private Long personId;
+    @TableField("account_id")
+    private Long accountId;
 
     /**
      * 姓名
