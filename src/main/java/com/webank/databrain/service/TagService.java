@@ -1,8 +1,8 @@
 package com.webank.databrain.service;
 
 import com.webank.databrain.db.dao.ITagDbService;
-import com.webank.databrain.model.response.tags.HotTagsResponse;
 import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.response.tags.HotTagsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

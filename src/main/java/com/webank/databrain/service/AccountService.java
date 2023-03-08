@@ -12,20 +12,21 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
+import com.webank.databrain.model.domain.account.AccountDO;
+import com.webank.databrain.model.dto.account.NormalUserDetail;
+import com.webank.databrain.model.dto.account.OrgUserDetail;
 import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.dto.common.Paging;
-import com.webank.databrain.model.domain.account.AccountDO;
-import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.request.account.LoginRequest;
+import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.request.account.RegisterRequest;
 import com.webank.databrain.model.response.account.HotCompaniesResponse;
 import com.webank.databrain.model.response.account.LoginResponse;
 import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
 import com.webank.databrain.model.response.account.QueryAccountByIdResponse;
 import com.webank.databrain.model.response.common.PagedResult;
-import com.webank.databrain.model.dto.account.NormalUserDetail;
-import com.webank.databrain.model.dto.account.OrgUserDetail;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class AccountService {
     private Client client;
 
     @Autowired
-    private CryptoSuite cryptoSuite;
+    private ThreadLocalKeyPairHandler keyPairHandler;
 
     @Autowired
     private CryptoKeyPair witnessKeyPair;
@@ -78,6 +79,7 @@ public class AccountService {
     @Transactional
     public String registerAccount(RegisterRequest request) throws Exception{
         //Generation private key
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
         //Save to blockchain
         AccountModule accountContract = AccountModule.load(
@@ -109,6 +111,7 @@ public class AccountService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
         AccountDO accountDO = accountDAO.getAccountByName(username);
@@ -165,6 +168,7 @@ public class AccountService {
 
 
     public QueryAccountByIdResponse getAccountDetail(String did){
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         AccountDO accountDO = accountDAO.getAccountByDid(did);
         if (accountDO == null){
             throw new DataBrainException(ErrorEnums.AccountNotExists);

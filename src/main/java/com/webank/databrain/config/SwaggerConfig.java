@@ -14,8 +14,6 @@
 
 package com.webank.databrain.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,18 +23,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-//import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ListVendorExtension;
 import springfox.documentation.service.VendorExtension;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.DocExpansion;
-import springfox.documentation.swagger.web.ModelRendering;
-import springfox.documentation.swagger.web.TagsSorter;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger.web.UiConfigurationBuilder;
+import springfox.documentation.swagger.web.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Configuration

@@ -2,7 +2,6 @@ package com.webank.databrain.service;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.HashUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
 import com.webank.databrain.config.SysConfig;

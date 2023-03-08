@@ -1,9 +1,9 @@
 package com.webank.databrain.db.dao.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.webank.databrain.db.dao.IOrgInfoDbService;
 import com.webank.databrain.db.entity.OrgInfoDataObject;
 import com.webank.databrain.db.mapper.OrgInfoMapper;
-import com.webank.databrain.db.dao.IOrgInfoDbService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.model.dto.account.OrgUserDetail;
 import com.webank.databrain.model.dto.common.IdName;
 import com.webank.databrain.model.dto.common.Paging;

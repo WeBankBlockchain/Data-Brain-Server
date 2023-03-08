@@ -1,7 +1,7 @@
 package com.webank.databrain.db.mapper;
 
-import com.webank.databrain.db.entity.ProductDataObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.webank.databrain.db.entity.ProductDataObject;
 
 /**
  * <p>

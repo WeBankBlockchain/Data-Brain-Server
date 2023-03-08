@@ -1,7 +1,6 @@
 package com.webank.databrain.db.mapper;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public interface TokenMapper {
 

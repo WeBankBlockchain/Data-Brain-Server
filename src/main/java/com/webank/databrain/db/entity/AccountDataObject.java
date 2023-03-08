@@ -2,28 +2,23 @@ package com.webank.databrain.db.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Id;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author lt
  * @since 2023-02-22
  */
 @Data
-@TableName(value = "account")
+@TableName(value = "t_account_info")
 @EqualsAndHashCode(callSuper = false)
 public class AccountDataObject implements Serializable {
 

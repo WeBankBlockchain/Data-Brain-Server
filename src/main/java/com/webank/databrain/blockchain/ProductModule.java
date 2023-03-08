@@ -1,19 +1,8 @@
 package com.webank.databrain.blockchain;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.codec.abi.FunctionEncoder;
-import org.fisco.bcos.sdk.v3.codec.datatypes.Address;
-import org.fisco.bcos.sdk.v3.codec.datatypes.Bool;
-import org.fisco.bcos.sdk.v3.codec.datatypes.DynamicBytes;
-import org.fisco.bcos.sdk.v3.codec.datatypes.Event;
-import org.fisco.bcos.sdk.v3.codec.datatypes.Function;
-import org.fisco.bcos.sdk.v3.codec.datatypes.Type;
-import org.fisco.bcos.sdk.v3.codec.datatypes.TypeReference;
+import org.fisco.bcos.sdk.v3.codec.datatypes.*;
 import org.fisco.bcos.sdk.v3.codec.datatypes.generated.Bytes32;
 import org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint256;
 import org.fisco.bcos.sdk.v3.codec.datatypes.generated.Uint8;
@@ -27,6 +16,12 @@ import org.fisco.bcos.sdk.v3.model.CryptoType;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.model.callback.TransactionCallback;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.ContractException;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class ProductModule extends Contract {

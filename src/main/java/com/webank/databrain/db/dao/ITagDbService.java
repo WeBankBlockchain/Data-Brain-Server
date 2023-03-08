@@ -1,10 +1,8 @@
 package com.webank.databrain.db.dao;
 
-import com.webank.databrain.db.entity.TagDataObject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.webank.databrain.db.entity.TagDataObject;
 import com.webank.databrain.model.dto.common.IdName;
-import com.webank.databrain.model.dto.common.Paging;
-import com.webank.databrain.model.tag.TagSummary;
 
 import java.util.List;
 
@@ -20,5 +18,5 @@ public interface ITagDbService extends IService<TagDataObject> {
 
     List<IdName> listHotTags(int topN);
 
-    PagingResult<TagSummary> listTagsByPage(Paging paging);
+//    PagingResult<TagSummary> listTagsByPage(Paging paging);
 }
