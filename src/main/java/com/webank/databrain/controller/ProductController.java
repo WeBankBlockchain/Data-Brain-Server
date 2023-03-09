@@ -1,7 +1,7 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.model.dto.product.ProductDetail;
+import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.model.req.product.*;
 import com.webank.databrain.model.resp.CommonResponse;
 import com.webank.databrain.model.resp.Paging;

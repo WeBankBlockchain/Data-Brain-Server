@@ -1,19 +1,13 @@
 package com.webank.databrain.service;
 
 import cn.hutool.core.codec.Base64;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
 import com.webank.databrain.blockchain.ProductModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
-import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.model.bo.ProductInfoBO;
-import com.webank.databrain.model.dto.product.ProductDetail;
+import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.model.po.ProductInfoPO;
 import com.webank.databrain.model.req.product.CreateProductRequest;
 import com.webank.databrain.model.req.product.UpdateProductRequest;
