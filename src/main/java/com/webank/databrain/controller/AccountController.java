@@ -1,13 +1,17 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.model.req.account.HotCompaniesRequest;
-import com.webank.databrain.model.req.account.LoginRequest;
+import com.webank.databrain.model.req.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.req.account.QueryAccountByNameRequest;
 import com.webank.databrain.model.req.account.RegisterRequest;
-import com.webank.databrain.model.req.account.*;
-import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.model.resp.CommonResponse;
+import com.webank.databrain.model.resp.account.HotCompaniesResponse;
+import com.webank.databrain.model.resp.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.resp.account.QueryAccountByUserNameResponse;
 import com.webank.databrain.model.resp.account.RegisterResponse;
 import com.webank.databrain.service.AccountService;
+import com.webank.databrain.service.AccountService1;
+import com.webank.databrain.vo.request.LoginRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/account")
 @Slf4j
@@ -23,6 +29,8 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private AccountService1 accountService1;
 
     @ApiOperation(value = "注册")
     @PostMapping("register")
@@ -32,9 +40,8 @@ public class AccountController {
 
     @ApiOperation(value = "登陆")
     @PostMapping("login")
-    public CommonResponse<LoginResponse> login(@RequestBody LoginRequest request) {
-        LoginResponse result = accountService.login(request);
-        return CommonResponse.success(result);
+    public com.webank.databrain.vo.common.CommonResponse login(@RequestBody @Valid LoginRequest request) {
+        return accountService1.login(request);
     }
 
     @ApiOperation(value = "热门公司")

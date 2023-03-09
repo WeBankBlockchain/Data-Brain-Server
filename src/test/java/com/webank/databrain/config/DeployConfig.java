@@ -1,18 +1,15 @@
 package com.webank.databrain.config;
 
-import com.webank.databrain.blockchain.AccountModule;
-import com.webank.databrain.blockchain.DataSchemaModule;
-import com.webank.databrain.blockchain.ProductModule;
+import com.webank.databrain.contracts.AccountModule;
+import com.webank.databrain.contracts.DataSchemaModule;
+import com.webank.databrain.contracts.ProductModule;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Component
 @Slf4j

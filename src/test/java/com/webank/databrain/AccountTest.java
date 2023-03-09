@@ -20,7 +20,7 @@ public class AccountTest extends ServerApplicationTests{
     private AccountService accountService;
     @Test
     public void testPersonalUserRegister() throws Exception{
-        String username = "personalUser0001";
+        String username = "personalUser0002";
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUsername(username);

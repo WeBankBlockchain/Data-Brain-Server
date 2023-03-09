@@ -1,7 +1,7 @@
 package com.webank.databrain.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.webank.databrain.blockchain.AccountModule;
+import com.webank.databrain.contracts.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
@@ -14,7 +14,7 @@ import com.webank.databrain.model.po.PersonInfoPO;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.req.account.CompanyDetailInput;
@@ -34,8 +34,8 @@ import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterfac
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;

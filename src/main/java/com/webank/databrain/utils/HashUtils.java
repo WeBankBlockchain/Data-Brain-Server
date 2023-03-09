@@ -1,7 +1,7 @@
 package com.webank.databrain.utils;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.exception.DataBrainException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.security.MessageDigest;

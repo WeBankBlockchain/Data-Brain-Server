@@ -1,4 +1,4 @@
-package com.webank.databrain.blockchain;
+package com.webank.databrain.dao.bc.contract;
 
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.codec.datatypes.*;
@@ -98,11 +98,11 @@ public class IAccountModule extends Contract {
         return responses;
     }
 
-    public IAccountModule.AccountData getAccountByAddress(String addr) throws ContractException {
+    public AccountData getAccountByAddress(String addr) throws ContractException {
         final Function function = new Function(FUNC_GETACCOUNTBYADDRESS, 
                 Arrays.<Type>asList(new Address(addr)),
-                Arrays.<TypeReference<?>>asList(new TypeReference<IAccountModule.AccountData>() {}));
-        return executeCallWithSingleValueReturn(function, IAccountModule.AccountData.class);
+                Arrays.<TypeReference<?>>asList(new TypeReference<AccountData>() {}));
+        return executeCallWithSingleValueReturn(function, AccountData.class);
     }
 
     public static IAccountModule load(String contractAddress, Client client,

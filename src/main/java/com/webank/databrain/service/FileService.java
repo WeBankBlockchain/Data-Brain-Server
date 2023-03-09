@@ -6,7 +6,7 @@ import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.utils.HashUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;

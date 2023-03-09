@@ -1,4 +1,4 @@
-package com.webank.databrain.blockchain;
+package com.webank.databrain.contracts;
 
 import org.fisco.bcos.sdk.v3.BcosSDK;
 import org.fisco.bcos.sdk.v3.client.Client;

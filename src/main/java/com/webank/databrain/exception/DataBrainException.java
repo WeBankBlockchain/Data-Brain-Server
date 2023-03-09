@@ -1,4 +1,4 @@
-package com.webank.databrain.error;
+package com.webank.databrain.exception;
 
 import com.webank.databrain.enums.ErrorEnums;
 import lombok.Getter;

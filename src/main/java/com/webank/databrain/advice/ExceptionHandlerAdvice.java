@@ -1,16 +1,29 @@
 package com.webank.databrain.advice;
 
+import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.error.DataBrainException;
+import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.model.resp.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class ExceptionHandlerAdvice {
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseBody
+    public com.webank.databrain.vo.common.CommonResponse handleMethodArgumentNotValidException(HttpServletRequest req, Exception e){
+        MethodArgumentNotValidException exception = (MethodArgumentNotValidException)e;
+        FieldError fe = exception.getFieldError();
+        String debugRtnMsg = CodeEnum.PARAMETER_ERROR.getMsg() + ":" + fe.getDefaultMessage();
+        return com.webank.databrain.vo.common.CommonResponse.error(CodeEnum.PARAMETER_ERROR.getCode(), debugRtnMsg);
+    }
 
     @ExceptionHandler(DataBrainException.class)
     @ResponseBody

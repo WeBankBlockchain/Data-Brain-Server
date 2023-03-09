@@ -1,4 +1,4 @@
-package com.webank.databrain.blockchain;
+package com.webank.databrain.dao.bc.contract;
 
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.codec.datatypes.*;
