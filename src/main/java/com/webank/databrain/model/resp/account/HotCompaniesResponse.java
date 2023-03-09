@@ -7,9 +7,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class HotCompaniesResponse extends BaseHotResponse<IdName> {
+public class HotCompaniesResponse extends BaseHotResponse<IdNameWithType> {
 
-    public HotCompaniesResponse(List<IdName> idNames) {
+    public HotCompaniesResponse(List<IdNameWithType> idNames) {
         super(idNames);
     }
 }

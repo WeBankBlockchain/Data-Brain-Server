@@ -42,9 +42,10 @@ system:
     salt: "salt_string"
     witness-private-key: '11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f'
     contractConfig:
-        account-contract: "0x963f375f4d1d1969bbd318628910d080506131b4"
-        product-contract: "0xb3aa7a6f43eb2cb0cf2099f4f5e170efc63ee1d0"
-        dataSchema-contract: "0xe7d7b002e51431b300ddc00b2c059ccc41ce4660"
+        account-contract: "0x495763688813f965d76fd46455ee5da6ae51c2fe"
+        product-contract: "0x1d6361dfdf5a77d2d5081d6935fe72f5ad6a5773"
+        dataSchema-contract: "BlockLimit, group: group0, blockLimit: 863
+Data Schema module address: "
     loginConfig:
         token-expire-minutes: 2880
     fileConfig:

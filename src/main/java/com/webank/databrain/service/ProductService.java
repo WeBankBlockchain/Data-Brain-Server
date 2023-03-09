@@ -1,141 +1,153 @@
 package com.webank.databrain.service;
 
-//import com.webank.databrain.db.dao.IProductService;
-//import com.webank.databrain.db.entity.ProductDataObject;
+import cn.hutool.core.codec.Base64;
+import com.webank.databrain.blockchain.ProductModule;
+import com.webank.databrain.config.SysConfig;
+import com.webank.databrain.db.dao.AccountInfoDAO;
+import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
+import com.webank.databrain.model.bo.ProductInfoBO;
+import com.webank.databrain.model.resp.product.ProductDetail;
+import com.webank.databrain.model.po.ProductInfoPO;
+import com.webank.databrain.model.req.product.CreateProductRequest;
+import com.webank.databrain.model.req.product.UpdateProductRequest;
+import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.model.resp.PagedResult;
+import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.model.resp.product.CreateProductResponse;
+import com.webank.databrain.model.resp.product.HotProductsResponse;
+import com.webank.databrain.model.resp.product.PageQueryProductResponse;
+import com.webank.databrain.model.resp.product.UpdateProductResponse;
+import com.webank.databrain.utils.BlockchainUtils;
+import com.webank.databrain.utils.SessionUtils;
+import org.fisco.bcos.sdk.v3.client.Client;
+import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
+import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
+import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
+import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
+import org.fisco.bcos.sdk.v3.utils.ByteUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ProductService {
 
-//    @Autowired
-//    private Client client;
-//
-//    @Autowired
-//    private CryptoSuite cryptoSuite;
-//
-//    @Autowired
-//    private SysConfig sysConfig;
-//
-//    @Autowired
-//    private AccountService accountService;
-//
-//    @Autowired
-//    private IProductService productService;
-//
-//    @Autowired
-//    private TransactionDecoderInterface txDecoder;
-//
-//    public HotProductsResponse getHotProducts(int topN) {
-//        List<ProductDataObject> productList = productService
-//                .query()
-//                .select("product_id","product_name")
-//                .orderByDesc("pk_id")
-//                .last("limit " + topN )
-//                .list();
-//        List<IdName> idNames = new ArrayList<>();
-//        productList.forEach(product -> {
-//            IdName item = new IdName();
-//            item.setId(product.getProductId());
-//            item.setName(product.getProductName());
-//            idNames.add(item);
-//        });
-//        HotProductsResponse response = new HotProductsResponse(idNames);
-//        return response;
-//    }
-//
-//    public PageQueryProductResponse pageQueryProducts(Paging paging) {
-//        IPage<ProductDataObject> result = productService.page(new Page<>(paging.getPageNo(), paging.getPageSize()));
-//        List<ProductDataObject> productList = result.getRecords();
-//        List<ProductDetail> productDetails = new ArrayList<>();
-//
-//        productList.forEach(product -> {
-//            ProductDetail productDetail = new ProductDetail();
-//            BeanUtils.copyProperties(product, productDetail);
-//            productDetails.add(productDetail);
-//        });
-//        return new PageQueryProductResponse(new PagedResult<>(productDetails,
-//                result.getCurrent(),
-//                result.getSize(),
-//                result.getTotal(),
-//                result.getPages())
-//        );
-//    }
-//
-//    public ProductDetail getProductDetail(String productId) {
-//        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().eq("product_id",productId));
-//        ProductDetail productDetail = new ProductDetail();
-//        BeanUtils.copyProperties(product,productDetail);
-//        return productDetail;
-//    }
-//
-//    public CreateProductResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
-//        CompanyDetail orgUserDetail = accountService.getOrgDetail(did);
+    @Autowired
+    private Client client;
+
+    @Autowired
+    private ThreadLocalKeyPairHandler keyPairHandler;
+
+    @Autowired
+    private CryptoKeyPair witnessKeyPair;
+    @Autowired
+    private SysConfig sysConfig;
+
+    @Autowired
+    private TransactionDecoderInterface txDecoder;
+
+    @Autowired
+    private AccountInfoDAO accountInfoDAO;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private ProductInfoDAO productInfoDAO;
+
+    public HotProductsResponse getHotProducts(int topN) {
+        List<IdName> idNames = productInfoDAO.getHotProduct(topN);
+        return new HotProductsResponse(idNames);
+    }
+
+    public PageQueryProductResponse pageQueryProducts(Paging paging) {
+        List<ProductInfoBO> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+        List<ProductDetail> productDetails = new ArrayList<>();
+
+        productInfoPOList.forEach(product -> {
+            ProductDetail productDetail = new ProductDetail();
+            BeanUtils.copyProperties(product, productDetail);
+            productDetail.setProviderId(product.getDid());
+            productDetails.add(productDetail);
+        });
+        return new PageQueryProductResponse(new PagedResult<>(productDetails,
+                paging.getPageNo(),
+                paging.getPageSize())
+        );
+    }
+
+    public ProductDetail getProductDetail(String productId) {
+        ProductInfoBO product = productInfoDAO.getProductByGId(productId);
+        ProductDetail productDetail = new ProductDetail();
+        BeanUtils.copyProperties(product,productDetail);
+        productDetail.setProviderId(product.getDid());
+        return productDetail;
+    }
+
+    public CreateProductResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
+//        CompanyDetail orgUserDetail = accountService.getAccountDetail(did);
 //        if(orgUserDetail == null){
 //            throw new DataBrainException(ErrorEnums.AccountNotExists);
 //        }
-//        String privateKey = accountService.getPrivateKey(did);
-//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-//        ProductModule productModule = ProductModule.load(
-//                sysConfig.getContractConfig().getProductContract(),
-//                client,
-//                keyPair);
-//
-//        TransactionReceipt receipt = productModule.createProduct(cryptoSuite.hash((
-//                productRequest.getProductName() + productRequest.getInformation())
-//                .getBytes(StandardCharsets.UTF_8)));
-//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-//
-//        String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
-//        ProductDataObject product = new ProductDataObject();
-//        product.setProductId(productId);
-//        product.setProviderId(did);
-//        product.setProviderName(orgUserDetail.getCompanyName());
-//        product.setProductName(productRequest.getProductName());
-//        product.setInformation(productRequest.getInformation());
-//        product.setCreateTime(LocalDateTime.now());
-//        productService.save(product);
-//        return new CreateProductResponse(productId);
-//    }
-//
-//    public UpdateProductResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
-//        String did = SessionUtils.currentAccountDid();
-//        String privateKey = accountService.getPrivateKey(did);
-//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-//        ProductModule productModule = ProductModule.load(
-//                sysConfig.getContractConfig().getAccountContract(),
-//                client,
-//                keyPair);
-//
-//        TransactionReceipt receipt = productModule.modifyProduct(
-//                ByteUtils.hexStringToBytes(productRequest.getProductId()),
-//                cryptoSuite.hash((
-//                productRequest.getProductName() + productRequest.getInformation())
-//                .getBytes(StandardCharsets.UTF_8)));
-//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-//
-//        ProductDataObject product = new ProductDataObject();
-//        product.setProductId(productRequest.getProductId());
-//        product.setProductName(productRequest.getProductName());
-//        product.setInformation(productRequest.getInformation());
-//        product.setUpdateTime(LocalDateTime.now());
-//        productService.saveOrUpdate(product);
-//
-//        return new UpdateProductResponse(productRequest.getProductId());
-//    }
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
 
-//    public void deleteProduct(DeleteProductRequest productRequest) throws TransactionException {
-//        String privateKey = accountService.getPrivateKey(productRequest.getDid());
-//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-//        ProductModule productModule = ProductModule.load(
-//                sysConfig.getContractConfig().getAccountContract(),
-//                client,
-//                keyPair);
-//        TransactionReceipt receipt = productModule.deleteProduct(
-//                ByteUtils.hexStringToBytes(productRequest.getProductId())
-//               );
-//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-//    }
-//
+        String privateKey = accountService.getPrivateKey(did);
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContractConfig().getProductContract(),
+                client,
+                keyPair);
+
+        TransactionReceipt receipt = productModule.createProduct(cryptoSuite.hash((
+                productRequest.getProductName() + productRequest.getInformation())
+                .getBytes(StandardCharsets.UTF_8)));
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
+
+        String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
+        ProductInfoPO product = new ProductInfoPO();
+        product.setProductGid(productId);
+        product.setProductName(productRequest.getProductName());
+        product.setProductDesc(productRequest.getInformation());
+        product.setCreateTime(new Date());
+        productInfoDAO.save(product);
+        return new CreateProductResponse(productId);
+    }
+
+    public UpdateProductResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
+        String did = SessionUtils.currentAccountDid();
+        String privateKey = accountService.getPrivateKey(did);
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContractConfig().getAccountContract(),
+                client,
+                keyPair);
+
+        TransactionReceipt receipt = productModule.modifyProduct(
+                ByteUtils.hexStringToBytes(productRequest.getProductGId()),
+                cryptoSuite.hash((
+                productRequest.getProductName() + productRequest.getInformation())
+                .getBytes(StandardCharsets.UTF_8)));
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
+
+        ProductInfoPO product = new ProductInfoPO();
+        product.setPkId(productRequest.getProductId());
+        product.setProductName(productRequest.getProductName());
+        product.setProductDesc(productRequest.getInformation());
+        product.setUpdateTime(new Date());
+        productInfoDAO.saveOrUpdate(product);
+
+        return new UpdateProductResponse(productRequest.getProductGId());
+    }
+
+
 //    public void approveProduct(ApproveProductRequest productRequest) throws TransactionException {
 //        String privateKey = accountService.getPrivateKey(productRequest.getDid());
 //        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
