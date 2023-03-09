@@ -6,6 +6,8 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
+import com.webank.databrain.model.bo.CompanyInfoBO;
+import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.model.po.AccountInfoPO;
@@ -96,7 +98,7 @@ public class AccountService {
         AccountInfoPO accountInfoDo = new AccountInfoPO();
         accountInfoDo.setAccountType(accountType);
         accountInfoDo.setDid(did);
-        accountInfoDo.setPwdhash(pwdHash);
+        accountInfoDo.setPwdHash(pwdHash);
         accountInfoDo.setSalt(salt);
         accountInfoDo.setStatus(AccountStatus.Registered.ordinal());
         accountInfoDo.setPrivateKey(privateKey);
@@ -135,17 +137,19 @@ public class AccountService {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
-        AccountInfoPO accountInfo = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("username", username), false);
+        AccountInfoPO accountInfo = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("user_name", username), false);
         if (accountInfo == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountInfo.getSalt());
-        if (!Objects.equals(pwdHash, accountInfo.getPwdhash())) {
+        if (!Objects.equals(pwdHash, accountInfo.getPwdHash())) {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
         String token = tokenHandler.generateToken(accountInfo.getPkId());
         LoginResponse result = new LoginResponse();
         result.setToken(token);
+        result.setAccountType(accountInfo.getAccountType().intValue());
+        result.setDid(accountInfo.getDid());
         return result;
     }
 
@@ -171,29 +175,52 @@ public class AccountService {
 //        return accountDO.getPrivateKey();
 //    }
 
-    public QueryAccountByUserNameResponse getAccountDetail(String username) {
-        return null;
-//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-//        AccountDO accountDO = accountDAO.getOne(Wdid);
-//        if (accountDO == null){
-//            throw new DataBrainException(ErrorEnums.AccountNotExists);
-//        }
-//        Object detail = null;
-//        if (accountDO.getAccountType() == AccountType.Personal){
-//            detail = this.getNormalUserDetail(did);
-//        }
-//        else if(accountDO.getAccountType() == AccountType.Enterprise){
-//            detail = this.getOrgDetail(did);
-//        }
-//
-//        QueryAccountByIdResponse ret = new QueryAccountByIdResponse();
-//        ret.setDid(did);
-//        ret.setAddress(cryptoSuite.loadKeyPair(accountDO.getPrivateKey()).getAddress());
-//        ret.setType(accountDO.getAccountType().name());
-//        ret.setReviewStatus(accountDO.getReviewStatus().name());
-//        ret.setDetail(detail);
-//
-//        return ret;
+    public QueryPersonByUsernameResponse getPersonByUsername(String username) {
+
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+
+        PersonInfoBO data = personInfoDAO.queryPersonByUsername(username);
+        if (data == null){
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
+        }
+
+        QueryPersonByUsernameResponse ret = new QueryPersonByUsernameResponse();
+
+        ret.setDid(data.getDid());
+        ret.setStatus(data.getStatus());
+        ret.setKeyAddress(cryptoSuite.loadKeyPair(data.getPrivateKey()).getAddress());
+        ret.setCreateTime(data.getCreateTime().getTime());
+        ret.setPersonName(data.getPersonName());
+        ret.setPersonContact(data.getPersonContact());
+        ret.setPersonCertNo(data.getPersonCertNo());
+        ret.setPersonCertType(data.getPersonCertType());
+        ret.setPersonEmail(data.getPersonEmail());
+
+        return ret;
+    }
+
+    public QueryCompanyByUsernameResponse getCompanyByUsername(String username) {
+
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+
+        CompanyInfoBO data = companyInfoDAO.queryCompanyByUsername(username);
+        if (data == null){
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
+        }
+
+        QueryCompanyByUsernameResponse ret = new QueryCompanyByUsernameResponse();
+
+        ret.setDid(data.getDid());
+        ret.setStatus(data.getStatus());
+        ret.setKeyAddress(cryptoSuite.loadKeyPair(data.getPrivateKey()).getAddress());
+        ret.setCreateTime(data.getCreateTime().getTime());
+        ret.setCompanyName(data.getCompanyName());
+        ret.setCompanyCertFileUri(data.getCompanyCertFileUri());
+        ret.setCompanyCertType(data.getCompanyCertType());
+        ret.setCompanyDesc(data.getCompanyDesc());
+        ret.setCompanyContact(data.getCompanyContact());
+
+        return ret;
     }
 //
 //

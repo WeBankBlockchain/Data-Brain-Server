@@ -33,7 +33,7 @@ public class AccountInfoPO implements Serializable {
     /**
      * 账号
      */
-    @TableField("username")
+    @TableField("user_name")
     private String username;
 
     /**
@@ -57,8 +57,8 @@ public class AccountInfoPO implements Serializable {
     @TableField("salt")
     private String salt;
 
-    @TableField("pwdhash")
-    private String pwdhash;
+    @TableField("pwd_hash")
+    private String pwdHash;
 
     /**
      * 账户状态

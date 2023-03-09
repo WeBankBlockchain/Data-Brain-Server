@@ -51,11 +51,17 @@ public class AccountController {
         return CommonResponse.success(response);
     }
 //
-    @ApiOperation(value = "账户详情")
-    @PostMapping("queryAccountByName")
-    public CommonResponse<QueryAccountByUserNameResponse> queryAccountByName(@RequestBody QueryAccountByNameRequest request) {
-        QueryAccountByUserNameResponse detail = accountService.getAccountDetail(request.getUsername());
+    @ApiOperation(value = "查询个人用户详情")
+    @PostMapping("queryPersonByUsername")
+    public CommonResponse<QueryPersonByUsernameResponse> queryPersonByUsername(@RequestBody QueryByUsernameRequest request) {
+        QueryPersonByUsernameResponse detail = accountService.getPersonByUsername(request.getUsername());
         return CommonResponse.success(detail);
     }
 
+    @ApiOperation(value = "查询机构用户详情")
+    @PostMapping("queryCompanyByUsername")
+    public CommonResponse<QueryCompanyByUsernameResponse> queryCompanyByUsername(@RequestBody QueryByUsernameRequest request) {
+        QueryCompanyByUsernameResponse detail = accountService.getCompanyByUsername(request.getUsername());
+        return CommonResponse.success(detail);
+    }
 }
