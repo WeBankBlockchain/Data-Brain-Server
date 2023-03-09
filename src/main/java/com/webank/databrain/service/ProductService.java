@@ -119,7 +119,6 @@ public class ProductService {
         String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
         ProductInfoPO product = new ProductInfoPO();
         product.setProductGid(productId);
-//        product.setProviderId(did);
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getInformation());
         product.setCreateTime(new Date());
