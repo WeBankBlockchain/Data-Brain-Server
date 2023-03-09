@@ -166,14 +166,15 @@ public class AccountService {
                 request.getPageNo(),
                 request.getPageSize()));
     }
-//
-//    public String getPrivateKey(String did) {
+
+    public String getPrivateKey(String did) {
 //        AccountDO accountDO =  accountDAO.getAccountByDid(did);
 //        if (accountDO == null){
 //            throw new DataBrainException(ErrorEnums.AccountNotExists);
 //        }
 //        return accountDO.getPrivateKey();
-//    }
+        return null;
+    }
 
     public QueryPersonByUsernameResponse getPersonByUsername(String username) {
 
