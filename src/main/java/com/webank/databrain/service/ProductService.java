@@ -1,8 +1,8 @@
 package com.webank.databrain.service;
 
 import cn.hutool.core.codec.Base64;
-import com.webank.databrain.blockchain.ProductModule;
 import com.webank.databrain.config.SysConfig;
+import com.webank.databrain.dao.bc.contract.ProductModule;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;

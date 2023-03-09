@@ -1,52 +1,53 @@
 
 -- 账户表 --
- CREATE TABLE `t_account_info` (
-        `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-        `username` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
-        `did` varchar(255) NOT NULL COMMENT 'DID',
-        `account_type` int(4) NOT NULL DEFAULT 0 COMMENT '用户类型',
-        `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
-        `salt` varchar(255) NOT NULL,
-        `pwdhash` varchar(255) NOT NULL,
-        `status` int(4) NOT NULL DEFAULT 0 COMMENT '账户状态',
-        `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
-        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (`pk_id`),
-        UNIQUE KEY (`did`),
-        UNIQUE KEY(`username`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `t_account_info` (
+  `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+  `did` varchar(255) NOT NULL COMMENT 'DID',
+  `account_type` int(4) NOT NULL DEFAULT '0' COMMENT '用户类型',
+  `private_key` varchar(66) NOT NULL DEFAULT '' COMMENT '私钥',
+  `salt` varchar(255) NOT NULL,
+  `pwd_hash` varchar(255) NOT NULL DEFAULT '',
+  `status` int(4) NOT NULL DEFAULT '0' COMMENT '账户状态',
+  `review_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '审核时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_id`),
+  UNIQUE KEY `did` (`did`),
+  UNIQUE KEY `username` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8
 
 -- 个人用户表 --
-  CREATE TABLE `t_person_info` (
-    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
-    `person_name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
-    `person_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '个人联系方式',
-    `person_email` varchar(128) NOT NULL DEFAULT '' COMMENT '个人邮箱',
-    `person_cert_type` int(4) NOT NULL DEFAULT 0 comment '个人证件类型',
-    `person_cert_no` varchar(128) NOT NULL DEFAULT '' COMMENT '个人证件号',
-    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`pk_id`),
-    UNIQUE KEY (`account_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `t_person_info` (
+  `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
+  `person_name` varchar(32) NOT NULL DEFAULT '' COMMENT '姓名',
+  `person_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '个人联系方式',
+  `person_email` varchar(128) NOT NULL DEFAULT '' COMMENT '个人邮箱',
+  `person_cert_type` varchar(32) NOT NULL DEFAULT '0' COMMENT '个人证件类型',
+  `person_cert_no` varchar(128) NOT NULL DEFAULT '' COMMENT '个人证件号',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_id`),
+  UNIQUE KEY `account_id` (`account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
 
  -- 机构表 --
-  CREATE TABLE `t_company_info` (
-    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
-    `company_name` varchar(255) NOT NULL COMMENT '公司名称',
-    `company_desc` text COMMENT '公司详情',
-    `company_cert_type` int(4) NOT NULL DEFAULT 0 comment '法人证件类型',
-    `company_cert_file_uri` varchar(255) COMMENT '公司证件图片链接',
-    `company_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '公司联系方式',
-    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`pk_id`),
-    UNIQUE KEY (`account_id`),
-    UNIQUE KEY (`company_name`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `t_company_info` (
+  `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
+  `company_name` varchar(255) NOT NULL COMMENT '公司名称',
+  `company_desc` text COMMENT '公司详情',
+  `company_cert_type` varchar(32) NOT NULL DEFAULT '0' COMMENT '法人证件类型',
+  `company_cert_no` varchar(128) NOT NULL DEFAULT '' COMMENT '法人证件号'
+  `company_cert_file_uri` varchar(255) DEFAULT NULL COMMENT '公司证件图片链接',
+  `company_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '公司联系方式',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_id`),
+  UNIQUE KEY `account_id` (`account_id`),
+  UNIQUE KEY `company_name` (`company_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
 
 
 -- 产品表 --

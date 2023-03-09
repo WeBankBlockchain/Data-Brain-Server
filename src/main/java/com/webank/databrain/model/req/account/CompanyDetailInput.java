@@ -13,6 +13,8 @@ public class CompanyDetailInput {
 
     private String contact;
 
-    private int certType;
+    private String certType;
+
+    private String certNo;
 
 }

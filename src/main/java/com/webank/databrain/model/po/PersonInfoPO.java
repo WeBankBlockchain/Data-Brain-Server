@@ -58,7 +58,7 @@ public class PersonInfoPO implements Serializable {
      * 个人证件类型
      */
     @TableField("person_cert_type")
-    private Integer personCertType;
+    private String personCertType;
 
     /**
      * 个人证件号

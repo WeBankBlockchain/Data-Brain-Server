@@ -16,7 +16,7 @@ import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+//@Service
 @Slf4j
 public class AccountServiceImpl implements AccountService1 {
 

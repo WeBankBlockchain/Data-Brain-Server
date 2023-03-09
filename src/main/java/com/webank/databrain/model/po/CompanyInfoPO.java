@@ -52,7 +52,13 @@ public class CompanyInfoPO implements Serializable {
      * 法人证件类型
      */
     @TableField("company_cert_type")
-    private Integer companyCertType;
+    private String companyCertType;
+
+    /**
+     * 法人证件号码
+     */
+    @TableField("company_cert_no")
+    private String companyCertNo;
 
     /**
      * 公司证件图片链接

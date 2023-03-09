@@ -126,6 +126,7 @@ public class AccountService {
             companyInfoPo.setAccountId(accountPkId);
             companyInfoPo.setCompanyCertType(companyDetail.getCertType());
             companyInfoPo.setCompanyCertFileUri(companyDetail.getLogoUrl());
+            companyInfoPo.setCompanyCertNo(companyDetail.getCertNo());
             companyInfoDAO.save(companyInfoPo);
         }
 

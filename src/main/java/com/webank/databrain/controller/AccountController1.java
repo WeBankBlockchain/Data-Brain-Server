@@ -1,9 +1,14 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.req.account.*;
+import com.webank.databrain.model.req.account.HotCompaniesRequest;
+import com.webank.databrain.model.req.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.req.account.QueryByUsernameRequest;
+import com.webank.databrain.model.req.account.RegisterRequest;
 import com.webank.databrain.model.resp.CommonResponse;
 import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.service.AccountService;
+import com.webank.databrain.service.AccountService1;
+import com.webank.databrain.vo.request.LoginRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +21,12 @@ import javax.validation.Valid;
 //@RestController
 @RequestMapping("/api/account")
 @Slf4j
-public class AccountController {
+public class AccountController1 {
 
     @Autowired
     private AccountService accountService;
-
+    @Autowired
+    private AccountService1 accountService1;
 
     @ApiOperation(value = "注册")
     @PostMapping("register")
@@ -30,8 +36,8 @@ public class AccountController {
 
     @ApiOperation(value = "登陆")
     @PostMapping("login")
-    public CommonResponse<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
-        return CommonResponse.success(accountService.login(request));
+    public com.webank.databrain.vo.common.CommonResponse login(@RequestBody @Valid LoginRequest request) {
+        return accountService1.login(request);
     }
 
     @ApiOperation(value = "热门公司")

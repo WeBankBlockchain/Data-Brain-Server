@@ -12,7 +12,7 @@ public class PersonalDetailInput {
 
     private String email;
 
-    private int certType;
+    private String certType;
 
     private String certNum;
 
