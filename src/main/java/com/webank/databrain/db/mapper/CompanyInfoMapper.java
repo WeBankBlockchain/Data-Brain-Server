@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.model.resp.IdName;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 
@@ -22,4 +23,8 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfoPO> {
     @Select("SELECT a.did as id, c.company_name as name FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ")
     @ResultType(IdName.class)
     List<IdName> listHotCompanies(int topN);
+
+    @Select("SELECT a.did as id, c.company_name as name FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
+    @ResultType(IdName.class)
+    List<IdName> listCompanies(@Param("start") long start, @Param("pageSize")int pageSize);
 }

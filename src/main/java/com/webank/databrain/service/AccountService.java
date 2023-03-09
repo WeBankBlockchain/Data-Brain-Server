@@ -6,6 +6,7 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
+import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.model.po.AccountInfoPO;
 import com.webank.databrain.model.po.CompanyInfoPO;
@@ -155,18 +156,11 @@ public class AccountService {
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        return null;
-//        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
-//        List<IdName> outputs = companyInfoDataObjects.stream().map(c->{
-//            IdName idName = new IdName();
-//            idName.setId(String.valueOf(c.getDid()));
-//            idName.setName(c.getCompanyName());
-//            return idName;
-//        }).collect(Collectors.toList());
-//        return new PageQueryCompanyResponse(new PagedResult<>(
-//                outputs,
-//                request.getPageNo(),
-//                request.getPageSize()));
+        List<IdName> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
+        return new PageQueryCompanyResponse(new PagedResult<>(
+                companyInfoDataObjects,
+                request.getPageNo(),
+                request.getPageSize()));
     }
 //
 //    public String getPrivateKey(String did) {
