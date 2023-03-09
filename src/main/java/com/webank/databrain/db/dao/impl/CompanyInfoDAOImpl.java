@@ -2,10 +2,9 @@ package com.webank.databrain.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.yulichang.base.MPJBaseMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
-import com.webank.databrain.model.output.IdName;
+import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.po.AccountInfoPO;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.db.mapper.CompanyInfoMapper;

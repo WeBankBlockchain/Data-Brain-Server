@@ -1,12 +1,12 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.input.account.HotCompaniesRequest;
-import com.webank.databrain.model.input.account.LoginRequest;
-import com.webank.databrain.model.input.account.RegisterRequest;
-import com.webank.databrain.model.input.account.*;
-import com.webank.databrain.model.output.account.*;
-import com.webank.databrain.model.output.CommonResponse;
-import com.webank.databrain.model.output.account.RegisterResponse;
+import com.webank.databrain.model.req.account.HotCompaniesRequest;
+import com.webank.databrain.model.req.account.LoginRequest;
+import com.webank.databrain.model.req.account.RegisterRequest;
+import com.webank.databrain.model.req.account.*;
+import com.webank.databrain.model.resp.account.*;
+import com.webank.databrain.model.resp.CommonResponse;
+import com.webank.databrain.model.resp.account.RegisterResponse;
 import com.webank.databrain.service.AccountService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

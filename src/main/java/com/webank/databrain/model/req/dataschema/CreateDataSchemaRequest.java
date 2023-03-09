@@ -1,22 +1,18 @@
-package com.webank.databrain.model.dto.dataschema;
+package com.webank.databrain.model.req.dataschema;
 
-import com.webank.databrain.model.resp.IdName;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-public class DataSchemaDetailWithVisit extends IdName {
-    private String schemaId;
+@Data
+public class CreateDataSchemaRequest {
+
 
     private String schemaName;
 
-
     private String providerId;
 
-    private String productName;
-
-    private String providerName;
-
-    private String tag;
+    private String tagName;
 
     private String productId;
 

@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.output.IdName;
+import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.po.CompanyInfoPO;
 
 import java.util.List;

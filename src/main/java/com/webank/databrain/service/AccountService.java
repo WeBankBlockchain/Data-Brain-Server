@@ -6,7 +6,7 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
-import com.webank.databrain.model.output.account.*;
+import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.model.po.AccountInfoPO;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.model.po.PersonInfoPO;
@@ -16,13 +16,12 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.input.account.CompanyDetailInput;
-import com.webank.databrain.model.input.account.PersonalDetailInput;
-import com.webank.databrain.model.output.IdName;
-import com.webank.databrain.model.input.account.LoginRequest;
-import com.webank.databrain.model.input.account.PageQueryCompanyRequest;
-import com.webank.databrain.model.input.account.RegisterRequest;
-import com.webank.databrain.model.output.PagedResult;
+import com.webank.databrain.model.req.account.CompanyDetailInput;
+import com.webank.databrain.model.req.account.PersonalDetailInput;
+import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.model.req.account.LoginRequest;
+import com.webank.databrain.model.req.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.req.account.RegisterRequest;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,6 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

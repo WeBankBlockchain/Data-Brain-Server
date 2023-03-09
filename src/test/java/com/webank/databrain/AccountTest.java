@@ -1,13 +1,13 @@
 package com.webank.databrain;
 
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.input.account.LoginRequest;
-import com.webank.databrain.model.input.account.PageQueryCompanyRequest;
-import com.webank.databrain.model.input.account.RegisterRequest;
-import com.webank.databrain.model.input.account.CompanyDetailInput;
-import com.webank.databrain.model.output.account.HotCompaniesResponse;
-import com.webank.databrain.model.output.account.LoginResponse;
-import com.webank.databrain.model.output.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.req.account.LoginRequest;
+import com.webank.databrain.model.req.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.req.account.RegisterRequest;
+import com.webank.databrain.model.req.account.CompanyDetailInput;
+import com.webank.databrain.model.resp.account.HotCompaniesResponse;
+import com.webank.databrain.model.resp.account.LoginResponse;
+import com.webank.databrain.model.resp.account.PageQueryCompanyResponse;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;

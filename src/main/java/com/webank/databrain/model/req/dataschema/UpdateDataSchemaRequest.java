@@ -1,20 +1,15 @@
-package com.webank.databrain.model.dto.dataschema;
+package com.webank.databrain.model.req.dataschema;
 
-import com.webank.databrain.model.resp.IdName;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-public class DataSchemaDetailWithVisit extends IdName {
+@Data
+public class UpdateDataSchemaRequest {
+
     private String schemaId;
 
-    private String schemaName;
-
-
     private String providerId;
-
-    private String productName;
-
-    private String providerName;
 
     private String tag;
 
@@ -43,4 +38,5 @@ public class DataSchemaDetailWithVisit extends IdName {
     private LocalDateTime effectTime;
 
     private LocalDateTime expireTime;
+
 }

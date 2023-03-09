@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.webank.databrain.db.mapper.OrgInfoMapper">
 
-    <resultMap id="idname" type="com.webank.databrain.model.output.IdName">
+    <resultMap id="idname" type="com.webank.databrain.model.resp.IdName">
         <result property="id" column="did"/>
         <result property="name" column="name"/>
     </resultMap>
