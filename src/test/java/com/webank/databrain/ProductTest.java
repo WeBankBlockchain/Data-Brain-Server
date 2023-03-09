@@ -1,21 +1,8 @@
 package com.webank.databrain;
 
-import cn.hutool.json.JSONUtil;
-import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.dto.common.IdName;
-import com.webank.databrain.model.request.account.RegisterRequest;
-import com.webank.databrain.model.dto.common.Paging;
-import com.webank.databrain.model.request.product.CreateProductRequest;
-import com.webank.databrain.model.request.product.UpdateProductRequest;
-import com.webank.databrain.model.response.common.PagedResult;
-import com.webank.databrain.model.response.product.CreateProductResponse;
-import com.webank.databrain.model.dto.product.ProductDetail;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.service.ProductService;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 public class ProductTest extends  ServerApplicationTests{
     @Autowired

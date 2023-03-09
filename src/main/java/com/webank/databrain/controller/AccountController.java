@@ -1,8 +1,12 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.request.account.*;
-import com.webank.databrain.model.response.account.*;
-import com.webank.databrain.model.response.common.CommonResponse;
+import com.webank.databrain.model.input.account.HotCompaniesRequest;
+import com.webank.databrain.model.input.account.LoginRequest;
+import com.webank.databrain.model.input.account.RegisterRequest;
+import com.webank.databrain.model.input.account.*;
+import com.webank.databrain.model.output.account.*;
+import com.webank.databrain.model.output.CommonResponse;
+import com.webank.databrain.model.output.account.RegisterResponse;
 import com.webank.databrain.service.AccountService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +27,7 @@ public class AccountController {
     @ApiOperation(value = "注册")
     @PostMapping("register")
     public CommonResponse<RegisterResponse> register(@RequestBody RegisterRequest request) throws Exception {
-        String did = accountService.registerAccount(request);
-
-        return CommonResponse.success(new RegisterResponse(did));
+        return CommonResponse.success(accountService.registerAccount(request));
     }
 
     @ApiOperation(value = "登陆")

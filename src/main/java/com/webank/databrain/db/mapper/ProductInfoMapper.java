@@ -1,7 +1,7 @@
 package com.webank.databrain.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.webank.databrain.db.entity.ProductInfoDataObject;
+import com.webank.databrain.model.po.ProductInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.ProductInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface ProductInfoMapper extends BaseMapper<ProductInfoDataObject> {
+public interface ProductInfoMapper extends BaseMapper<ProductInfoPO> {
 
 }

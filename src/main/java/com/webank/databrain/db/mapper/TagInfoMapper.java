@@ -1,7 +1,7 @@
 package com.webank.databrain.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.webank.databrain.db.entity.TagInfoDataObject;
+import com.webank.databrain.model.po.TagInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.TagInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface TagInfoMapper extends BaseMapper<TagInfoDataObject> {
+public interface TagInfoMapper extends BaseMapper<TagInfoPO> {
 
 }

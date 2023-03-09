@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.db.entity.PersonInfoDataObject;
+import com.webank.databrain.model.po.PersonInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.PersonInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface PersonInfoDAO extends IService<PersonInfoDataObject> {
+public interface PersonInfoDAO extends IService<PersonInfoPO> {
 
 }

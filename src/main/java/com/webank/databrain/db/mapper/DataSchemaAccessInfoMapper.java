@@ -1,7 +1,7 @@
 package com.webank.databrain.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
+import com.webank.databrain.model.po.DataSchemaAccessInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface DataSchemaAccessInfoMapper extends BaseMapper<DataSchemaAccessInfoDataObject> {
+public interface DataSchemaAccessInfoMapper extends BaseMapper<DataSchemaAccessInfoPO> {
 
 }

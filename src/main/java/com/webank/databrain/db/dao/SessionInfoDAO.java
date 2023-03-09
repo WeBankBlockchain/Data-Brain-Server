@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.db.entity.SessionInfoDataObject;
+import com.webank.databrain.model.po.SessionInfoDataObject;
 
 /**
  * <p>

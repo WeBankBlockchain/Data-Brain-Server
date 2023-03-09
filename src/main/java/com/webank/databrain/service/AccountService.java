@@ -1,36 +1,29 @@
 package com.webank.databrain.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.blockchain.AccountModule;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
-import com.webank.databrain.db.entity.AccountInfoDataObject;
-import com.webank.databrain.db.entity.CompanyInfoDataObject;
-import com.webank.databrain.db.entity.CompanyJoinAccountDataObject;
-import com.webank.databrain.db.entity.PersonInfoDataObject;
+import com.webank.databrain.model.output.account.*;
+import com.webank.databrain.model.po.AccountInfoPO;
+import com.webank.databrain.model.po.CompanyInfoPO;
+import com.webank.databrain.model.po.CompanyJoinAccountPO;
+import com.webank.databrain.model.po.PersonInfoPO;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.error.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.dto.account.CompanyDetailInput;
-import com.webank.databrain.model.dto.account.CompanyDetailOutput;
-import com.webank.databrain.model.dto.account.PersonalDetailInput;
+import com.webank.databrain.model.input.account.CompanyDetailInput;
+import com.webank.databrain.model.input.account.PersonalDetailInput;
 import com.webank.databrain.model.dto.common.IdName;
-import com.webank.databrain.model.request.account.LoginRequest;
-import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
-import com.webank.databrain.model.request.account.RegisterRequest;
-import com.webank.databrain.model.response.account.HotCompaniesResponse;
-import com.webank.databrain.model.response.account.LoginResponse;
-import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
-import com.webank.databrain.model.response.account.QueryAccountByIdResponse;
-import com.webank.databrain.model.response.common.PagedResult;
+import com.webank.databrain.model.input.account.LoginRequest;
+import com.webank.databrain.model.input.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.input.account.RegisterRequest;
+import com.webank.databrain.model.output.PagedResult;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +36,6 @@ import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Id;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.List;
@@ -82,7 +74,7 @@ public class AccountService {
     private TransactionDecoderInterface txDecoder;
 
     @Transactional
-    public String registerAccount(RegisterRequest request) throws Exception {
+    public RegisterResponse registerAccount(RegisterRequest request) throws Exception {
         //Generation private key
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
@@ -103,41 +95,41 @@ public class AccountService {
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, salt);
-        AccountInfoDataObject accountInfoDataObject = new AccountInfoDataObject();
-        accountInfoDataObject.setAccountType(accountType);
-        accountInfoDataObject.setDid(did);
-        accountInfoDataObject.setPwdhash(pwdHash);
-        accountInfoDataObject.setSalt(salt);
-        accountInfoDataObject.setStatus(AccountStatus.Registered.ordinal());
-        accountInfoDataObject.setPrivateKey(keyPair.getHexPrivateKey());
-        accountInfoDataObject.setUsername(username);
+        AccountInfoPO accountInfoDo = new AccountInfoPO();
+        accountInfoDo.setAccountType(accountType);
+        accountInfoDo.setDid(did);
+        accountInfoDo.setPwdhash(pwdHash);
+        accountInfoDo.setSalt(salt);
+        accountInfoDo.setStatus(AccountStatus.Registered.ordinal());
+        accountInfoDo.setPrivateKey(privateKey);
+        accountInfoDo.setUsername(username);
 
-        accountDAO.save(accountInfoDataObject);
-        long accountPkId = accountInfoDataObject.getPkId();
+        accountDAO.save(accountInfoDo);
+        long accountPkId = accountInfoDo.getPkId();
         if (accountType == AccountType.Personal.ordinal()) {
             PersonalDetailInput personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetailInput.class);
-            PersonInfoDataObject personInfoDataObject = new PersonInfoDataObject();
-            personInfoDataObject.setPersonCertNo(personalDetail.getCertNum());
-            personInfoDataObject.setPersonContact(personalDetail.getContact());
-            personInfoDataObject.setPersonEmail(personalDetail.getEmail());
-            personInfoDataObject.setPersonName(personalDetail.getName());
-            personInfoDataObject.setAccountId(accountInfoDataObject.getPkId());
-            personInfoDataObject.setPersonCertType(personalDetail.getCertType());
+            PersonInfoPO personInfoPo = new PersonInfoPO();
+            personInfoPo.setPersonCertNo(personalDetail.getCertNum());
+            personInfoPo.setPersonContact(personalDetail.getContact());
+            personInfoPo.setPersonEmail(personalDetail.getEmail());
+            personInfoPo.setPersonName(personalDetail.getName());
+            personInfoPo.setAccountId(accountInfoDo.getPkId());
+            personInfoPo.setPersonCertType(personalDetail.getCertType());
 
-            personInfoDAO.save(personInfoDataObject);
+            personInfoDAO.save(personInfoPo);
         } else if (accountType == AccountType.Company.ordinal()) {
             CompanyDetailInput companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetailInput.class);
-            CompanyInfoDataObject companyInfoDataObject = new CompanyInfoDataObject();
-            companyInfoDataObject.setCompanyContact(companyDetail.getContact());
-            companyInfoDataObject.setCompanyName(companyDetail.getCompanyName());
-            companyInfoDataObject.setCompanyDesc(companyDetail.getCompanyDesc());
-            companyInfoDataObject.setAccountId(accountPkId);
-            companyInfoDataObject.setCompanyCertType(companyDetail.getCertType());
-            companyInfoDataObject.setCompanyCertFileUri(companyDetail.getLogoUrl());
-            companyInfoDAO.save(companyInfoDataObject);
+            CompanyInfoPO companyInfoPo = new CompanyInfoPO();
+            companyInfoPo.setCompanyContact(companyDetail.getContact());
+            companyInfoPo.setCompanyName(companyDetail.getCompanyName());
+            companyInfoPo.setCompanyDesc(companyDetail.getCompanyDesc());
+            companyInfoPo.setAccountId(accountPkId);
+            companyInfoPo.setCompanyCertType(companyDetail.getCertType());
+            companyInfoPo.setCompanyCertFileUri(companyDetail.getLogoUrl());
+            companyInfoDAO.save(companyInfoPo);
         }
 
-        return did;
+        return new RegisterResponse(did);
     }
 
 
@@ -145,14 +137,13 @@ public class AccountService {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
-        AccountInfoDataObject accountInfo = accountDAO.getOne(Wrappers.<AccountInfoDataObject>query().eq("username", username), false);
+        AccountInfoPO accountInfo = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("username", username), false);
         if (accountInfo == null){
             throw new DataBrainException(ErrorEnums.InvalidCredential);
         }
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountInfo.getSalt());
         if (!Objects.equals(pwdHash, accountInfo.getPwdhash())) {
             throw new DataBrainException(ErrorEnums.InvalidCredential);
-
         }
         String token = tokenHandler.generateToken(accountInfo.getPkId());
         LoginResponse result = new LoginResponse();
@@ -161,7 +152,7 @@ public class AccountService {
     }
 
     public HotCompaniesResponse listHotOrgs(int topN) {
-        List<CompanyJoinAccountDataObject> companyInfoDataObjects = accountDAO.listHotCompany(topN);
+        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listHotCompany(topN);
         List<IdName> idNames = companyInfoDataObjects.stream().map(c->{
             IdName idName = new IdName();
             idName.setId(String.valueOf(c.getDid()));
@@ -173,7 +164,7 @@ public class AccountService {
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        List<CompanyJoinAccountDataObject> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
+        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
         List<IdName> outputs = companyInfoDataObjects.stream().map(c->{
             IdName idName = new IdName();
             idName.setId(String.valueOf(c.getDid()));

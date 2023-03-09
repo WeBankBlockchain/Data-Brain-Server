@@ -1,13 +1,13 @@
 package com.webank.databrain;
 
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.request.account.LoginRequest;
-import com.webank.databrain.model.request.account.PageQueryCompanyRequest;
-import com.webank.databrain.model.request.account.RegisterRequest;
-import com.webank.databrain.model.dto.account.CompanyDetailInput;
-import com.webank.databrain.model.response.account.HotCompaniesResponse;
-import com.webank.databrain.model.response.account.LoginResponse;
-import com.webank.databrain.model.response.account.PageQueryCompanyResponse;
+import com.webank.databrain.model.input.account.LoginRequest;
+import com.webank.databrain.model.input.account.PageQueryCompanyRequest;
+import com.webank.databrain.model.input.account.RegisterRequest;
+import com.webank.databrain.model.input.account.CompanyDetailInput;
+import com.webank.databrain.model.output.account.HotCompaniesResponse;
+import com.webank.databrain.model.output.account.LoginResponse;
+import com.webank.databrain.model.output.account.PageQueryCompanyResponse;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
@@ -29,7 +29,8 @@ public class AccountTest extends ServerApplicationTests{
         CompanyDetailInput orgUserDetail = new CompanyDetailInput();
         orgUserDetail.setCompanyName("facebook");
         request.setDetailJson(JsonUtils.toJson(orgUserDetail));
-        accountService.registerAccount(request);
+        Object result = accountService.registerAccount(request);
+        System.out.println(JsonUtils.toJson(result));
     }
 
     @Test
@@ -44,7 +45,8 @@ public class AccountTest extends ServerApplicationTests{
         companyDetail.setCompanyName("阿里");
         companyDetail.setCompanyDesc("某公司");
         request.setDetailJson(JsonUtils.toJson(companyDetail));
-        accountService.registerAccount(request);
+        Object result = accountService.registerAccount(request);
+        System.out.println(JsonUtils.toJson(result));
     }
 
     @Test

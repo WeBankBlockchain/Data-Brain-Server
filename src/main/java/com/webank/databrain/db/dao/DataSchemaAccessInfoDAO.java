@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
+import com.webank.databrain.model.po.DataSchemaAccessInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.DataSchemaAccessInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface DataSchemaAccessInfoDAO extends IService<DataSchemaAccessInfoDataObject> {
+public interface DataSchemaAccessInfoDAO extends IService<DataSchemaAccessInfoPO> {
 
 }

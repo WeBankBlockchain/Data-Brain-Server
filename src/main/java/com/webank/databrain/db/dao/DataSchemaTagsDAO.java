@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.db.entity.DataSchemaTagsDataObject;
+import com.webank.databrain.model.po.DataSchemaTagsPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.db.entity.DataSchemaTagsDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface DataSchemaTagsDAO extends IService<DataSchemaTagsDataObject> {
+public interface DataSchemaTagsDAO extends IService<DataSchemaTagsPO> {
 
 }

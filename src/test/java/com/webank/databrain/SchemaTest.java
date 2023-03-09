@@ -1,21 +1,5 @@
 package com.webank.databrain;
 
-import cn.hutool.json.JSONUtil;
-import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.request.account.RegisterRequest;
-import com.webank.databrain.model.response.dataschema.CreateDataSchemaResponse;
-import com.webank.databrain.model.response.dataschema.PageQueryDataSchemaResponse;
-import com.webank.databrain.model.dto.common.Paging;
-import com.webank.databrain.model.request.dataschema.CreateDataSchemaRequest;
-import com.webank.databrain.model.request.dataschema.UpdateDataSchemaRequest;
-import com.webank.databrain.service.AccountService;
-import com.webank.databrain.service.DataSchemaService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDateTime;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SchemaTest extends ServerApplicationTests{

@@ -1,6 +1,6 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.response.common.CommonResponse;
+import com.webank.databrain.model.output.CommonResponse;
 import com.webank.databrain.service.FileService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.webank.databrain.handler.token;
 
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.SessionInfoDAO;
-import com.webank.databrain.db.entity.SessionInfoDataObject;
+import com.webank.databrain.model.po.SessionInfoDataObject;
 import com.webank.databrain.handler.token.generator.ITokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
