@@ -1,18 +1,41 @@
 package com.webank.databrain.service;
 
 //import com.webank.databrain.db.dao.ITagDbService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.webank.databrain.db.dao.TagInfoDAO;
+import com.webank.databrain.model.po.TagInfoPO;
+import com.webank.databrain.model.req.tags.CreateTagRequest;
+import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.model.resp.tags.CreateTagResponse;
+import com.webank.databrain.model.resp.tags.HotTagsResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.Id;
+import java.sql.Wrapper;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
 
-//    @Autowired
-//    private ITagDbService tagDbService;
-//
-//    public HotTagsResponse listHotTags(int topN) {
-//        List<IdName> items = tagDbService.listHotTags(topN);
-//        return new HotTagsResponse(items);
-//    }
+    @Autowired
+    private TagInfoDAO tagInfoDAO;
+
+    public HotTagsResponse listHotTags(int topN) {
+        IPage<TagInfoPO> paged = tagInfoDAO.page(new Page(1, topN), Wrappers.<TagInfoPO>query().select("pk_id ", "tag_name"));
+        List<TagInfoPO> items =  paged.getRecords();
+
+        List<IdName> idNames = items.stream().map(t->{
+            IdName idName = new IdName();
+            idName.setId(String.valueOf(t.getPkId()));
+            idName.setName(t.getTagName());
+            return idName;
+        }).collect(Collectors.toList());
+        return new HotTagsResponse(idNames);
+    }
 
 //    public PagingResult<TagSummary> listAllTags(Paging paging) {
 //        return tagDbService.listTagsByPage(paging);
@@ -29,14 +52,13 @@ public class TagService {
 //        return tagDetail;
 //    }
 //
-//    public void createTag(CreateTagRequest createTagRequest){
-//        TagDataObject tagDataObject = new TagDataObject();
-//        tagDataObject.setCreateTime(LocalDateTime.now());
-//        tagDataObject.setUpdateTime(LocalDateTime.now());
-//        tagDataObject.setTag(createTagRequest.getTag());
-//        tagDataObject.setSchemaIdList(createTagRequest.getSchemaId());
-//        tagDbService.save(tagDataObject);
-//    }
+    public CreateTagResponse createTag(CreateTagRequest createTagRequest){
+        TagInfoPO tagPO = new TagInfoPO();
+        tagPO.setTagName(createTagRequest.getTagName());
+        tagInfoDAO.save(tagPO);
+
+        return new CreateTagResponse(tagPO.getPkId().longValue());
+    }
 //
 //    public void updateTag(TagDetail tagDetail) {
 //        TagDataObject tagDataObject = new TagDataObject();
