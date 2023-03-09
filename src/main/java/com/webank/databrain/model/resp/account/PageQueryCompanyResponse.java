@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PageQueryCompanyResponse extends BasePageQueryResult<IdName> {
+public class PageQueryCompanyResponse extends BasePageQueryResult<IdNameWithType> {
 
-    public PageQueryCompanyResponse(PagedResult<IdName> pagedResult) {
+    public PageQueryCompanyResponse(PagedResult<IdNameWithType> pagedResult) {
         super(pagedResult);
     }
 

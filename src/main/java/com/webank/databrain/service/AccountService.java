@@ -154,13 +154,13 @@ public class AccountService {
     }
 
     public HotCompaniesResponse listHotCompanies(int topN) {
-        List<IdName> items = companyInfoDAO.listHotCompany(topN);
+        List<IdNameWithType> items = companyInfoDAO.listHotCompany(topN);
         HotCompaniesResponse response = new HotCompaniesResponse(items);
         return response;
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        List<IdName> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
+        List<IdNameWithType> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
         return new PageQueryCompanyResponse(new PagedResult<>(
                 companyInfoDataObjects,
                 request.getPageNo(),

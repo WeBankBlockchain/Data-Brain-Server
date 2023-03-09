@@ -6,6 +6,7 @@ import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.model.resp.account.IdNameWithType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
@@ -22,13 +23,13 @@ import java.util.List;
  */
 public interface CompanyInfoMapper extends BaseMapper<CompanyInfoPO> {
 
-    @Select("SELECT a.did as id, c.company_name as name FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ")
-    @ResultType(IdName.class)
-    List<IdName> listHotCompanies(int topN);
+    @Select("SELECT a.did as id, c.company_name as name, a.account_type FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ")
+    @ResultType(IdNameWithType.class)
+    List<IdNameWithType> listHotCompanies(int topN);
 
-    @Select("SELECT a.did as id, c.company_name as name FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
-    @ResultType(IdName.class)
-    List<IdName> listCompanies(@Param("start") long start, @Param("pageSize")int pageSize);
+    @Select("SELECT a.did as id, c.company_name as name, a.account_type FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
+    @ResultType(IdNameWithType.class)
+    List<IdNameWithType> listCompanies(@Param("start") long start, @Param("pageSize")int pageSize);
 
     @Select("SELECT a.*, c.* FROM t_company_info c INNER  JOIN t_account_info a ON c.account_id = a.pk_id WHERE a.user_name=#{username}")
     @ResultType(CompanyInfoBO.class)
