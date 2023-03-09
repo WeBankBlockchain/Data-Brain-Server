@@ -148,7 +148,7 @@ public class AccountService {
         return result;
     }
 
-    public HotCompaniesResponse listHotOrgs(int topN) {
+    public HotCompaniesResponse listHotCompanies(int topN) {
         List<IdName> items = companyInfoDAO.listHotCompany(topN);
         HotCompaniesResponse response = new HotCompaniesResponse(items);
         return response;
@@ -177,7 +177,7 @@ public class AccountService {
 //        return accountDO.getPrivateKey();
 //    }
 
-    public QueryAccountByIdResponse getAccountDetail(String did) {
+    public QueryAccountByUserNameResponse getAccountDetail(String username) {
         return null;
 //        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
 //        AccountDO accountDO = accountDAO.getOne(Wdid);

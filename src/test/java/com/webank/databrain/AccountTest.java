@@ -67,9 +67,8 @@ public class AccountTest extends ServerApplicationTests{
 
     @Test
     public void testHotCompanies() throws Exception{
-        HotCompaniesResponse response = accountService.listHotOrgs(5);
+        HotCompaniesResponse response = accountService.listHotCompanies(5);
         System.out.println(JsonUtils.toJson(response));
-
     }
 
     @Test

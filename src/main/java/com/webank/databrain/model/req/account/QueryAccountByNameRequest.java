@@ -3,8 +3,8 @@ package com.webank.databrain.model.req.account;
 import lombok.Data;
 
 @Data
-public class QueryAccountByIdRequest {
+public class QueryAccountByNameRequest {
 
-    private String did;
+    private String username;
 
 }

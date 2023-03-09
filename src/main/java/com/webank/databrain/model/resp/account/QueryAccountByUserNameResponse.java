@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryAccountByIdResponse {
+public class QueryAccountByUserNameResponse {
     private String did;
 
     private String address;
