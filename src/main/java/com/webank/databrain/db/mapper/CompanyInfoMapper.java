@@ -1,6 +1,7 @@
 package com.webank.databrain.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import com.webank.databrain.model.po.CompanyInfoPO;
 
 /**
@@ -11,6 +12,6 @@ import com.webank.databrain.model.po.CompanyInfoPO;
  * @author 
  * @since 2023-03-08
  */
-public interface CompanyInfoMapper extends BaseMapper<CompanyInfoPO> {
+public interface CompanyInfoMapper extends MPJBaseMapper<CompanyInfoPO> {
 
 }

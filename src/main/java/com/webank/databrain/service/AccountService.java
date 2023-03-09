@@ -9,7 +9,6 @@ import com.webank.databrain.db.dao.PersonInfoDAO;
 import com.webank.databrain.model.output.account.*;
 import com.webank.databrain.model.po.AccountInfoPO;
 import com.webank.databrain.model.po.CompanyInfoPO;
-import com.webank.databrain.model.po.CompanyJoinAccountPO;
 import com.webank.databrain.model.po.PersonInfoPO;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
@@ -19,7 +18,7 @@ import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.model.input.account.CompanyDetailInput;
 import com.webank.databrain.model.input.account.PersonalDetailInput;
-import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.output.IdName;
 import com.webank.databrain.model.input.account.LoginRequest;
 import com.webank.databrain.model.input.account.PageQueryCompanyRequest;
 import com.webank.databrain.model.input.account.RegisterRequest;
@@ -152,29 +151,24 @@ public class AccountService {
     }
 
     public HotCompaniesResponse listHotOrgs(int topN) {
-        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listHotCompany(topN);
-        List<IdName> idNames = companyInfoDataObjects.stream().map(c->{
-            IdName idName = new IdName();
-            idName.setId(String.valueOf(c.getDid()));
-            idName.setName(c.getCompanyName());
-            return idName;
-        }).collect(Collectors.toList());
-        HotCompaniesResponse response = new HotCompaniesResponse(idNames);
+        List<IdName> items = companyInfoDAO.listHotCompany(topN);
+        HotCompaniesResponse response = new HotCompaniesResponse(items);
         return response;
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
-        List<IdName> outputs = companyInfoDataObjects.stream().map(c->{
-            IdName idName = new IdName();
-            idName.setId(String.valueOf(c.getDid()));
-            idName.setName(c.getCompanyName());
-            return idName;
-        }).collect(Collectors.toList());
-        return new PageQueryCompanyResponse(new PagedResult<>(
-                outputs,
-                request.getPageNo(),
-                request.getPageSize()));
+        return null;
+//        List<CompanyJoinAccountPO> companyInfoDataObjects = accountDAO.listCompany(request.getPageNo(), request.getPageSize());
+//        List<IdName> outputs = companyInfoDataObjects.stream().map(c->{
+//            IdName idName = new IdName();
+//            idName.setId(String.valueOf(c.getDid()));
+//            idName.setName(c.getCompanyName());
+//            return idName;
+//        }).collect(Collectors.toList());
+//        return new PageQueryCompanyResponse(new PagedResult<>(
+//                outputs,
+//                request.getPageNo(),
+//                request.getPageSize()));
     }
 //
 //    public String getPrivateKey(String did) {

@@ -29,7 +29,6 @@ public class MybatisPlusConfig {
 //                .getResources("classpath:/mapper/*.xml"));
 
         sqlSessionFactory.setGlobalConfig(globalConfig);
-
         sqlSessionFactory.setPlugins(interceptor);
         return sqlSessionFactory.getObject();
     }

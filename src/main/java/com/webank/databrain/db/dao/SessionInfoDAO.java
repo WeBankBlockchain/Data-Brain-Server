@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.po.SessionInfoDataObject;
+import com.webank.databrain.model.po.SessionInfoPO;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.model.po.SessionInfoDataObject;
  * @author 
  * @since 2023-03-08
  */
-public interface SessionInfoDAO extends IService<SessionInfoDataObject> {
-    void replace(SessionInfoDataObject dataObject);
+public interface SessionInfoDAO extends IService<SessionInfoPO> {
+    void replace(SessionInfoPO dataObject);
 }

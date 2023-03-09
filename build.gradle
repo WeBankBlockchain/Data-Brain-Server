@@ -42,13 +42,17 @@ dependencies {
 	implementation("com.google.guava:guava:31.1-jre")
 	implementation 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'com.baomidou:mybatis-plus:3.4.0'
+	implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
 	implementation 'com.baomidou:mybatis-plus-generator:3.3.2'
+	implementation 'com.github.yulichang:mybatis-plus-join-boot-starter:1.4.3.1'
 	implementation 'org.apache.velocity:velocity:1.7'
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.20'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 }
+
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

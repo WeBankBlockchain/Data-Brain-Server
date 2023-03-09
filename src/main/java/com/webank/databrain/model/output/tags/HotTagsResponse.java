@@ -1,6 +1,6 @@
 package com.webank.databrain.model.output.tags;
 
-import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.output.IdName;
 import com.webank.databrain.model.output.BaseHotResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;

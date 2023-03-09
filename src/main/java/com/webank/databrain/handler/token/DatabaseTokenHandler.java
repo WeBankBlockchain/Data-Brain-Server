@@ -3,7 +3,7 @@ package com.webank.databrain.handler.token;
 
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.SessionInfoDAO;
-import com.webank.databrain.model.po.SessionInfoDataObject;
+import com.webank.databrain.model.po.SessionInfoPO;
 import com.webank.databrain.handler.token.generator.ITokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class DatabaseTokenHandler implements ITokenHandler{
     @Override
     public String generateToken(long accountPkId) {
         String token = tokenGenerator.generateToken();
-        SessionInfoDataObject dataObject = new SessionInfoDataObject();
+        SessionInfoPO dataObject = new SessionInfoPO();
         dataObject.setToken(token);
         dataObject.setAccountId(accountPkId);
         dataObject.setExpiredAt(LocalDateTime.now().plusMinutes(sysConfig.getLoginConfig().getTokenExpireMinutes()));

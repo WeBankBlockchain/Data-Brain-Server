@@ -1,6 +1,6 @@
 package com.webank.databrain.model.dto.dataschema;
 
-import com.webank.databrain.model.dto.common.IdName;
+import com.webank.databrain.model.output.IdName;
 
 import java.time.LocalDateTime;
 
