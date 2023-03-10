@@ -20,6 +20,7 @@ import com.webank.databrain.model.resp.product.PageQueryProductResponse;
 import com.webank.databrain.model.resp.product.UpdateProductResponse;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
+import com.webank.databrain.vo.common.CommonResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -62,12 +63,12 @@ public class ProductService {
     @Autowired
     private ProductInfoDAO productInfoDAO;
 
-    public HotProductsResponse getHotProducts(int topN) {
+    public CommonResponse getHotProducts(int topN) {
         List<IdName> idNames = productInfoDAO.getHotProduct(topN);
-        return new HotProductsResponse(idNames);
+        return CommonResponse.success(idNames);
     }
 
-    public PageQueryProductResponse pageQueryProducts(Paging paging) {
+    public CommonResponse pageQueryProducts(Paging paging) {
         List<ProductInfoBO> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
         List<ProductDetail> productDetails = new ArrayList<>();
 
@@ -77,25 +78,22 @@ public class ProductService {
             productDetail.setProviderId(product.getDid());
             productDetails.add(productDetail);
         });
-        return new PageQueryProductResponse(new PagedResult<>(productDetails,
+        return CommonResponse.success(new PagedResult<>(productDetails,
                 paging.getPageNo(),
                 paging.getPageSize())
         );
     }
 
-    public ProductDetail getProductDetail(String productId) {
+    public CommonResponse getProductDetail(String productId) {
         ProductInfoBO product = productInfoDAO.getProductByGId(productId);
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         productDetail.setProviderId(product.getDid());
-        return productDetail;
+        return CommonResponse.success(productDetail);
     }
 
-    public CreateProductResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
-//        CompanyDetail orgUserDetail = accountService.getAccountDetail(did);
-//        if(orgUserDetail == null){
-//            throw new DataBrainException(ErrorEnums.AccountNotExists);
-//        }
+    public CommonResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
+
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
 
         String privateKey = accountService.getPrivateKey(did);
@@ -117,10 +115,10 @@ public class ProductService {
         product.setProductDesc(productRequest.getInformation());
         product.setCreateTime(new Date());
         productInfoDAO.saveProductInfo(product);
-        return new CreateProductResponse(productId);
+        return CommonResponse.success(productId);
     }
 
-    public UpdateProductResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
+    public CommonResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String did = SessionUtils.currentAccountDid();
         String privateKey = accountService.getPrivateKey(did);
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
@@ -144,7 +142,7 @@ public class ProductService {
         product.setUpdateTime(new Date());
         productInfoDAO.updateProductInfo(product);
 
-        return new UpdateProductResponse(productRequest.getProductGId());
+        return CommonResponse.success(productRequest.getProductGId());
     }
 
 

@@ -3,14 +3,13 @@ package com.webank.databrain.controller;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.model.req.product.*;
-import com.webank.databrain.model.resp.CommonResponse;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.model.resp.product.CreateProductResponse;
 import com.webank.databrain.model.resp.product.HotProductsResponse;
-import com.webank.databrain.model.resp.product.PageQueryProductResponse;
 import com.webank.databrain.model.resp.product.UpdateProductResponse;
 import com.webank.databrain.service.ProductService;
 import com.webank.databrain.utils.SessionUtils;
+import com.webank.databrain.vo.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,43 +26,38 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(value = "/pageQueryProduct")
-    public CommonResponse<PageQueryProductResponse> pageQueryProduct(
+    public CommonResponse pageQueryProduct(
             @RequestBody PageQueryProductRequest queryProductRequest
     ){
         log.info("pageQueryProduct pageNo = {}, pageSize = {}",queryProductRequest.getPageNo(),queryProductRequest.getPageSize());
         if(queryProductRequest.getPageNo() <= 0 || queryProductRequest.getPageSize() <= 0){
-            return CommonResponse.fail(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
+            return CommonResponse.error(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
         }
-        PageQueryProductResponse result = productService.pageQueryProducts(new Paging(
+        return productService.pageQueryProducts(new Paging(
                 queryProductRequest.getPageNo()
                 ,queryProductRequest.getPageSize()));
-        return CommonResponse.success(result);
     }
     @PostMapping(value = "/queryProductById")
-    public CommonResponse<ProductDetail> queryProductById(@RequestBody QueryProductByIdRequest queryProductRequest
+    public CommonResponse queryProductById(@RequestBody QueryProductByIdRequest queryProductRequest
     ) {
         log.info("pageQueryProduct productId = {}", queryProductRequest.getProductId());
-        ProductDetail result =productService.getProductDetail(queryProductRequest.getProductId());
-        return CommonResponse.success(result);
+        return productService.getProductDetail(queryProductRequest.getProductId());
     }
     @PostMapping(value = "/getHotProducts")
-    public CommonResponse<HotProductsResponse> getHotProducts(@RequestBody HotProductsRequest hotProductRequest
+    public CommonResponse getHotProducts(@RequestBody HotProductsRequest hotProductRequest
     ){
         log.info("getHotProducts topN = {}", hotProductRequest.getTopN());
-        HotProductsResponse result = productService.getHotProducts(hotProductRequest.getTopN());
-        return CommonResponse.success(result);
+        return productService.getHotProducts(hotProductRequest.getTopN());
     }
     @PostMapping(value = "/createProduct")
-    public CommonResponse<CreateProductResponse> createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
+    public CommonResponse createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
         String did = SessionUtils.currentAccountDid();
-        CreateProductResponse response = productService.createProduct(did, createProductRequest);
-        return CommonResponse.success(response);
+        return productService.createProduct(did, createProductRequest);
     }
 
     @PostMapping(value = "/updateProduct")
-    public CommonResponse<UpdateProductResponse> updateProduct(@RequestBody UpdateProductRequest updateProductRequest) throws Exception{
-        UpdateProductResponse response = productService.updateProduct(updateProductRequest);
-        return CommonResponse.success(response);
+    public CommonResponse updateProduct(@RequestBody UpdateProductRequest updateProductRequest) throws Exception{
+        return productService.updateProduct(updateProductRequest);
     }
 
 
