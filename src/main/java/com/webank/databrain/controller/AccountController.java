@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-//@RestController
+@RestController
 @RequestMapping("/api/account")
 @Slf4j
 public class AccountController {
@@ -60,5 +61,26 @@ public class AccountController {
     public CommonResponse<QueryCompanyByUsernameResponse> queryCompanyByUsername(@RequestBody QueryByUsernameRequest request) {
         QueryCompanyByUsernameResponse detail = accountService.getCompanyByUsername(request.getUsername());
         return CommonResponse.success(detail);
+    }
+
+    @ApiOperation(value = "根据条件搜索机构")
+    @PostMapping("searchCompany")
+    public CommonResponse<SearchCompanyResponse> searchCompanies(@RequestBody SearchCompanyRequest request) {
+        SearchCompanyResponse detail = accountService.searchCompanies(request);
+        return CommonResponse.success(detail);
+    }
+
+    @ApiOperation(value = "根据条件搜索个人用户")
+    @PostMapping("searchPerson")
+    public CommonResponse<SearchPersonResponse> searchPersons(@RequestBody SearchAccountRequest request) {
+        SearchPersonResponse detail = accountService.searchPersons(request);
+        return CommonResponse.success(detail);
+    }
+
+    @ApiOperation(value = "审批用户")
+    @PostMapping("approveAccount")
+    public CommonResponse<Void> approveAccount(@RequestBody ApproveAccountRequest request) throws Exception{
+        accountService.approveAccount(request);
+        return CommonResponse.success(null);
     }
 }

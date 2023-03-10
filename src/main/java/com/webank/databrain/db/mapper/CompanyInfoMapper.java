@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.model.bo.ProductIdAndName;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.account.IdNameWithType;
@@ -35,9 +34,4 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfoPO> {
     @Select("SELECT a.*, c.* FROM t_company_info c INNER  JOIN t_account_info a ON c.account_id = a.pk_id WHERE a.user_name=#{username}")
     @ResultType(CompanyInfoBO.class)
     CompanyInfoBO queryCompanyByUsername(@Param("username") String username);
-
-
-    @Select("SELECT pk_id as productId, product_gid as id , product_name as name FROM t_product_info where pk_id IN (#{ids}) ")
-    @ResultType(ProductIdAndName.class)
-    List<ProductIdAndName> getProductNameByIds(@Param("ids") List<Long> ids);
 }

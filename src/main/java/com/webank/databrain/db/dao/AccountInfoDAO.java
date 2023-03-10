@@ -1,6 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.model.po.AccountInfoPO;
 
 /**
@@ -13,4 +14,5 @@ import com.webank.databrain.model.po.AccountInfoPO;
  */
 public interface AccountInfoDAO extends IService<AccountInfoPO> {
 
+    void updateAccountStatus(String did, AccountStatus status);
 }

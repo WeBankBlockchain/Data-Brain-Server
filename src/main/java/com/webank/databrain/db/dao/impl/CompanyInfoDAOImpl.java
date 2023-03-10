@@ -1,15 +1,10 @@
 package com.webank.databrain.db.dao.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.model.bo.CompanyInfoBO;
-import com.webank.databrain.model.resp.IdName;
-import com.webank.databrain.model.po.AccountInfoPO;
 import com.webank.databrain.model.po.CompanyInfoPO;
 import com.webank.databrain.db.mapper.CompanyInfoMapper;
-import com.webank.databrain.model.resp.account.IdNameWithType;
 import com.webank.databrain.utils.PagingUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +22,12 @@ import java.util.List;
 public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfoPO> implements CompanyInfoDAO {
 
     @Override
-    public List<IdNameWithType> listHotCompany(int topN) {
+    public List<CompanyInfoBO> listHotCompany(int topN) {
         return baseMapper.listHotCompanies(topN);
     }
 
     @Override
-    public List<IdNameWithType> listCompany(int pageNo, int pageSize) {
+    public List<CompanyInfoBO> listCompany(int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.listCompanies(start, pageSize);
     }
@@ -40,5 +35,11 @@ public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyIn
     @Override
     public CompanyInfoBO queryCompanyByUsername(String username) {
         return baseMapper.queryCompanyByUsername(username);
+    }
+
+    @Override
+    public List<CompanyInfoBO> listCompanyWithStatus(int status, int pageNo, int pageSize) {
+        long start = PagingUtils.getStartOffset(pageNo, pageSize);
+        return baseMapper.listCompanyWithStatus(status, start, pageSize);
     }
 }
