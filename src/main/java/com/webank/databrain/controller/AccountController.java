@@ -72,7 +72,7 @@ public class AccountController {
 
     @ApiOperation(value = "根据条件搜索个人用户")
     @PostMapping("searchPerson")
-    public CommonResponse<SearchPersonResponse> searchPersons(@RequestBody SearchAccountRequest request) {
+    public CommonResponse<SearchPersonResponse> searchPersons(@RequestBody SearchPersonRequest request) {
         SearchPersonResponse detail = accountService.searchPersons(request);
         return CommonResponse.success(detail);
     }
