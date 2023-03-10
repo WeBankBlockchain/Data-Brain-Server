@@ -1,4 +1,3 @@
-
 -- 账户表 --
 CREATE TABLE `t_account_info` (
   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -15,7 +14,7 @@ CREATE TABLE `t_account_info` (
   PRIMARY KEY (`pk_id`),
   UNIQUE KEY `did` (`did`),
   UNIQUE KEY `username` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- 个人用户表 --
 CREATE TABLE `t_person_info` (
@@ -30,7 +29,7 @@ CREATE TABLE `t_person_info` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_id`),
   UNIQUE KEY `account_id` (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
  -- 机构表 --
 CREATE TABLE `t_company_info` (
@@ -39,7 +38,7 @@ CREATE TABLE `t_company_info` (
   `company_name` varchar(255) NOT NULL COMMENT '公司名称',
   `company_desc` text COMMENT '公司详情',
   `company_cert_type` varchar(32) NOT NULL DEFAULT '0' COMMENT '法人证件类型',
-  `company_cert_no` varchar(128) NOT NULL DEFAULT '' COMMENT '法人证件号'
+  `company_cert_no` varchar(128) NOT NULL DEFAULT '' COMMENT '法人证件号',
   `company_cert_file_uri` varchar(255) DEFAULT NULL COMMENT '公司证件图片链接',
   `company_contact` varchar(32) NOT NULL DEFAULT '' COMMENT '公司联系方式',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -47,7 +46,7 @@ CREATE TABLE `t_company_info` (
   PRIMARY KEY (`pk_id`),
   UNIQUE KEY `account_id` (`account_id`),
   UNIQUE KEY `company_name` (`company_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 
 -- 产品表 --

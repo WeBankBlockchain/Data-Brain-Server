@@ -221,7 +221,7 @@ public class AccountService {
         ));
     }
 
-    public SearchPersonResponse searchPersons(SearchAccountRequest request) {
+    public SearchPersonResponse searchPersons(SearchPersonRequest request) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String statusStr = request.getCondition().getAccountStatus();
         AccountStatus status = AccountStatus.valueOf(statusStr);

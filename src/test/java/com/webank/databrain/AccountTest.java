@@ -1,10 +1,12 @@
 package com.webank.databrain;
 
+import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.model.req.account.*;
 import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,8 @@ public class AccountTest extends ServerApplicationTests{
         request.setUsername(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Personal);
-        CompanyDetailInput orgUserDetail = new CompanyDetailInput();
-        orgUserDetail.setCompanyName("facebook");
+        PersonalDetailInput orgUserDetail = new PersonalDetailInput();
+        orgUserDetail.setName("张三");
         request.setDetailJson(JsonUtils.toJson(orgUserDetail));
         Object result = accountService.registerAccount(request);
         System.out.println(JsonUtils.toJson(result));
@@ -100,4 +102,54 @@ public class AccountTest extends ServerApplicationTests{
         System.out.println(JsonUtils.toJson(companyResponse));
 
     }
+
+    @Test
+    public void testSearch() throws Exception{
+        SearchCompanyRequest companyRequest = new SearchCompanyRequest();
+        companyRequest.setPageNo(1);
+        companyRequest.setPageSize(5);
+        companyRequest.setCondition(new SearchCompanyRequest.SearchCondition(AccountStatus.Registered.name()));
+
+        SearchCompanyResponse companyResponse = accountService.searchCompanies(companyRequest);
+        System.out.println(JsonUtils.toJson(companyResponse));
+
+
+        SearchPersonRequest personRequest = new SearchPersonRequest();
+        personRequest.setPageNo(1);
+        personRequest.setPageSize(5);
+        personRequest.setCondition(new SearchPersonRequest.SearchCondition(AccountStatus.Approved.name()));
+
+        SearchPersonResponse personResponse = accountService.searchPersons(personRequest);
+        System.out.println(JsonUtils.toJson(personResponse));
+
+//        request.setUsername("companyUser00001");
+//        QueryCompanyByUsernameResponse companyResponse = accountService.getCompanyByUsername(request.getUsername());
+//        System.out.println(JsonUtils.toJson(companyResponse));
+
+    }
+
+    @Test
+    public void testAudit() throws Exception{
+        String username = "personalUser0011";
+        String password = "12345678";
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername(username);
+        request.setPassword(password);
+        request.setAccountType(AccountType.Personal);
+        PersonalDetailInput orgUserDetail = new PersonalDetailInput();
+        orgUserDetail.setName("李四");
+        request.setDetailJson(JsonUtils.toJson(orgUserDetail));
+        RegisterResponse result = accountService.registerAccount(request);
+        String did = result.getDid();
+
+        ApproveAccountRequest approveAccountRequest = new ApproveAccountRequest();
+        approveAccountRequest.setApproved(true);
+        approveAccountRequest.setDid(did);
+
+        accountService.approveAccount(approveAccountRequest);
+
+    }
+
+
+
 }

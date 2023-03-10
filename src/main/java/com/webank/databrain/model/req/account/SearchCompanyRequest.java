@@ -1,6 +1,7 @@
 package com.webank.databrain.model.req.account;
 
 import com.webank.databrain.model.req.PagedRequest;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,6 +13,7 @@ public class SearchCompanyRequest extends PagedRequest {
     private SearchCondition condition;
 
     @Data
+    @AllArgsConstructor
     public static class SearchCondition{
         private String accountStatus;
     }

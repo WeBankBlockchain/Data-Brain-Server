@@ -31,7 +31,7 @@ public interface CompanyInfoMapper extends BaseMapper<CompanyInfoPO> {
     @ResultType(CompanyInfoBO.class)
     CompanyInfoBO queryCompanyByUsername(@Param("username") String username);
 
-    @Select("SELECT a.*, c.* FROM t_company_info c INNER  JOIN t_account_info a ON c.account_id = a.pk_id WHERE a.status == #{status} ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
+    @Select("SELECT a.*, c.* FROM t_company_info c INNER  JOIN t_account_info a ON c.account_id = a.pk_id WHERE a.status = #{status} ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
     @ResultType(CompanyInfoBO.class)
     List<CompanyInfoBO> listCompanyWithStatus(@Param("status") int status, @Param("start") long start, @Param("pageSize")int pageSize);
 }
