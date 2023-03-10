@@ -2,6 +2,7 @@ package com.webank.databrain.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.model.bo.ProductIdAndName;
 import com.webank.databrain.model.bo.ProductInfoBO;
 import com.webank.databrain.model.po.ProductInfoPO;
 import com.webank.databrain.db.mapper.ProductInfoMapper;
@@ -36,5 +37,18 @@ public class ProductInfoDAOImpl extends ServiceImpl<ProductInfoMapper, ProductIn
     @Override
     public ProductInfoBO getProductByGId(String productId) {
         return baseMapper.getProductByGId(productId);
+    }
+
+    @Override
+    public List<ProductIdAndName> getProductNameByIds(List<Long> ids) {
+        return baseMapper.getProductNameByIds(ids);
+    }
+
+    public void saveProductInfo(ProductInfoPO productInfoPO){
+        baseMapper.insertProductInfoPO(productInfoPO);
+    }
+
+    public void updateProductInfo(ProductInfoPO productInfoPO){
+        baseMapper.updateProductInfo(productInfoPO);
     }
 }

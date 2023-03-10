@@ -79,7 +79,7 @@ CREATE TABLE `t_company_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `data_schema_gid` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录链上id',
    `data_schema_name` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录名称',
-   `provider_id` varchar(255) NOT NULL DEFAULT 0 COMMENT '提供方外键id',
+   `provider_id` bigint(20) unsigned NOT NULL COMMENT '提供方外键ID',
    `product_id` bigint(20) unsigned NOT NULL COMMENT '产品外键ID',
    `version` int(4) NOT NULL DEFAULT 0 COMMENT '版本号',
    `visible` int(4) NOT NULL DEFAULT 0 COMMENT '是否可见',

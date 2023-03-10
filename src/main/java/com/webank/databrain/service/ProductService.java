@@ -116,7 +116,7 @@ public class ProductService {
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getInformation());
         product.setCreateTime(new Date());
-        productInfoDAO.save(product);
+        productInfoDAO.saveProductInfo(product);
         return new CreateProductResponse(productId);
     }
 
@@ -142,7 +142,7 @@ public class ProductService {
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getInformation());
         product.setUpdateTime(new Date());
-        productInfoDAO.saveOrUpdate(product);
+        productInfoDAO.updateProductInfo(product);
 
         return new UpdateProductResponse(productRequest.getProductGId());
     }

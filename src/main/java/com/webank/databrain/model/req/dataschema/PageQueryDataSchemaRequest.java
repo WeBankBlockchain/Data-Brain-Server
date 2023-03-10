@@ -1,21 +1,22 @@
 package com.webank.databrain.model.req.dataschema;
 
 import com.webank.databrain.model.req.PagedRequest;
+import com.webank.databrain.vo.common.CommonPageQueryRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PageQueryDataSchemaRequest extends PagedRequest {
+public class PageQueryDataSchemaRequest extends CommonPageQueryRequest {
 
-    private String productId;
+    private Long productId;
 
-    private String providerId;
+    private Long providerId;
 
-    private String tag;
+    private Long tagId;
 
     private String keyWord;
 
-    private String schemaId;
+    private Long schemaId;
 
 }

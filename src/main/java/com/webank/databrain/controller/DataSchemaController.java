@@ -1,6 +1,14 @@
 package com.webank.databrain.controller;
 
+import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.model.req.dataschema.PageQueryDataSchemaRequest;
+import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.service.DataSchemaService;
+import com.webank.databrain.vo.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,31 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/schema")
 public class DataSchemaController {
 
-//
-//    @Autowired
-//    private DataSchemaService schemaService;
-//
-//
-//    @PostMapping(value = "/pageQuerySchema")
-//    public CommonResponse<PageQueryDataSchemaResponse> pageQuerySchema(
-//            @RequestBody PageQueryDataSchemaRequest querySchemaRequest
-//    ){
-//        log.info("pageQuerySchema pageNo = {}, pageSize = {}",
-//                querySchemaRequest.getPageNo(),
-//                querySchemaRequest.getPageSize());
-//        if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
-//            return CommonResponse.fail(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
-//        }
-//        PageQueryDataSchemaResponse response = schemaService.pageQuerySchema(new Paging(
-//                querySchemaRequest.getPageNo(),
-//                querySchemaRequest.getPageSize()),
-//                querySchemaRequest.getProductId(),
-//                querySchemaRequest.getProviderId(),
-//                querySchemaRequest.getTag(),
-//                querySchemaRequest.getKeyWord()
-//        );
-//        return CommonResponse.success(response);
-//    }
+
+    @Autowired
+    private DataSchemaService schemaService;
+
+
+    @PostMapping(value = "/pageQuerySchema")
+    public CommonResponse pageQuerySchema(
+            @RequestBody PageQueryDataSchemaRequest querySchemaRequest
+    ){
+        log.info("pageQuerySchema pageNo = {}, pageSize = {}",
+                querySchemaRequest.getPageNo(),
+                querySchemaRequest.getPageSize());
+        if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
+            return CommonResponse.error(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
+        }
+        CommonResponse response = schemaService.pageQuerySchema(new Paging(
+                querySchemaRequest.getPageNo(),
+                querySchemaRequest.getPageSize()),
+                querySchemaRequest.getProductId(),
+                querySchemaRequest.getProviderId(),
+                querySchemaRequest.getTagId(),
+                querySchemaRequest.getKeyWord()
+        );
+        return CommonResponse.success(response);
+    }
 //
 //
 //    @PostMapping(value = "/createSchema")

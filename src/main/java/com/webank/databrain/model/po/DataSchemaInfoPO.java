@@ -43,7 +43,7 @@ public class DataSchemaInfoPO implements Serializable {
      * 提供方外键id
      */
     @TableField("provider_id")
-    private String providerId;
+    private Long providerId;
 
     /**
      * 产品外键ID
