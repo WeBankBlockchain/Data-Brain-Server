@@ -11,14 +11,14 @@ public class CommonResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String code;
+    private int code;
 
     private String msg;
 
     private T data;
 
 
-    public CommonResponse(String code, String msg, T data) {
+    public CommonResponse(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -28,7 +28,7 @@ public class CommonResponse<T> implements Serializable {
         return new CommonResponse<T>(ErrorEnums.Success.getCode(), StringUtils.EMPTY, data);
     }
 
-    public static<T> CommonResponse<T> fail(String code, String msg) {
+    public static<T> CommonResponse<T> fail(int code, String msg) {
         return new CommonResponse<T>(code, msg, null);
     }
 
