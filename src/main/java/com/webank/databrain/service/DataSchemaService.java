@@ -1,74 +1,74 @@
 package com.webank.databrain.service;
 
+import com.webank.databrain.config.SysConfig;
+import com.webank.databrain.db.dao.DataSchemaInfoDAO;
+import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.model.bo.DataSchemaInfoBO;
+import com.webank.databrain.model.resp.PagedResult;
+import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.model.resp.dataschema.DataSchemaDetail;
+import com.webank.databrain.vo.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.fisco.bcos.sdk.v3.client.Client;
+import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
+import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
 public class DataSchemaService {
-//
-//    @Autowired
-//    private Client client;
-//
-//    @Autowired
-//    private CryptoSuite cryptoSuite;
-//
-//    @Autowired
-//    private SysConfig sysConfig;
-//
-//    @Autowired
-//    private ISchemaService schemaService;
-//
-//    @Autowired
-//    private IVisitInfoService visitInfoService;
-//
-//    @Autowired
-//    private AccountService accountService;
-//
-//    @Autowired
-//    private ProductService productService;
-//
-//    @Autowired
-//    private TagService tagService;
-//
-//    @Autowired
-//    private TransactionDecoderInterface txDecoder;
-//    public PageQueryDataSchemaResponse pageQuerySchema(Paging paging, String productId, String providerId, String tag, String keyWord) {
-//        QueryWrapper<DataSchemaDataObject> wrappers = Wrappers.<DataSchemaDataObject>query();
-//        if(org.apache.commons.lang3.StringUtils.isNotEmpty(productId)){
-//            wrappers.eq("product_id",productId);
-//        }
-//        if(org.apache.commons.lang3.StringUtils.isNotEmpty(providerId)){
-//            wrappers.eq("provider_id",productId);
-//        }
-//        if(org.apache.commons.lang3.StringUtils.isNotEmpty(tag)){
-//            wrappers.eq("tag",tag);
-//        }
-//        if(org.apache.commons.lang3.StringUtils.isNotEmpty(keyWord)){
-//            wrappers.like("description", keyWord).or()
-//                    .like("product_name",keyWord).or()
-//                    .like("provider_name",keyWord).or()
-//                    .like("schema_name",keyWord);
-//        }
-//        wrappers.orderByDesc("create_time");
-//
-//        IPage<DataSchemaDataObject> result = schemaService.page(new Page<>(paging.getPageNo(),paging.getPageSize()),wrappers);
-//        List<DataSchemaDataObject> dataSchemaDataObjects = result.getRecords();
-//        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
-//
-//        dataSchemaDataObjects.forEach(dataSchemaDataObject -> {
-//            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
-//            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
-//            dataSchemaDetails.add(dataSchemaDetail);
-//        });
-//        return new PageQueryDataSchemaResponse(new PagedResult<>(
-//                dataSchemaDetails,
-//                result.getCurrent(),
-//                result.getSize(),
-//                result.getTotal(),
-//                result.getPages()));
-//    }
-//
+
+    @Autowired
+    private Client client;
+
+
+    @Autowired
+    private CryptoKeyPair witnessKeyPair;
+    @Autowired
+    private SysConfig sysConfig;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private ProductInfoDAO productInfoDAO;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private TransactionDecoderInterface txDecoder;
+
+    @Autowired
+    private DataSchemaInfoDAO dataSchemaInfoDAO;
+
+
+    public CommonResponse pageQuerySchema(Paging paging, Long productId, Long providerId, Long tagId, String keyWord) {
+        List<DataSchemaInfoBO> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQueryProduct(
+                paging.getPageNo(),
+                paging.getPageSize(),
+                productId,
+                providerId,
+                tagId,
+                keyWord);
+
+        List<DataSchemaDetail> dataSchemaDetails = new ArrayList<>();
+        dataSchemaInfoPOS.forEach(dataSchemaDataObject -> {
+            DataSchemaDetail dataSchemaDetail = new DataSchemaDetail();
+            BeanUtils.copyProperties(dataSchemaDataObject,dataSchemaDetail);
+            dataSchemaDetails.add(dataSchemaDetail);
+        });
+        return CommonResponse.success(new PagedResult<>(
+                dataSchemaDetails,
+                paging.getPageNo(),
+                paging.getPageSize()));
+    }
+
 //    public QueryDataSchemaByIdResponse getDataSchemaById(String schemaId){
 //        DataSchemaDataObject schemaDataObject = schemaService.getOne(Wrappers.<DataSchemaDataObject>query().eq("schema_id",schemaId));
 //        QueryDataSchemaByIdResponse schemaDetail = new QueryDataSchemaByIdResponse();
@@ -167,17 +167,4 @@ public class DataSchemaService {
 //        return new UpdateDataSchemaResponse(schemaRequest.getSchemaId());
 //    }
 
-//    public void deleteDataSchema(DeleteDataSchemaRequest schemaRequest) throws TransactionException {
-//        String privateKey = accountService.getPrivateKey(schemaRequest.getDid());
-//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-//        DataSchemaModule dataSchemaModule = DataSchemaModule.load(
-//                sysConfig.getContractConfig().getAccountContract(),
-//                client,
-//                keyPair);
-//
-//        TransactionReceipt receipt = dataSchemaModule.deleteDataSchema(
-//                ByteUtils.hexStringToBytes(schemaRequest.getSchemaId()));
-//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-//        log.info("deleteDataSchema finish, schemaId = {}", schemaRequest.getDid());
-//    }
 }

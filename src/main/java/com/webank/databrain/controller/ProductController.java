@@ -53,8 +53,6 @@ public class ProductController {
         HotProductsResponse result = productService.getHotProducts(hotProductRequest.getTopN());
         return CommonResponse.success(result);
     }
-//
-//
     @PostMapping(value = "/createProduct")
     public CommonResponse<CreateProductResponse> createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
         String did = SessionUtils.currentAccountDid();

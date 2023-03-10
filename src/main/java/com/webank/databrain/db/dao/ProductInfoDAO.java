@@ -1,6 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.webank.databrain.model.bo.ProductIdAndName;
 import com.webank.databrain.model.bo.ProductInfoBO;
 import com.webank.databrain.model.po.ProductInfoPO;
 import com.webank.databrain.model.resp.IdName;
@@ -23,5 +24,9 @@ public interface ProductInfoDAO extends IService<ProductInfoPO> {
 
     ProductInfoBO getProductByGId(String productId);
 
+    List<ProductIdAndName> getProductNameByIds(List<Long> ids);
 
+    void saveProductInfo(ProductInfoPO productInfoPO);
+
+    void updateProductInfo(ProductInfoPO productInfoPO);
 }
