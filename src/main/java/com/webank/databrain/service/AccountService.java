@@ -8,6 +8,7 @@ import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
+import com.webank.databrain.model.req.account.*;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.account.*;
 import com.webank.databrain.model.po.AccountInfoPO;
@@ -19,12 +20,6 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.req.account.CompanyDetailInput;
-import com.webank.databrain.model.req.account.PersonalDetailInput;
-import com.webank.databrain.model.resp.IdName;
-import com.webank.databrain.model.req.account.LoginRequest;
-import com.webank.databrain.model.req.account.PageQueryCompanyRequest;
-import com.webank.databrain.model.req.account.RegisterRequest;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -155,15 +151,19 @@ public class AccountService {
     }
 
     public HotCompaniesResponse listHotCompanies(int topN) {
-        List<IdNameWithType> items = companyInfoDAO.listHotCompany(topN);
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listHotCompany(topN);
+        List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         HotCompaniesResponse response = new HotCompaniesResponse(items);
         return response;
     }
 
     public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        List<IdNameWithType> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
+        List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         return new PageQueryCompanyResponse(new PagedResult<>(
-                companyInfoDataObjects,
+                items,
                 request.getPageNo(),
                 request.getPageSize()));
     }
@@ -186,17 +186,9 @@ public class AccountService {
             throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
 
+        PersonInfoVO voItem = AccountUtils.personBOToVO(cryptoSuite, data);
         QueryPersonByUsernameResponse ret = new QueryPersonByUsernameResponse();
-
-        ret.setDid(data.getDid());
-        ret.setStatus(data.getStatus());
-        ret.setKeyAddress(cryptoSuite.loadKeyPair(data.getPrivateKey()).getAddress());
-        ret.setCreateTime(data.getCreateTime().getTime());
-        ret.setPersonName(data.getPersonName());
-        ret.setPersonContact(data.getPersonContact());
-        ret.setPersonCertNo(data.getPersonCertNo());
-        ret.setPersonCertType(data.getPersonCertType());
-        ret.setPersonEmail(data.getPersonEmail());
+        ret.setItem(voItem);
 
         return ret;
     }
@@ -210,19 +202,54 @@ public class AccountService {
             throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
 
+        CompanyInfoVO voItem = AccountUtils.companyBOToVO(cryptoSuite, data);
         QueryCompanyByUsernameResponse ret = new QueryCompanyByUsernameResponse();
-
-        ret.setDid(data.getDid());
-        ret.setStatus(data.getStatus());
-        ret.setKeyAddress(cryptoSuite.loadKeyPair(data.getPrivateKey()).getAddress());
-        ret.setCreateTime(data.getCreateTime().getTime());
-        ret.setCompanyName(data.getCompanyName());
-        ret.setCompanyCertFileUri(data.getCompanyCertFileUri());
-        ret.setCompanyCertType(data.getCompanyCertType());
-        ret.setCompanyDesc(data.getCompanyDesc());
-        ret.setCompanyContact(data.getCompanyContact());
-
+        ret.setItem(voItem);
         return ret;
+    }
+
+    public SearchCompanyResponse searchCompanies(SearchCompanyRequest request) {
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        String statusStr = request.getCondition().getAccountStatus();
+        AccountStatus status = AccountStatus.valueOf(statusStr);
+        List<CompanyInfoBO> boList = companyInfoDAO.listCompanyWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
+        List<CompanyInfoVO> voItems = boList.stream().map(b -> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        return new SearchCompanyResponse(new PagedResult<>(
+                voItems,
+                request.getPageNo(),
+                request.getPageSize()
+        ));
+    }
+
+    public SearchPersonResponse searchPersons(SearchAccountRequest request) {
+        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+        String statusStr = request.getCondition().getAccountStatus();
+        AccountStatus status = AccountStatus.valueOf(statusStr);
+        List<PersonInfoBO> boList = personInfoDAO.listPersonWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
+        List<PersonInfoVO> voItems = boList.stream().map(b -> AccountUtils.personBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        return new SearchPersonResponse(new PagedResult<>(
+                voItems,
+                request.getPageNo(),
+                request.getPageSize()
+        ));
+    }
+
+    public void approveAccount(ApproveAccountRequest request) throws Exception{
+        String did = request.getDid();
+        boolean approve = request.isApproved();
+        AccountInfoPO accountInfoPO = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("did", did));
+        if (accountInfoPO == null){
+            throw new DataBrainException(ErrorEnums.AccountNotExists);
+        }
+
+        byte[] didBytes = AccountUtils.decode(did);
+        CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
+        AccountModule accountModule = AccountModule.load(sysConfig.getContractConfig().getAccountContract(), client, witnessKeyPair);
+        TransactionReceipt txReceipt = accountModule.approve(didBytes, approve);
+        BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
+        //修改数据库状态
+        AccountStatus status = approve?AccountStatus.Approved:AccountStatus.Denied;
+        accountDAO.updateAccountStatus(did, status);
     }
 //
 //
@@ -243,24 +270,7 @@ public class AccountService {
 //    }
 //
 //
-//
-//    public QueryAccountByIdResponse getAccountDetail(String did){
 
-//    }
-//
-//    public CompanyDetail getOrgDetail(String did){
-//        OrgInfoDataObject orgInfoDataObject = orgDAO.getOne(
-//                Wrappers.<OrgInfoDataObject>query().eq("org_id",did));
-//        CompanyDetail orgUserDetail = new CompanyDetail();
-//        BeanUtils.copyProperties(orgInfoDataObject,orgUserDetail);
-//        return  orgUserDetail;
-//    }
-//
-//    public PersonalDetail getNormalUserDetail(String did){
-//        UserInfoDataObject userDetailDataObject = userInfoDAO.getOne(
-//                Wrappers.<UserInfoDataObject>query().eq("user_id",did));
-//        PersonalDetail userDetail = new PersonalDetail();
-//        BeanUtils.copyProperties(userDetailDataObject, userDetailDataObject);
-//        return userDetail;
-//    }
+
+
 }

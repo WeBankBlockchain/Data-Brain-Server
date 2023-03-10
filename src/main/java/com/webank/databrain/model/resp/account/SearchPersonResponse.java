@@ -1,14 +1,13 @@
 package com.webank.databrain.model.resp.account;
 
+import com.webank.databrain.model.resp.PagedResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class QueryPersonByUsernameResponse {
+public class SearchPersonResponse {
 
-    private PersonInfoVO item;
+    private PagedResult<PersonInfoVO> result;
 
 }
