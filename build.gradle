@@ -74,7 +74,7 @@ bootJar {
 			into 'dist/config/'
 		}
 		copy {
-			from configurations.runtime
+			from configurations.runtimeClasspath
 			into 'dist/lib'
 		}
 		copy {
