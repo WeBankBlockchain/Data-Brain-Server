@@ -9,7 +9,7 @@ public class CompanyDetailInput {
 
     private String companyDesc;
 
-    private String logoUrl;
+    private String certFileUrl;
 
     private String contact;
 
