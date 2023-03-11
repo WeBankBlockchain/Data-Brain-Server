@@ -109,18 +109,19 @@ public class AccountTest extends ServerApplicationTests{
         companyRequest.setPageNo(1);
         companyRequest.setPageSize(5);
         companyRequest.setCondition(new SearchCompanyRequest.SearchCondition(AccountStatus.Registered.name()));
+        System.out.println(JsonUtils.toJson(companyRequest));
 
-        SearchCompanyResponse companyResponse = accountService.searchCompanies(companyRequest);
-        System.out.println(JsonUtils.toJson(companyResponse));
-
-
-        SearchPersonRequest personRequest = new SearchPersonRequest();
-        personRequest.setPageNo(1);
-        personRequest.setPageSize(5);
-        personRequest.setCondition(new SearchPersonRequest.SearchCondition(AccountStatus.Approved.name()));
-
-        SearchPersonResponse personResponse = accountService.searchPersons(personRequest);
-        System.out.println(JsonUtils.toJson(personResponse));
+        SearchCompanyRequest r = JsonUtils.fromJson(JsonUtils.toJson(companyRequest), SearchCompanyRequest.class);
+//        SearchCompanyResponse companyResponse = accountService.searchCompanies(companyRequest);
+//        System.out.println(JsonUtils.toJson(companyResponse));
+//
+//        SearchPersonRequest personRequest = new SearchPersonRequest();
+//        personRequest.setPageNo(1);
+//        personRequest.setPageSize(5);
+//        personRequest.setCondition(new SearchPersonRequest.SearchCondition(AccountStatus.Approved.name()));
+//
+//        SearchPersonResponse personResponse = accountService.searchPersons(personRequest);
+//        System.out.println(JsonUtils.toJson(personResponse));
 
 //        request.setUsername("companyUser00001");
 //        QueryCompanyByUsernameResponse companyResponse = accountService.getCompanyByUsername(request.getUsername());
