@@ -2,13 +2,11 @@ package com.webank.databrain.authentication;
 
 import com.webank.databrain.constants.CommonConstants;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
-import com.webank.databrain.db.dao.AccountInfoDAO;
+import com.webank.databrain.dao.db.dao.AccountInfoDAO;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.utils.SessionUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;

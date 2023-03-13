@@ -1,8 +1,8 @@
-package com.webank.databrain.db.dao;
+package com.webank.databrain.dao.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
-import com.webank.databrain.model.resp.dataschema.DataSchemaWithAccessResponse;
+import com.webank.databrain.vo.response.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 
 import java.util.List;

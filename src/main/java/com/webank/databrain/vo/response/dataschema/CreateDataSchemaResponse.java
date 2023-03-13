@@ -1,4 +1,4 @@
-package com.webank.databrain.model.resp.product;
+package com.webank.databrain.vo.response.dataschema;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateProductResponse {
+public class CreateDataSchemaResponse {
 
-    private String productId;
-
+    private String dataSchemaId;
 }

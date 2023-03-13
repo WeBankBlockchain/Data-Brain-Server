@@ -1,4 +1,4 @@
-package com.webank.databrain.model.resp.dataschema;
+package com.webank.databrain.vo.response.dataschema;
 
 import java.util.Date;
 

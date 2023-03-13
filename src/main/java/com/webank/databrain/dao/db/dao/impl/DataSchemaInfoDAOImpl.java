@@ -1,10 +1,10 @@
-package com.webank.databrain.db.dao.impl;
+package com.webank.databrain.dao.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import com.webank.databrain.dao.db.mapper.DataSchemaInfoMapper;
-import com.webank.databrain.db.dao.DataSchemaInfoDAO;
-import com.webank.databrain.model.resp.dataschema.DataSchemaWithAccessResponse;
+import com.webank.databrain.dao.db.dao.DataSchemaInfoDAO;
+import com.webank.databrain.vo.response.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import org.springframework.stereotype.Service;

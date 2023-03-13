@@ -1,7 +1,6 @@
-package com.webank.databrain.db.dao.impl;
+package com.webank.databrain.dao.db.dao.impl;
 
-import com.github.yulichang.base.MPJBaseServiceImpl;
-import com.webank.databrain.db.dao.AccountInfoDAO;
+import com.webank.databrain.dao.db.dao.AccountInfoDAO;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.mapper.AccountInfoMapper;

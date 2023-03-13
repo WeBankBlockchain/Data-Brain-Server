@@ -1,4 +1,4 @@
-package com.webank.databrain.model.resp.product;
+package com.webank.databrain.vo.response.product;
 
 import lombok.Data;
 

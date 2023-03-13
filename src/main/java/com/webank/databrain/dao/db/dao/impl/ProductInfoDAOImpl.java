@@ -1,9 +1,9 @@
-package com.webank.databrain.db.dao.impl;
+package com.webank.databrain.dao.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
 import com.webank.databrain.dao.db.mapper.ProductInfoMapper;
-import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.dao.db.dao.ProductInfoDAO;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;

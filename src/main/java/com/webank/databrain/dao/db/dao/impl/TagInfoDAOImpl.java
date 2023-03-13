@@ -1,7 +1,6 @@
-package com.webank.databrain.db.dao.impl;
+package com.webank.databrain.dao.db.dao.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.webank.databrain.db.dao.TagInfoDAO;
+import com.webank.databrain.dao.db.dao.TagInfoDAO;
 import com.webank.databrain.dao.db.entity.TagInfoEntity;
 import com.webank.databrain.dao.db.mapper.TagInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;

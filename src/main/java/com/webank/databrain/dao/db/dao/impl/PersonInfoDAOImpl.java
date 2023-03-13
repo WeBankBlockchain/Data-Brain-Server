@@ -1,7 +1,6 @@
-package com.webank.databrain.db.dao.impl;
+package com.webank.databrain.dao.db.dao.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.webank.databrain.db.dao.PersonInfoDAO;
+import com.webank.databrain.dao.db.dao.PersonInfoDAO;
 import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
 import com.webank.databrain.dao.db.mapper.PersonInfoMapper;

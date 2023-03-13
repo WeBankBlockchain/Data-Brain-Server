@@ -1,10 +1,7 @@
 package com.webank.databrain.service;
 
 //import com.webank.databrain.db.dao.ITagDbService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.webank.databrain.db.dao.TagInfoDAO;
+import com.webank.databrain.dao.db.dao.TagInfoDAO;
 import com.webank.databrain.dao.db.entity.TagInfoEntity;
 import com.webank.databrain.model.req.tags.CreateTagRequest;
 import com.webank.databrain.model.resp.CommonResponse;
