@@ -1,10 +1,12 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
+import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.vo.request.dataschema.PageQueryDataSchemaRequest;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.service.DataSchemaService;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.request.dataschema.QuerySchemaByIdRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,11 +46,10 @@ public class DataSchemaController {
     }
 //
 //
-//    @PostMapping(value = "/createSchema")
-//    public CommonResponse<CreateDataSchemaResponse> createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
-//        CreateDataSchemaResponse createDataSchemaResponse = schemaService.createDataSchema(createDataSchemaRequest);;
-//        return CommonResponse.success(createDataSchemaResponse);
-//    }
+    @PostMapping(value = "/createSchema")
+    public CommonResponse createSchema(@RequestBody CreateDataSchemaRequest createDataSchemaRequest) throws Exception{
+        return schemaService.createDataSchema(createDataSchemaRequest);
+    }
 //
 //    @PostMapping(value = "/updateSchema")
 //    public CommonResponse<UpdateDataSchemaResponse> updateSchema(@RequestBody UpdateDataSchemaRequest updateDataSchemaRequest) throws Exception{
@@ -57,12 +58,11 @@ public class DataSchemaController {
 //        return CommonResponse.success(response);
 //    }
 //
-//    @PostMapping(value = "/querySchemaById")
-//    public CommonResponse<QueryDataSchemaByIdResponse> querySchemaById(@RequestBody PageQueryDataSchemaRequest request
-//    ){
-//        log.info("querySchemaById schemaId = {}",request.getSchemaId());
-//        QueryDataSchemaByIdResponse result = schemaService.getDataSchemaById(request.getSchemaId());
-//        return CommonResponse.success(result);
-//    }
+    @PostMapping(value = "/querySchemaById")
+    public CommonResponse querySchemaById(@RequestBody QuerySchemaByIdRequest request
+    ){
+        log.info("querySchemaById schemaId = {}",request.getSchemaGid());
+        return schemaService.getDataSchemaByGid(request.getSchemaGid());
+    }
 
 }

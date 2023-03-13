@@ -1,16 +1,13 @@
 package com.webank.databrain.service;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.mysql.cj.ServerPreparedQuery;
 import com.webank.databrain.contracts.AccountModule;
 import com.webank.databrain.config.SysConfig;
-import com.webank.databrain.db.dao.AccountInfoDAO;
-import com.webank.databrain.db.dao.CompanyInfoDAO;
-import com.webank.databrain.db.dao.PersonInfoDAO;
+import com.webank.databrain.dao.db.dao.AccountInfoDAO;
+import com.webank.databrain.dao.db.dao.CompanyInfoDAO;
+import com.webank.databrain.dao.db.dao.PersonInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
