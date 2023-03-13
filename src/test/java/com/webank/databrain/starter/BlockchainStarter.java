@@ -1,9 +1,9 @@
 package com.webank.databrain.starter;
 
 import com.webank.databrain.config.SysConfig;
-import com.webank.databrain.contracts.AccountModule;
-import com.webank.databrain.contracts.DataSchemaModule;
-import com.webank.databrain.contracts.ProductModule;
+import com.webank.databrain.dao.bc.contract.AccountModule;
+import com.webank.databrain.dao.bc.contract.DataSchemaModule;
+import com.webank.databrain.dao.bc.contract.ProductModule;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;

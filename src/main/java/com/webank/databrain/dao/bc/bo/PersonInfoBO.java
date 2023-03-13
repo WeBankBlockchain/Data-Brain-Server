@@ -1,8 +1,7 @@
-package com.webank.databrain.model.bo;
+package com.webank.databrain.dao.bc.bo;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data

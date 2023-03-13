@@ -2,7 +2,6 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.DataSchemaAccessInfoEntity;
-import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 

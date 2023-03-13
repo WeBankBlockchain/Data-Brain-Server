@@ -1,5 +1,8 @@
 package com.webank.databrain.contracts;
 
+import com.webank.databrain.dao.bc.contract.AccountModule;
+import com.webank.databrain.dao.bc.contract.DataSchemaModule;
+import com.webank.databrain.dao.bc.contract.ProductModule;
 import org.fisco.bcos.sdk.v3.BcosSDK;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;

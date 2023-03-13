@@ -1,9 +1,12 @@
 package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
-import org.apache.ibatis.annotations.*;
+import com.webank.databrain.dao.bc.bo.PersonInfoBO;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultType;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.webank.databrain.dao.db.mapper;
 
-import com.github.yulichang.base.MPJBaseMapper;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import org.apache.ibatis.annotations.*;
 

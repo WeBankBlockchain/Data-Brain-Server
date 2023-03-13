@@ -2,6 +2,7 @@ package com.webank.databrain.dao.db.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Date;
 

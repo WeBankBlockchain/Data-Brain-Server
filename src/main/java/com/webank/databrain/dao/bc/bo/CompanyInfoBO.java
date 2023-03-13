@@ -1,4 +1,4 @@
-package com.webank.databrain.model.bo;
+package com.webank.databrain.dao.bc.bo;
 
 import lombok.Data;
 

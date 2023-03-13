@@ -5,7 +5,7 @@ import com.webank.databrain.dao.db.mapper.PersonInfoMapper;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.bo.PersonInfoBO;
+import com.webank.databrain.dao.bc.bo.PersonInfoBO;
 import com.webank.databrain.service.PersonService;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.PagingUtils;

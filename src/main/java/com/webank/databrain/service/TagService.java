@@ -3,11 +3,11 @@ package com.webank.databrain.service;
 
 import com.webank.databrain.dao.db.entity.TagInfoEntity;
 import com.webank.databrain.dao.db.mapper.TagInfoMapper;
+import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.tags.CreateTagRequest;
-import com.webank.databrain.model.resp.CommonResponse;
+import com.webank.databrain.vo.response.tag.TagIdAndNameResponse;
 import com.webank.databrain.vo.response.tags.CreateTagResponse;
 import com.webank.databrain.vo.response.tags.HotTagsResponse;
-import com.webank.databrain.vo.response.tag.TagIdAndNameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

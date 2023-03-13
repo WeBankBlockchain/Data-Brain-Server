@@ -1,9 +1,9 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.service.ProductService;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.request.product.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
