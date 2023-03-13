@@ -1,9 +1,9 @@
-package com.webank.databrain.model.bo;
+package com.webank.databrain.vo.response.product;
 
 import lombok.Data;
 
 @Data
-public class ProductIdAndName {
+public class ProductIdAndNameResponse {
 
     public String id;
 

@@ -1,18 +1,17 @@
-package com.webank.databrain.model.req.dataschema;
+package com.webank.databrain.vo.request.dataschema;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class CreateDataSchemaRequest {
+public class UpdateDataSchemaRequest {
 
-
-    private String schemaName;
+    private String schemaId;
 
     private String providerId;
 
-    private String tagName;
+    private String tag;
 
     private String productId;
 
@@ -39,4 +38,5 @@ public class CreateDataSchemaRequest {
     private LocalDateTime effectTime;
 
     private LocalDateTime expireTime;
+
 }

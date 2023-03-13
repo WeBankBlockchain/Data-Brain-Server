@@ -1,4 +1,4 @@
-package com.webank.databrain.model.req.dataschema;
+package com.webank.databrain.vo.request.dataschema;
 
 import com.webank.databrain.model.req.PagedRequest;
 import com.webank.databrain.vo.common.CommonPageQueryRequest;

@@ -1,11 +1,11 @@
-package com.webank.databrain.model.bo;
+package com.webank.databrain.vo.response.dataschema;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class DataSchemaInfoBO {
+public class DataSchemaInfoResponse {
 
 
     private Long schemaId;

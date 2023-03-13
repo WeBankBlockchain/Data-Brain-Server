@@ -5,25 +5,21 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.ProductModule;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import com.webank.databrain.dao.db.entity.ProductInfoEntity;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.bo.ProductInfoBO;
-import com.webank.databrain.model.resp.product.ProductDetail;
-import com.webank.databrain.model.po.ProductInfoPO;
-import com.webank.databrain.model.req.product.CreateProductRequest;
-import com.webank.databrain.model.req.product.UpdateProductRequest;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
-import com.webank.databrain.model.resp.product.CreateProductResponse;
-import com.webank.databrain.model.resp.product.HotProductsResponse;
-import com.webank.databrain.model.resp.product.PageQueryProductResponse;
-import com.webank.databrain.model.resp.product.UpdateProductResponse;
+import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.request.product.CreateProductRequest;
+import com.webank.databrain.vo.request.product.UpdateProductRequest;
+import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -72,7 +68,7 @@ public class ProductService {
     }
 
     public CommonResponse pageQueryProducts(Paging paging) {
-        List<ProductInfoBO> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+        List<ProductInfoResponse> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
         List<ProductDetail> productDetails = new ArrayList<>();
 
         productInfoPOList.forEach(product -> {
@@ -88,7 +84,7 @@ public class ProductService {
     }
 
     public CommonResponse getProductDetail(String productId) {
-        ProductInfoBO product = productInfoDAO.getProductByGId(productId);
+        ProductInfoResponse product = productInfoDAO.getProductByGId(productId);
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         productDetail.setProviderId(product.getDid());
@@ -110,15 +106,15 @@ public class ProductService {
                 keyPair);
 
         TransactionReceipt receipt = productModule.createProduct(cryptoSuite.hash((
-                productRequest.getProductName() + productRequest.getInformation())
+                productRequest.getProductName() + productRequest.getProductDesc())
                 .getBytes(StandardCharsets.UTF_8)));
         BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
-        ProductInfoPO product = new ProductInfoPO();
+        ProductInfoEntity product = new ProductInfoEntity();
         product.setProductGid(productId);
         product.setProductName(productRequest.getProductName());
-        product.setProductDesc(productRequest.getInformation());
+        product.setProductDesc(productRequest.getProductDesc());
         product.setCreateTime(new Date());
         productInfoDAO.saveProductInfo(product);
         return CommonResponse.success(productId);
@@ -145,7 +141,7 @@ public class ProductService {
                 .getBytes(StandardCharsets.UTF_8)));
         BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
-        ProductInfoPO product = new ProductInfoPO();
+        ProductInfoEntity product = new ProductInfoEntity();
         product.setPkId(productRequest.getProductId());
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getInformation());
@@ -156,7 +152,7 @@ public class ProductService {
     }
 
 
-//    public void approveProduct(ApproveProductRequest productRequest) throws TransactionException {
+//    public CommonResponse approveProduct(ApproveProductRequest productRequest) throws TransactionException {
 //        String privateKey = accountService.getPrivateKey(productRequest.getDid());
 //        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
 //        ProductModule productModule = ProductModule.load(
