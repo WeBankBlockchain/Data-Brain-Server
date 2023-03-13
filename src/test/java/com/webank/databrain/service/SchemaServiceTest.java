@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.ServerApplicationTests;
 import com.webank.databrain.enums.AccountType;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.Random;
 
 public class SchemaServiceTest  extends ServerApplicationTests {
 
@@ -39,14 +41,14 @@ public class SchemaServiceTest  extends ServerApplicationTests {
 
     @Test
     void createSchemaTest() throws Exception {
-        String username = "companyUser00004";
+        String username = "companyUser" + RandomUtil.randomNumbers(20);
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Company);
         CompanyDetailRequest companyDetail = new CompanyDetailRequest();
-        companyDetail.setCompanyName("头条3");
+        companyDetail.setCompanyName("头条" + RandomUtil.randomNumbers(20));
         companyDetail.setCompanyDesc("某公司1");
         companyDetail.setCertNo("123456");
         request.setDetailJson(JsonUtils.toJson(companyDetail));
@@ -60,7 +62,7 @@ public class SchemaServiceTest  extends ServerApplicationTests {
         accountService.approveAccount(approveAccountRequest);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("华为P6000");
+        createProductRequest.setProductName("华为P" + RandomUtil.randomNumbers(20));
         createProductRequest.setProductDesc("华为P6000手机..");
         createProductRequest.setDid(did);
         CommonResponse response = productService.createProduct(createProductRequest);
