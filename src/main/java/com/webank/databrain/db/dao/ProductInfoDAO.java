@@ -2,8 +2,8 @@ package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.model.bo.ProductIdAndName;
-import com.webank.databrain.model.bo.ProductInfoBO;
+import com.webank.databrain.vo.response.product.ProductIdAndName;
+import com.webank.databrain.vo.response.product.ProductInfoBO;
 import com.webank.databrain.model.resp.IdName;
 
 import java.util.List;

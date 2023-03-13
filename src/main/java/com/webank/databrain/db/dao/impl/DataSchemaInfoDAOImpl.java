@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import com.webank.databrain.db.dao.DataSchemaInfoDAO;
 import com.webank.databrain.dao.db.mapper.DataSchemaInfoMapper;
-import com.webank.databrain.model.bo.DataSchemaInfoBO;
+import com.webank.databrain.vo.response.dataschema.DataSchemaInfoBO;
 import com.webank.databrain.utils.PagingUtils;
 import org.springframework.stereotype.Service;
 

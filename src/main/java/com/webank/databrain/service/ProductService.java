@@ -10,7 +10,7 @@ import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.bo.ProductInfoBO;
+import com.webank.databrain.vo.response.product.ProductInfoBO;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.request.product.UpdateProductRequest;
 import com.webank.databrain.model.resp.IdName;

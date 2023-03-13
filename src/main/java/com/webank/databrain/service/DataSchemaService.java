@@ -3,7 +3,7 @@ package com.webank.databrain.service;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.DataSchemaInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
-import com.webank.databrain.model.bo.DataSchemaInfoBO;
+import com.webank.databrain.vo.response.dataschema.DataSchemaInfoBO;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.model.resp.dataschema.DataSchemaDetail;
