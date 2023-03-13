@@ -41,15 +41,15 @@ public class ProductServiceTest  extends ServerApplicationTests {
 
     @Test
     void createProductTest() throws Exception {
-        String username = "companyUser00003";
+        String username = "companyUser00007";
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Company);
         CompanyDetailRequest companyDetail = new CompanyDetailRequest();
-        companyDetail.setCompanyName("头条2");
-        companyDetail.setCompanyDesc("某公司1");
+        companyDetail.setCompanyName("腾讯2");
+        companyDetail.setCompanyDesc("某公司2");
         companyDetail.setCertNo("123456");
         request.setDetailJson(JsonUtils.toJson(companyDetail));
         CommonResponse<RegisterResponse> result = accountService.registerAccount(request);
@@ -62,8 +62,8 @@ public class ProductServiceTest  extends ServerApplicationTests {
         accountService.approveAccount(approveAccountRequest);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("华为P600");
-        createProductRequest.setProductDesc("华为P600手机..");
+        createProductRequest.setProductName("华为P6000");
+        createProductRequest.setProductDesc("华为P600手机...");
         createProductRequest.setDid(did);
         CommonResponse response = productService.createProduct(createProductRequest);
         System.out.println("response = " + response);
