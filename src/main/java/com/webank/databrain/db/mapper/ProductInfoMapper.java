@@ -28,7 +28,7 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoPO> {
 
     @Select("SELECT b.did as id, c.company_name as name FROM t_product_info a " +
             "JOIN t_account_info b ON a.provider_id = b.pk_id " +
-            "JOIN t_company_info c ON ON a.provider_id = c.account_id " +
+            "JOIN t_company_info c ON a.provider_id = c.account_id " +
             "ORDER BY a.create_time DESC LIMIT 1, #{topN}")
     @ResultType(IdName.class)
     List<IdName> getHotProduct(@Param("topN") int topN);
