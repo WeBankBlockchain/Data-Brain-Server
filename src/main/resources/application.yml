@@ -53,6 +53,8 @@ Data Schema module address: "
         token-expire-minutes: 2880
     fileConfig:
         file-dir: "tmp"
+    jwtConfig:
+        jwt-secret: "Ok2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQ"
 swagger:
     enabled: true
 

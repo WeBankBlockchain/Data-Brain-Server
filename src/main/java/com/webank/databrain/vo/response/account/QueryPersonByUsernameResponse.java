@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QueryPersonByUsernameResponse {
 
-    private PersonInfoVO item;
+    private PersonInfoResponse item;
 
 }

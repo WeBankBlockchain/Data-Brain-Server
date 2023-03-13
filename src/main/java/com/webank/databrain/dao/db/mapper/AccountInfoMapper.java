@@ -2,9 +2,7 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * <p>
@@ -14,7 +12,7 @@ import org.apache.ibatis.annotations.Update;
  * @author 
  * @since 2023-03-08
  */
-public interface AccountInfoMapper extends MPJBaseMapper<AccountInfoEntity> {
+public interface AccountInfoMapper {
 
 
     @Update("UPDATE t_account_info SET status=#{status} WHERE did=#{did}")
@@ -26,4 +24,11 @@ public interface AccountInfoMapper extends MPJBaseMapper<AccountInfoEntity> {
     @Options(useGeneratedKeys=true, keyProperty="pkId")
     void insertItem(AccountInfoEntity accountInfoDo);
 
+    @Select("SELECT * FROM t_account_info WHERE did=#{did}")
+    @ResultType(AccountInfoEntity.class)
+    AccountInfoEntity selectByDid(String did);
+
+    @Select("SELECT * FROM t_account_info WHERE user_name=#{userName}")
+    @ResultType(AccountInfoEntity.class)
+    AccountInfoEntity selectByUserName(String userName);
 }

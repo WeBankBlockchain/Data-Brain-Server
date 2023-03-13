@@ -29,6 +29,8 @@ public class SysConfig {
     @NestedConfigurationProperty
     private FileConfig fileConfig;
 
+    @NestedConfigurationProperty
+    private JwtConfig jwtConfig;
     @Data
     public static class ContractConfig {
         private String accountContract;
@@ -44,6 +46,11 @@ public class SysConfig {
     @Data
     public static class FileConfig {
         private String fileDir;
+    }
+
+    @Data
+    public static class JwtConfig {
+        private String jwtSecret;
     }
 
 }

@@ -6,6 +6,8 @@ import java.util.Date;
 
 @Data
 public class CompanyInfoBO {
+    private String userName;
+
     private String did;
 
     private String privateKey;

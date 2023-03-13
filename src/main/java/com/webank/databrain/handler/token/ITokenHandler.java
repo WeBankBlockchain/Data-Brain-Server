@@ -2,8 +2,8 @@ package com.webank.databrain.handler.token;
 
 public interface ITokenHandler {
 
-    String generateToken(long accountPkId);
+    String generateToken(String did);
 
-    boolean verifyToken(String token);
+    String verifyToken(String token);
 
 }

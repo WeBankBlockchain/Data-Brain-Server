@@ -6,6 +6,7 @@ import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.account.*;
 import com.webank.databrain.vo.response.account.RegisterResponse;
+import com.webank.databrain.vo.response.account.SearchCompanyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -111,17 +112,17 @@ public class AccountServiceTest extends ServerApplicationTests {
         companyRequest.setCondition(new SearchCompanyRequest.SearchCondition(AccountStatus.Registered.name()));
         System.out.println(JsonUtils.toJson(companyRequest));
 
-        SearchCompanyRequest r = JsonUtils.fromJson(JsonUtils.toJson(companyRequest), SearchCompanyRequest.class);
-//        SearchCompanyResponse companyResponse = accountService.searchCompanies(companyRequest);
-//        System.out.println(JsonUtils.toJson(companyResponse));
+
+        CommonResponse companyResponse = accountService.searchCompanies(companyRequest);
+        System.out.println(JsonUtils.toJson(companyResponse));
 //
-//        SearchPersonRequest personRequest = new SearchPersonRequest();
-//        personRequest.setPageNo(1);
-//        personRequest.setPageSize(5);
-//        personRequest.setCondition(new SearchPersonRequest.SearchCondition(AccountStatus.Approved.name()));
-//
-//        SearchPersonResponse personResponse = accountService.searchPersons(personRequest);
-//        System.out.println(JsonUtils.toJson(personResponse));
+        SearchPersonRequest personRequest = new SearchPersonRequest();
+        personRequest.setPageNo(1);
+        personRequest.setPageSize(5);
+        personRequest.setCondition(new SearchPersonRequest.SearchCondition(AccountStatus.Approved.name()));
+
+        CommonResponse personResponse = accountService.searchPersons(personRequest);
+        System.out.println(JsonUtils.toJson(personResponse));
 
 //        request.setUsername("companyUser00001");
 //        QueryCompanyByUsernameResponse companyResponse = accountService.getCompanyByUsername(request.getUsername());

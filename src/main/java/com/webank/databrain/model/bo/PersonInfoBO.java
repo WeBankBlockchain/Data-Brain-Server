@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class PersonInfoBO {
+    private String userName;
 
     private String did;
 

@@ -6,6 +6,7 @@ import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 import com.webank.databrain.dao.db.mapper.CompanyInfoMapper;
 import com.webank.databrain.utils.PagingUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,33 +20,45 @@ import java.util.List;
  * @since 2023-03-08
  */
 @Service
-public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfoEntity> implements CompanyInfoDAO {
+public class CompanyInfoDAOImpl implements CompanyInfoDAO {
 
+    @Autowired
+    private CompanyInfoMapper mapper;
     @Override
     public List<CompanyInfoBO> listHotCompany(int topN) {
-        List<CompanyInfoBO> ret =  baseMapper.listHotCompanies(topN);
+        List<CompanyInfoBO> ret =  mapper.listHotCompanies(topN);
         return ret;
     }
 
     @Override
     public List<CompanyInfoBO> listCompany(int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
-        return baseMapper.listCompanies(start, pageSize);
+        return mapper.listCompanies(start, pageSize);
     }
 
     @Override
     public CompanyInfoBO queryCompanyByUsername(String username) {
-        return baseMapper.queryCompanyByUsername(username);
+        return mapper.queryCompanyByUsername(username);
     }
 
     @Override
     public List<CompanyInfoBO> listCompanyWithStatus(int status, int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
-        return baseMapper.listCompanyWithStatus(status, start, pageSize);
+        return mapper.listCompanyWithStatus(status, start, pageSize);
     }
 
     @Override
     public void saveItem(CompanyInfoEntity companyInfoEntity) {
-        baseMapper.insertItem(companyInfoEntity);
+        mapper.insertItem(companyInfoEntity);
+    }
+
+    @Override
+    public int totalCount() {
+        return mapper.totalCount();
+    }
+
+    @Override
+    public int totalCountWithStatus(int status) {
+        return mapper.totalCountWithStatus(status);
     }
 }

@@ -1,15 +1,16 @@
 package com.webank.databrain.utils;
 
+import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 public class SessionUtils {
 
-    private static ThreadLocal<String> localDid = new ThreadLocal<>();
 
     public static String currentAccountDid() {
-        return localDid.get();
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public static void set(String did){
-        localDid.set(did);
+    public static AccountInfoEntity currentAccount() {
+        return (AccountInfoEntity) SecurityContextHolder.getContext().getAuthentication();
     }
-
 }

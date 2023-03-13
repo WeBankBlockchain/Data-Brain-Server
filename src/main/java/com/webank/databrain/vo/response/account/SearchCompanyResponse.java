@@ -1,14 +1,14 @@
 package com.webank.databrain.vo.response.account;
 
 import com.webank.databrain.model.resp.PagedResult;
+import com.webank.databrain.vo.common.PageListData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @AllArgsConstructor
-public class SearchCompanyResponse {
-
-    private PagedResult<CompanyInfoVO> result;
-
+@EqualsAndHashCode(callSuper = true)
+public class SearchCompanyResponse extends PageListData<CompanyInfoResponse> {
 
 }

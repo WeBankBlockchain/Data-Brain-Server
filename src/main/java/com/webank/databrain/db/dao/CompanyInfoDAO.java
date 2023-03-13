@@ -14,7 +14,7 @@ import java.util.List;
  * @author 
  * @since 2023-03-08
  */
-public interface CompanyInfoDAO extends IService<CompanyInfoEntity> {
+public interface CompanyInfoDAO {
     List<CompanyInfoBO> listHotCompany(int topN);
     List<CompanyInfoBO> listCompany(int pageNo, int pageSize);
 
@@ -23,5 +23,9 @@ public interface CompanyInfoDAO extends IService<CompanyInfoEntity> {
     List<CompanyInfoBO> listCompanyWithStatus(int status, int pageNo, int pageSize);
 
     void saveItem(CompanyInfoEntity companyInfoEntity);
+
+    int totalCount();
+
+    int totalCountWithStatus(int status);
 
 }
