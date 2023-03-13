@@ -2,7 +2,6 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.apache.ibatis.annotations.*;

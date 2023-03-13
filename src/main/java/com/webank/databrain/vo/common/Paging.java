@@ -1,4 +1,4 @@
-package com.webank.databrain.model.resp;
+package com.webank.databrain.vo.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

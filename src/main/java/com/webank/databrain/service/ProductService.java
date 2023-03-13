@@ -11,7 +11,7 @@ import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.model.resp.PagedResult;
-import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;

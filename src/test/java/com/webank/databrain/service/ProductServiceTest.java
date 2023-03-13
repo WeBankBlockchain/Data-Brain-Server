@@ -9,7 +9,7 @@ import com.webank.databrain.vo.request.account.CompanyDetailRequest;
 import com.webank.databrain.vo.request.account.RegisterRequest;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
-import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.response.account.RegisterResponse;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;

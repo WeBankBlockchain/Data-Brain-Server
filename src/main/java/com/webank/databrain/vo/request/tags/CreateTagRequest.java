@@ -1,4 +1,4 @@
-package com.webank.databrain.model.req.tags;
+package com.webank.databrain.vo.request.tags;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

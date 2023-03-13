@@ -1,13 +1,12 @@
 package com.webank.databrain.service;
 
-//import com.webank.databrain.db.dao.ITagDbService;
-import com.webank.databrain.dao.db.dao.TagInfoDAO;
+
 import com.webank.databrain.dao.db.entity.TagInfoEntity;
-import com.webank.databrain.model.req.tags.CreateTagRequest;
+import com.webank.databrain.dao.db.mapper.TagInfoMapper;
+import com.webank.databrain.vo.request.tags.CreateTagRequest;
 import com.webank.databrain.model.resp.CommonResponse;
-import com.webank.databrain.model.resp.IdName;
-import com.webank.databrain.model.resp.tags.CreateTagResponse;
-import com.webank.databrain.model.resp.tags.HotTagsResponse;
+import com.webank.databrain.vo.response.tags.CreateTagResponse;
+import com.webank.databrain.vo.response.tags.HotTagsResponse;
 import com.webank.databrain.vo.response.tag.TagIdAndNameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,11 @@ import java.util.stream.Collectors;
 public class TagService {
 
     @Autowired
-    private TagInfoDAO tagInfoDAO;
+    private TagInfoMapper tagInfoMapper;
 
     public CommonResponse<HotTagsResponse> listHotTags(int topN) {
 
-        List<TagInfoEntity> tags = tagInfoDAO.queryHotTags(topN);
+        List<TagInfoEntity> tags = tagInfoMapper.queryHotTags(topN);
 
         List<TagIdAndNameResponse> idNames = tags.stream().map(t->{
             TagIdAndNameResponse idName = new TagIdAndNameResponse();
@@ -37,7 +36,7 @@ public class TagService {
     public CommonResponse<CreateTagResponse> createTag(CreateTagRequest createTagRequest){
         TagInfoEntity tagPO = new TagInfoEntity();
         tagPO.setTagName(createTagRequest.getTagName());
-        tagInfoDAO.saveItem(tagPO);
+        tagInfoMapper.insertItem(tagPO);
 
         return CommonResponse.success(new CreateTagResponse(tagPO.getPkId().longValue()));
     }

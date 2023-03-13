@@ -1,8 +1,7 @@
 package com.webank.databrain.service;
 
 import com.webank.databrain.ServerApplicationTests;
-import com.webank.databrain.model.req.tags.CreateTagRequest;
-import com.webank.databrain.model.resp.tags.HotTagsResponse;
+import com.webank.databrain.vo.request.tags.CreateTagRequest;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

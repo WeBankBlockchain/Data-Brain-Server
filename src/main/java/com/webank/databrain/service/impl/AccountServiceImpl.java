@@ -3,7 +3,7 @@ package com.webank.databrain.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webank.databrain.config.SysConfig;
-import com.webank.databrain.contracts.AccountModule;
+import com.webank.databrain.dao.bc.contract.AccountModule;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
@@ -13,19 +13,16 @@ import com.webank.databrain.dao.db.mapper.PersonInfoMapper;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.CodeEnum;
-import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
-import com.webank.databrain.model.bo.CompanyInfoBO;
-import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.service.AccountService;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
-import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.request.account.*;
-import com.webank.databrain.vo.response.account.*;
+import com.webank.databrain.vo.request.account.ApproveAccountRequest;
+import com.webank.databrain.vo.request.account.LoginRequest;
+import com.webank.databrain.vo.request.account.RegisterRequest;
+import com.webank.databrain.vo.response.account.LoginResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -36,9 +33,8 @@ import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigInteger;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

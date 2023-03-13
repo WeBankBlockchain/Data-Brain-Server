@@ -1,8 +1,8 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.model.req.tags.HotTagsRequest;
+import com.webank.databrain.vo.request.tags.HotTagsRequest;
 import com.webank.databrain.model.resp.CommonResponse;
-import com.webank.databrain.model.resp.tags.HotTagsResponse;
+import com.webank.databrain.vo.response.tags.HotTagsResponse;
 import com.webank.databrain.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
