@@ -24,6 +24,7 @@ import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.account.*;
 import com.webank.databrain.vo.response.account.*;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -155,10 +156,10 @@ public class AccountService {
 
     public CommonResponse<HotCompaniesResponse> listHotCompanies(int topN) {
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listHotCompany(topN);
-        List<IdName> items = companyInfoDataObjects.stream().map(b->{
-            IdName idName = new IdName();
-            idName.setId(b.getDid());
-            idName.setName(b.getCompanyName());
+        List<CompanyIdAndNameResponse> items = companyInfoDataObjects.stream().map(b->{
+            CompanyIdAndNameResponse idName = new CompanyIdAndNameResponse();
+            idName.setCompanyName(b.getCompanyName());
+            idName.setAccountDid(b.getDid());
             return idName;
         }).collect(Collectors.toList());
         HotCompaniesResponse response = new HotCompaniesResponse(items);
