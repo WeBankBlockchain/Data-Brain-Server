@@ -6,10 +6,32 @@ spring:
         async:
             request-timeout: 500
     datasource:
-        driver-class-name: org.h2.Driver
-        url: jdbc:h2:mem:testdb
-        username: sa
-        password:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://116.205.167.248:3306/databrain2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: test
+        password: Aa12345!
+        #        url: jdbc:mysql://127.0.0.1:3306/databrain2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        #        username: root
+        #        password: 12345678
+        driverClassName: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        defaultAutoCommit: false
+        initialSize: 25
+        maxActive: 128
+        maxIdle: 50
+        minIdle: 25
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: true
+        validationQuery: SELECT 1
+        timeBetweenEvictionRunsMillis: 34000
+        minEvictableIdleTimeMillis: 34000
+        removeAbandoned: false
+        logAbandoned: true
+        removeAbandonedTimeout: 54
+        maxWait: 10000
+        poolPreparedStatements: false
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
 mybatis:
     typeAliasesPackage: com.webank.databrain.dao.entity
