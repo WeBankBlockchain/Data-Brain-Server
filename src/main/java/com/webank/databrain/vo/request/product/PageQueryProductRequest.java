@@ -8,7 +8,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PageQueryProductRequest extends CommonPageQueryRequest {
 
-    private String productId;
-
-    private int topN;
 }
