@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import com.webank.databrain.dao.db.mapper.DataSchemaInfoMapper;
 import com.webank.databrain.db.dao.DataSchemaInfoDAO;
+import com.webank.databrain.model.resp.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class DataSchemaInfoDAOImpl extends ServiceImpl<DataSchemaInfoMapper, Dat
     @Override
     public DataSchemaInfoEntity getDataSchemaInfoByGId(String schemaId) {
         return baseMapper.getSchemaByGId(schemaId);
+    }
+
+    public DataSchemaWithAccessResponse getSchemaWithAccessByGid(String schemaId){
+        return baseMapper.getSchemaWithAccessByGid(schemaId);
     }
 
     @Override

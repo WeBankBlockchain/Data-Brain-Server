@@ -2,6 +2,7 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
+import com.webank.databrain.model.resp.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import org.apache.ibatis.annotations.*;
 
@@ -33,9 +34,9 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoEntity> {
             "b.tag_id," +
             "c.tag_name," +
             "d.product_name," +
-            "d.product_gid as productGId," +
+            "d.product_gid as productGid," +
             "e.company_name as providerName," +
-            "f.did as providerGId " +
+            "f.did as providerGid " +
             "from t_data_schema_info a " +
             "left join " +
             "t_data_schema_tags b on a.pk_id = b.data_schema_id " +
@@ -66,6 +67,49 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoEntity> {
     @Select("select * from t_data_schema_info where data_schema_gid = #{schemaId}")
     @ResultType(DataSchemaInfoEntity.class)
     DataSchemaInfoEntity getSchemaByGId(String schemaId);
+
+
+    @Select("SELECT " +
+            "a.data_schema_gid," +
+            "a.data_schema_name," +
+            "a.provider_id, " +
+            "a.product_id," +
+            "a.version," +
+            "a.visible," +
+            "a.data_schema_desc," +
+            "a.data_schema_usage," +
+            "a.price," +
+            "a.create_time," +
+            "b.tag_id," +
+            "c.tag_name," +
+            "d.product_name," +
+            "d.product_gid as productGid," +
+            "e.company_name as providerName," +
+            "f.did as providerGid " +
+            "g.pk_id as accessId " +
+            "g.data_format " +
+            "g.data_protocol " +
+            "g.content_schema " +
+            "g.access_condition " +
+            "g.uri " +
+            "g.effect_time " +
+            "g.expire_time " +
+            "from t_data_schema_info a " +
+            "left join " +
+            "t_data_schema_tags b on a.pk_id = b.data_schema_id " +
+            "left join " +
+            "t_tag_info c on b.tag_id = c.pk_id " +
+            "left join " +
+            "t_product_info d on a.product_id = d.pk_id " +
+            "left join " +
+            "t_company_info e on a.provider_id = e.pk_id " +
+            "left join " +
+            "t_account_info f on e.account_id = f.pk_id " +
+            " left join " +
+            "t_data_schema_access_info g on a.pk_id = g.data_schema_id" +
+            "where a.data_schema_gid = #{schemaId}")
+    @ResultType(DataSchemaWithAccessResponse.class)
+    DataSchemaWithAccessResponse getSchemaWithAccessByGid(String schemaId);
 
 
     @Insert("INSERT INTO t_data_schema_info(" +

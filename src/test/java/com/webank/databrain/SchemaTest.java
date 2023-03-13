@@ -19,7 +19,7 @@ public class SchemaTest extends ServerApplicationTests{
 //        PageQueryDataSchemaResponse result =  schemaService.pageQuerySchema(new Paging(1,1), null,null,null,"数据");
 //        System.out.println(JSONUtil.toJsonStr(result));
 //
-//        DataSchemaDetailWithVisit visit = schemaService.getDataSchemaById("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZxM=");
+//        DataSchemaWithAccessResponse visit = schemaService.getDataSchemaById("AAE5B5xx/WADdsUVkcPZlkdSCQJzdLfKf0u1jMMiZxM=");
 //        System.out.println(JSONUtil.toJsonStr(visit));
 //    }
 //

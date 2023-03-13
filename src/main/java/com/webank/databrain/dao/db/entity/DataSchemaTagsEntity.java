@@ -1,4 +1,4 @@
-package com.webank.databrain.model.po;
+package com.webank.databrain.dao.db.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Setter
 @Accessors(chain = true)
 @TableName("t_data_schema_tags")
-public class DataSchemaTagsPO implements Serializable {
+public class DataSchemaTagsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

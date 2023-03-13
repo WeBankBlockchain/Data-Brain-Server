@@ -1,4 +1,4 @@
-package com.webank.databrain.model.po;
+package com.webank.databrain.dao.db.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Setter
 @Accessors(chain = true)
 @TableName("t_data_schema_access_info")
-public class DataSchemaAccessInfoPO implements Serializable {
+public class DataSchemaAccessInfoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

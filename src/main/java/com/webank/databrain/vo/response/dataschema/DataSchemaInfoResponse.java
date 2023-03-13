@@ -25,7 +25,7 @@ public class DataSchemaInfoResponse {
      */
     private Long providerId;
 
-    private String providerGId;
+    private String providerGid;
 
 
     private String providerName;
@@ -37,7 +37,7 @@ public class DataSchemaInfoResponse {
     private Long productId;
 
 
-    private String productGId;
+    private String productGid;
 
     private String productName;
 

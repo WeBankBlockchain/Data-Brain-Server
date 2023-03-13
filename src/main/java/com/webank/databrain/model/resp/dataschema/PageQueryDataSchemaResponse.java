@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class PageQueryDataSchemaResponse extends BasePageQueryResult<DataSchemaDetail> {
+public class PageQueryDataSchemaResponse extends BasePageQueryResult<DataSchemaDetailResponse> {
 
 
-    public PageQueryDataSchemaResponse(PagedResult<DataSchemaDetail> result){
+    public PageQueryDataSchemaResponse(PagedResult<DataSchemaDetailResponse> result){
         super(result);
     }
 

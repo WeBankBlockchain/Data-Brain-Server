@@ -1,16 +1,19 @@
-package com.webank.databrain.vo.request.dataschema;
+package com.webank.databrain.model.resp.dataschema;
 
-import lombok.Data;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
-@Data
-public class CreateDataSchemaRequest {
+public class DataSchemaDetailResponse {
 
+    private Long schemaId;
 
-    private String did;
+    /**
+     * 数据目录链上id
+     */
+    private String dataSchemaGid;
 
+    /**
+     * 数据目录名称
+     */
     private String dataSchemaName;
 
     /**
@@ -23,6 +26,7 @@ public class CreateDataSchemaRequest {
 
     private String providerName;
 
+
     /**
      * 产品外键ID
      */
@@ -33,8 +37,6 @@ public class CreateDataSchemaRequest {
 
     private String productName;
 
-
-    private Long tagId;
 
     /**
      * 版本号
@@ -63,35 +65,5 @@ public class CreateDataSchemaRequest {
 
     private Date createTime;
 
-    private Integer dataFormat;
 
-    /**
-     * 类型，HTTP-0，HTTPS-1，SFTP-2...
-     */
-    private Integer dataProtocol;
-
-    /**
-     * 内容格式
-     */
-    private String contentSchema;
-
-    /**
-     * 数据的查询条件定义
-     */
-    private String accessCondition;
-
-    /**
-     * 数据访问连接
-     */
-    private String uri;
-
-    /**
-     * 生效时间
-     */
-    private Date effectTime;
-
-    /**
-     * 失效时间
-     */
-    private Date expireTime;
 }

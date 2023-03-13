@@ -2,6 +2,7 @@ package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
+import com.webank.databrain.model.resp.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface DataSchemaInfoDAO extends IService<DataSchemaInfoEntity> {
     List<DataSchemaInfoResponse> pageQuerySchema(int start, int pageSize, Long productId, Long providerId, Long tagId, String keyWord);
 
     DataSchemaInfoEntity getDataSchemaInfoByGId(String schemaId);
+
+    DataSchemaWithAccessResponse getSchemaWithAccessByGid(String schemaId);
 
     void saveDataSchemaInfo(DataSchemaInfoEntity dataSchemaInfoEntity);
 
