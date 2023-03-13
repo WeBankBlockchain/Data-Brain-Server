@@ -141,7 +141,7 @@ public class ProductService {
                 keyPair);
 
         TransactionReceipt receipt = productModule.modifyProduct(
-                ByteUtils.hexStringToBytes(productRequest.getProductGId()),
+                Base64.decode(productRequest.getProductGId()),
                 cryptoSuite.hash((
                 productRequest.getProductName() + productRequest.getProductDesc())
                 .getBytes(StandardCharsets.UTF_8)));
