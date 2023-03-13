@@ -21,7 +21,8 @@ import java.util.List;
 public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
 
 
-    @Select("SELECT " +
+    @Select("<script>" +
+            "SELECT " +
             "a.data_schema_gid," +
             "a.data_schema_name," +
             "a.provider_id, " +
@@ -50,12 +51,13 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
             "left join " +
             "t_account_info f on e.account_id = f.pk_id " +
             "where 1 =1  " +
-            "<if test='productId != null'> AND a.product_id = #{productId} </if>" +
-            "<if test='providerId != null'> AND a.provider_id = #{providerId} </if>" +
-            "<if test='tagId != null'> AND b.tag_id = #{tagId} </if>" +
+            "<if test='productId != null and productId &gt; 0'> AND a.product_id = #{productId} </if>" +
+            "<if test='providerId != null and providerId &gt; 0'> AND a.provider_id = #{providerId} </if>" +
+            "<if test='tagId != null and tagId &gt; 0'> AND b.tag_id = #{tagId} </if>" +
             "<if test='keyWord != null'> AND a.data_schema_name like concat('%', #{keyWord}, '%') " +
             " or a.data_schema_desc like concat('%', #{keyWord}, '%') </if>" +
-            " ORDER BY a.create_time DESC LIMIT #{start}, #{pageSize} " )
+            " ORDER BY a.create_time DESC LIMIT #{start}, #{pageSize} " +
+            "</script>" )
     @ResultType(DataSchemaInfoBO.class)
     List<DataSchemaInfoBO> pageQuerySchema(@Param("start") long start,
                                            @Param("pageSize")int pageSize,
