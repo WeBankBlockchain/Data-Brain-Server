@@ -1,12 +1,11 @@
 package com.webank.databrain.service;
 
 import cn.hutool.core.codec.Base64;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.ProductModule;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.db.dao.AccountInfoDAO;
+import com.webank.databrain.dao.db.mapper.AccountInfoMapper;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ReviewStatus;
@@ -55,10 +54,7 @@ public class ProductService {
     private TransactionDecoderInterface txDecoder;
 
     @Autowired
-    private AccountInfoDAO accountInfoDAO;
-
-    @Autowired
-    private AccountService accountService;
+    private AccountInfoMapper accountInfoMapper;
 
     @Autowired
     private ProductInfoDAO productInfoDAO;
@@ -95,7 +91,7 @@ public class ProductService {
     public CommonResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(did);
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(did);
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -125,7 +121,7 @@ public class ProductService {
 
     public CommonResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String did = SessionUtils.currentAccountDid();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(did);
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(did);
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -153,24 +149,4 @@ public class ProductService {
 
         return CommonResponse.success(productRequest.getProductGId());
     }
-
-
-//    public CommonResponse approveProduct(ApproveProductRequest productRequest) throws TransactionException {
-//        String privateKey = accountService.getPrivateKey(productRequest.getDid());
-//        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
-//        ProductModule productModule = ProductModule.load(
-//                sysConfig.getContractConfig().getAccountContract(),
-//                client,
-//                keyPair);
-//        TransactionReceipt receipt = productModule.approveProduct(
-//                ByteUtils.hexStringToBytes(productRequest.getProductId()), productRequest.isAgree()
-//        );
-//        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
-//
-//        ProductDataObject product = productService.getOne(Wrappers.<ProductDataObject>query().
-//                eq("productId",productRequest.getProductId()));
-//        product.setReviewState(ReviewStatus.Approved.ordinal());
-//        product.setReviewTime(LocalDateTime.now());
-//        productService.saveOrUpdate(product);
-//    }
 }

@@ -15,5 +15,6 @@ public class RegisterRequest extends CommonRequest {
     @NotBlank(message = "密码不能为空.")
     private String password;
     private AccountType accountType;
+    @NotBlank(message = "注册详细信息不能为空.")
     private String detailJson;
 }
