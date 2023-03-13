@@ -1,5 +1,6 @@
 package com.webank.databrain.service;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.ServerApplicationTests;
 import com.webank.databrain.enums.AccountType;
@@ -41,14 +42,14 @@ public class ProductServiceTest  extends ServerApplicationTests {
 
     @Test
     void createProductTest() throws Exception {
-        String username = "companyUser00007";
+        String username = "companyUser"+ RandomUtil.randomNumbers(5);
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Company);
         CompanyDetailRequest companyDetail = new CompanyDetailRequest();
-        companyDetail.setCompanyName("腾讯2");
+        companyDetail.setCompanyName("腾讯" + RandomUtil.randomNumbers(5));
         companyDetail.setCompanyDesc("某公司2");
         companyDetail.setCertNo("123456");
         request.setDetailJson(JsonUtils.toJson(companyDetail));
@@ -63,7 +64,7 @@ public class ProductServiceTest  extends ServerApplicationTests {
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("华为P6000");
-        createProductRequest.setProductDesc("华为P600手机...");
+        createProductRequest.setProductDesc("华为P600手机..." + RandomUtil.randomNumbers(5));
         createProductRequest.setDid(did);
         CommonResponse response = productService.createProduct(createProductRequest);
         System.out.println("response = " + response);
