@@ -14,6 +14,7 @@ import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.utils.AccountUtils;
+import com.webank.databrain.vo.response.product.HotProductResponse;
 import com.webank.databrain.vo.response.product.ProductDetailResponse;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
@@ -68,7 +69,7 @@ public class ProductService {
 
     public CommonResponse getHotProducts(int topN) {
         List<ProductIdAndNameResponse> idNames = productInfoDAO.getHotProduct(topN);
-        return CommonResponse.success(idNames);
+        return CommonResponse.success(new HotProductResponse(idNames));
     }
 
     public CommonResponse pageQueryProducts(Paging paging) {
