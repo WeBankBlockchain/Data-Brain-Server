@@ -26,12 +26,12 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
     @ResultType(ProductInfoResponse.class)
     List<ProductInfoResponse> pageQueryProduct(@Param("start") long start, @Param("pageSize")int pageSize);
 
-    @Select("SELECT b.did as id, c.company_name as name FROM t_product_info a " +
+    @Select("SELECT a.product_gid as productGid, c.company_name as productName, a.pk_id as productId FROM t_product_info a " +
             "JOIN t_account_info b ON a.provider_id = b.pk_id " +
             "JOIN t_company_info c ON a.provider_id = c.account_id " +
             "ORDER BY a.create_time DESC LIMIT 1, #{topN}")
-    @ResultType(IdName.class)
-    List<IdName> getHotProduct(@Param("topN") int topN);
+    @ResultType(ProductIdAndNameResponse.class)
+    List<ProductIdAndNameResponse> getHotProduct(@Param("topN") int topN);
 
     @Select("SELECT a.pk_id as productId, a.product_gid, a.product_name,a.product_desc,a.status,a.review_time,a.create_time,b.did,c.company_name" +
             " FROM t_product_info a" +

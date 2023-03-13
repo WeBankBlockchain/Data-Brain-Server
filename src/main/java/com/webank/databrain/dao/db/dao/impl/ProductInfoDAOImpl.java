@@ -30,7 +30,7 @@ public class ProductInfoDAOImpl extends ServiceImpl<ProductInfoMapper, ProductIn
     }
 
     @Override
-    public List<IdName> getHotProduct(int topN) {
+    public List<ProductIdAndNameResponse> getHotProduct(int topN) {
         return baseMapper.getHotProduct(topN);
     }
 

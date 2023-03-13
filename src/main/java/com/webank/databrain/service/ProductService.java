@@ -21,6 +21,7 @@ import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.request.product.UpdateProductRequest;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -66,7 +67,7 @@ public class ProductService {
     private ProductInfoDAO productInfoDAO;
 
     public CommonResponse getHotProducts(int topN) {
-        List<IdName> idNames = productInfoDAO.getHotProduct(topN);
+        List<ProductIdAndNameResponse> idNames = productInfoDAO.getHotProduct(topN);
         return CommonResponse.success(idNames);
     }
 

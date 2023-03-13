@@ -20,7 +20,7 @@ public interface ProductInfoDAO extends IService<ProductInfoEntity> {
 
     List<ProductInfoResponse> pageQueryProduct(int start, int pageSize);
 
-    List<IdName> getHotProduct(int topN);
+    List<ProductIdAndNameResponse> getHotProduct(int topN);
 
     ProductInfoResponse getProductByGId(String productId);
 
