@@ -34,8 +34,9 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
     List<IdName> getHotProduct(@Param("topN") int topN);
 
     @Select("SELECT a.pk_id as productId, a.product_gid, a.product_name,a.product_desc,a.status,a.review_time,a.create_time,b.did,c.company_name" +
-            " FROM t_product_info a JOIN t_account_info b ON a.provider_id = b.pk_id" +
-            " JOIN t_company_info c ON a.provider_id = c.account_id" +
+            " FROM t_product_info a" +
+            " left JOIN t_account_info b ON a.provider_id = b.pk_id" +
+            " left JOIN t_company_info c ON a.provider_id = c.account_id" +
             " where a.product_gid = #{productId}")
     @ResultType(ProductInfoResponse.class)
     ProductInfoResponse getProductByGId(@Param("productId") String productId);
@@ -75,5 +76,12 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
             "update_time=#{updateTime} " +
             "WHERE pk_id=#{pkId}")
     void updateProductInfo(ProductInfoEntity productInfoEntity);
+
+    @Update("UPDATE t_product_info SET " +
+            "review_time=#{reviewTime}, " +
+            "status=#{status}, " +
+            "update_time=#{updateTime} " +
+            "WHERE pk_id=#{pkId} or product_gid = #{productGid}")
+    void updateProductInfoState(ProductInfoEntity productInfoEntity);
 
 }

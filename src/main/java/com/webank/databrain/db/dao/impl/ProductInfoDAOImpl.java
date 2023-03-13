@@ -51,4 +51,9 @@ public class ProductInfoDAOImpl extends ServiceImpl<ProductInfoMapper, ProductIn
     public void updateProductInfo(ProductInfoEntity productInfoEntity){
         baseMapper.updateProductInfo(productInfoEntity);
     }
+
+    @Override
+    public void updateProductInfoState(ProductInfoEntity productInfoEntity) {
+        baseMapper.updateProductInfoState(productInfoEntity);
+    }
 }

@@ -17,4 +17,6 @@ public class SchemaServiceTest  extends ServerApplicationTests {
         CommonResponse result =  schemaService.pageQuerySchema(new Paging(1,1), 0L,0L,0L,"数据");
         System.out.println(JSONUtil.toJsonStr(result));
     }
+
+
 }

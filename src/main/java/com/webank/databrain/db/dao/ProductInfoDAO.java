@@ -29,4 +29,7 @@ public interface ProductInfoDAO extends IService<ProductInfoEntity> {
     void saveProductInfo(ProductInfoEntity productInfoEntity);
 
     void updateProductInfo(ProductInfoEntity productInfoEntity);
+
+    void updateProductInfoState(ProductInfoEntity productInfoEntity);
+
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ProductDetail {
+public class ProductDetailResponse {
 
     private Long productId;
 
@@ -17,7 +17,14 @@ public class ProductDetail {
     private String productName;
 
 
-    private String providerId;
+    private Long providerId;
+
+
+    private String providerGid;
+
+
+    private String providerName;
+
 
     /**
      * 产品详情
@@ -36,5 +43,4 @@ public class ProductDetail {
 
     private Date createTime;
 
-    private String companyName;
 }

@@ -47,8 +47,7 @@ public class ProductController {
     }
     @PostMapping(value = "/createProduct")
     public CommonResponse createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{
-        String did = SessionUtils.currentAccountDid();
-        return productService.createProduct(did, createProductRequest);
+        return productService.createProduct(createProductRequest);
     }
 
     @PostMapping(value = "/updateProduct")
