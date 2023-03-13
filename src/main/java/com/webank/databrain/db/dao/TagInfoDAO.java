@@ -1,7 +1,7 @@
 package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.webank.databrain.model.po.TagInfoPO;
+import com.webank.databrain.dao.db.entity.TagInfoEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.webank.databrain.model.po.TagInfoPO;
  * @author 
  * @since 2023-03-08
  */
-public interface TagInfoDAO extends IService<TagInfoPO> {
+public interface TagInfoDAO extends IService<TagInfoEntity> {
 
 }

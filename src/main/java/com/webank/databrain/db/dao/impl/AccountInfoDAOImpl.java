@@ -3,8 +3,8 @@ package com.webank.databrain.db.dao.impl;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.enums.AccountStatus;
-import com.webank.databrain.model.po.AccountInfoPO;
-import com.webank.databrain.db.mapper.AccountInfoMapper;
+import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import com.webank.databrain.dao.db.mapper.AccountInfoMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2023-03-08
  */
 @Service
-public class AccountInfoDAOImpl extends MPJBaseServiceImpl<AccountInfoMapper, AccountInfoPO> implements AccountInfoDAO {
+public class AccountInfoDAOImpl extends MPJBaseServiceImpl<AccountInfoMapper, AccountInfoEntity> implements AccountInfoDAO {
 
 
     @Override

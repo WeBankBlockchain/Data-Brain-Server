@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.webank.databrain.db.dao.TagInfoDAO;
-import com.webank.databrain.model.po.TagInfoPO;
+import com.webank.databrain.dao.db.entity.TagInfoEntity;
 import com.webank.databrain.model.req.tags.CreateTagRequest;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.tags.CreateTagResponse;
@@ -13,7 +13,6 @@ import com.webank.databrain.model.resp.tags.HotTagsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +23,8 @@ public class TagService {
     private TagInfoDAO tagInfoDAO;
 
     public HotTagsResponse listHotTags(int topN) {
-        IPage<TagInfoPO> paged = tagInfoDAO.page(new Page(1, topN), Wrappers.<TagInfoPO>query().select("pk_id ", "tag_name"));
-        List<TagInfoPO> items =  paged.getRecords();
+        IPage<TagInfoEntity> paged = tagInfoDAO.page(new Page(1, topN), Wrappers.<TagInfoEntity>query().select("pk_id ", "tag_name"));
+        List<TagInfoEntity> items =  paged.getRecords();
 
         List<IdName> idNames = items.stream().map(t->{
             IdName idName = new IdName();
@@ -52,7 +51,7 @@ public class TagService {
 //    }
 //
     public CreateTagResponse createTag(CreateTagRequest createTagRequest){
-        TagInfoPO tagPO = new TagInfoPO();
+        TagInfoEntity tagPO = new TagInfoEntity();
         tagPO.setTagName(createTagRequest.getTagName());
         tagInfoDAO.save(tagPO);
 

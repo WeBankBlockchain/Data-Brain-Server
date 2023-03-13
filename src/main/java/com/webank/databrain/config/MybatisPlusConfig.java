@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.webank.databrain.db.mapper")
+@MapperScan(basePackages = {"com.webank.databrain.db.mapper", "com.webank.databrain.dao.db.mapper"})
 public class MybatisPlusConfig {
 
     @Bean("mybatisSqlSession")

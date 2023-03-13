@@ -2,7 +2,7 @@ package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.model.bo.CompanyInfoBO;
-import com.webank.databrain.model.po.CompanyInfoPO;
+import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author 
  * @since 2023-03-08
  */
-public interface CompanyInfoDAO extends IService<CompanyInfoPO> {
+public interface CompanyInfoDAO extends IService<CompanyInfoEntity> {
     List<CompanyInfoBO> listHotCompany(int topN);
     List<CompanyInfoBO> listCompany(int pageNo, int pageSize);
 

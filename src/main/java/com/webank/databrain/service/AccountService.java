@@ -6,14 +6,13 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.db.dao.PersonInfoDAO;
+import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.model.req.account.*;
 import com.webank.databrain.model.resp.PagedResult;
-import com.webank.databrain.model.resp.account.*;
-import com.webank.databrain.model.po.AccountInfoPO;
-import com.webank.databrain.model.po.CompanyInfoPO;
-import com.webank.databrain.model.po.PersonInfoPO;
+import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
+import com.webank.databrain.dao.db.entity.PersonInfoEntity;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.enums.ErrorEnums;
@@ -22,6 +21,9 @@ import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
+import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.request.account.*;
+import com.webank.databrain.vo.response.account.*;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -70,7 +72,7 @@ public class AccountService {
     private TransactionDecoderInterface txDecoder;
 
     @Transactional
-    public RegisterResponse registerAccount(RegisterRequest request) throws Exception {
+    public CommonResponse<RegisterResponse> registerAccount(RegisterRequest request) throws Exception {
         //Generation private key
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         CryptoKeyPair keyPair = cryptoSuite.generateRandomKeyPair();
@@ -79,19 +81,19 @@ public class AccountService {
                 sysConfig.getContractConfig().getAccountContract(),
                 client,
                 keyPair);
-        TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), cryptoSuite.hash(request.getUsername().getBytes()));
+        TransactionReceipt txReceipt = accountContract.register(BigInteger.valueOf(request.getAccountType().ordinal()), cryptoSuite.hash(request.getUserName().getBytes()));
         byte[] didBytes = accountContract.getRegisterOutput(txReceipt).getValue1();
         BlockchainUtils.ensureTransactionSuccess(txReceipt, txDecoder);
         log.info("blockchain generate did : {}", AccountUtils.encode(didBytes));
         //Save to database
-        String username = request.getUsername();
+        String username = request.getUserName();
         String password = request.getPassword();
         int accountType = request.getAccountType().ordinal();
         String did = AccountUtils.encode(didBytes);
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, salt);
-        AccountInfoPO accountInfoDo = new AccountInfoPO();
+        AccountInfoEntity accountInfoDo = new AccountInfoEntity();
         accountInfoDo.setAccountType(accountType);
         accountInfoDo.setDid(did);
         accountInfoDo.setPwdHash(pwdHash);
@@ -104,7 +106,7 @@ public class AccountService {
         long accountPkId = accountInfoDo.getPkId();
         if (accountType == AccountType.Personal.ordinal()) {
             PersonalDetailInput personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetailInput.class);
-            PersonInfoPO personInfoPo = new PersonInfoPO();
+            PersonInfoEntity personInfoPo = new PersonInfoEntity();
             personInfoPo.setPersonCertNo(personalDetail.getCertNum());
             personInfoPo.setPersonContact(personalDetail.getContact());
             personInfoPo.setPersonEmail(personalDetail.getEmail());
@@ -115,7 +117,7 @@ public class AccountService {
             personInfoDAO.save(personInfoPo);
         } else if (accountType == AccountType.Company.ordinal()) {
             CompanyDetailInput companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetailInput.class);
-            CompanyInfoPO companyInfoPo = new CompanyInfoPO();
+            CompanyInfoEntity companyInfoPo = new CompanyInfoEntity();
             companyInfoPo.setCompanyContact(companyDetail.getContact());
             companyInfoPo.setCompanyName(companyDetail.getCompanyName());
             companyInfoPo.setCompanyDesc(companyDetail.getCompanyDesc());
@@ -126,118 +128,117 @@ public class AccountService {
             companyInfoDAO.save(companyInfoPo);
         }
 
-        return new RegisterResponse(did);
+        return CommonResponse.success(new RegisterResponse(did));
     }
 
 
-    public LoginResponse login(LoginRequest loginRequest) {
+    public CommonResponse<LoginResponse> login(LoginRequest loginRequest) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        String username = loginRequest.getUsername();
+        String username = loginRequest.getUserName();
         String password = loginRequest.getPassword();
-        AccountInfoPO accountInfo = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("user_name", username), false);
+        AccountInfoEntity accountInfo = accountDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("user_name", username), false);
         if (accountInfo == null){
-            throw new DataBrainException(ErrorEnums.InvalidCredential);
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, accountInfo.getSalt());
         if (!Objects.equals(pwdHash, accountInfo.getPwdHash())) {
-            throw new DataBrainException(ErrorEnums.InvalidCredential);
+            return CommonResponse.error(CodeEnum.PWD_NOT_RIGHT);
         }
         String token = tokenHandler.generateToken(accountInfo.getPkId());
         LoginResponse result = new LoginResponse();
         result.setToken(token);
         result.setAccountType(accountInfo.getAccountType().intValue());
         result.setDid(accountInfo.getDid());
-        return result;
+        return CommonResponse.success(result);
     }
 
-    public HotCompaniesResponse listHotCompanies(int topN) {
+    public CommonResponse<HotCompaniesResponse> listHotCompanies(int topN) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listHotCompany(topN);
         List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         HotCompaniesResponse response = new HotCompaniesResponse(items);
-        return response;
+        return CommonResponse.success(response);
     }
 
-    public PageQueryCompanyResponse listCompanyByPage(PageQueryCompanyRequest request) {
+    public CommonResponse<PageQueryCompanyResponse> listCompanyByPage(PageQueryCompanyRequest request) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
         List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
-        return new PageQueryCompanyResponse(new PagedResult<>(
+        return CommonResponse.success(new PageQueryCompanyResponse(new PagedResult<>(
                 items,
                 request.getPageNo(),
-                request.getPageSize()));
+                request.getPageSize())));
     }
 
-    public String getPrivateKey(String did) {
-//        AccountDO accountDO =  accountDAO.getAccountByDid(did);
-//        if (accountDO == null){
-//            throw new DataBrainException(ErrorEnums.AccountNotExists);
-//        }
-//        return accountDO.getPrivateKey();
-        return null;
+    public CommonResponse<GetPrivateKeyResponse> getPrivateKey(String did) {
+        AccountInfoEntity entity = accountDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
+        if (entity == null){
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
+        }
+        return CommonResponse.success(new GetPrivateKeyResponse(entity.getPrivateKey()));
     }
 
-    public QueryPersonByUsernameResponse getPersonByUsername(String username) {
+    public CommonResponse<QueryPersonByUsernameResponse> getPersonByUsername(String username) {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
 
         PersonInfoBO data = personInfoDAO.queryPersonByUsername(username);
         if (data == null){
-            throw new DataBrainException(ErrorEnums.AccountNotExists);
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
 
         PersonInfoVO voItem = AccountUtils.personBOToVO(cryptoSuite, data);
         QueryPersonByUsernameResponse ret = new QueryPersonByUsernameResponse();
         ret.setItem(voItem);
 
-        return ret;
+        return CommonResponse.success(ret);
     }
 
-    public QueryCompanyByUsernameResponse getCompanyByUsername(String username) {
+    public CommonResponse<QueryCompanyByUsernameResponse> getCompanyByUsername(String username) {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
 
         CompanyInfoBO data = companyInfoDAO.queryCompanyByUsername(username);
         if (data == null){
-            throw new DataBrainException(ErrorEnums.AccountNotExists);
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
 
         CompanyInfoVO voItem = AccountUtils.companyBOToVO(cryptoSuite, data);
         QueryCompanyByUsernameResponse ret = new QueryCompanyByUsernameResponse();
         ret.setItem(voItem);
-        return ret;
+        return CommonResponse.success(ret);
     }
 
-    public SearchCompanyResponse searchCompanies(SearchCompanyRequest request) {
+    public CommonResponse<SearchCompanyResponse> searchCompanies(SearchCompanyRequest request) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String statusStr = request.getCondition().getAccountStatus();
         AccountStatus status = AccountStatus.valueOf(statusStr);
         List<CompanyInfoBO> boList = companyInfoDAO.listCompanyWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
         List<CompanyInfoVO> voItems = boList.stream().map(b -> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
-        return new SearchCompanyResponse(new PagedResult<>(
+        return CommonResponse.success(new SearchCompanyResponse(new PagedResult<>(
                 voItems,
                 request.getPageNo(),
                 request.getPageSize()
-        ));
+        )));
     }
 
-    public SearchPersonResponse searchPersons(SearchPersonRequest request) {
+    public CommonResponse<SearchPersonResponse> searchPersons(SearchPersonRequest request) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         String statusStr = request.getCondition().getAccountStatus();
         AccountStatus status = AccountStatus.valueOf(statusStr);
         List<PersonInfoBO> boList = personInfoDAO.listPersonWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
         List<PersonInfoVO> voItems = boList.stream().map(b -> AccountUtils.personBOToVO(cryptoSuite, b)).collect(Collectors.toList());
-        return new SearchPersonResponse(new PagedResult<>(
+        return CommonResponse.success(new SearchPersonResponse(new PagedResult<>(
                 voItems,
                 request.getPageNo(),
                 request.getPageSize()
-        ));
+        )));
     }
 
-    public void approveAccount(ApproveAccountRequest request) throws Exception{
+    public CommonResponse approveAccount(ApproveAccountRequest request) throws Exception{
         String did = request.getDid();
         boolean approve = request.isApproved();
-        AccountInfoPO accountInfoPO = accountDAO.getOne(Wrappers.<AccountInfoPO>query().eq("did", did));
+        AccountInfoEntity accountInfoPO = accountDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
         if (accountInfoPO == null){
             throw new DataBrainException(ErrorEnums.AccountNotExists);
         }
@@ -250,6 +251,7 @@ public class AccountService {
         //修改数据库状态
         AccountStatus status = approve?AccountStatus.Approved:AccountStatus.Denied;
         accountDAO.updateAccountStatus(did, status);
+        return CommonResponse.success();
     }
 //
 //

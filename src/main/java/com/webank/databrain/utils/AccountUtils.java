@@ -1,11 +1,10 @@
 package com.webank.databrain.utils;
 
 import cn.hutool.core.codec.Base64;
-import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.model.resp.account.CompanyInfoVO;
-import com.webank.databrain.model.resp.account.PersonInfoVO;
+import com.webank.databrain.vo.response.account.CompanyInfoVO;
+import com.webank.databrain.vo.response.account.PersonInfoVO;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 
 public class AccountUtils {

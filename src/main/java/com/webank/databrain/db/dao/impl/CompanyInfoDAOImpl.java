@@ -3,8 +3,8 @@ package com.webank.databrain.db.dao.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.db.dao.CompanyInfoDAO;
 import com.webank.databrain.model.bo.CompanyInfoBO;
-import com.webank.databrain.model.po.CompanyInfoPO;
-import com.webank.databrain.db.mapper.CompanyInfoMapper;
+import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
+import com.webank.databrain.dao.db.mapper.CompanyInfoMapper;
 import com.webank.databrain.utils.PagingUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2023-03-08
  */
 @Service
-public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfoPO> implements CompanyInfoDAO {
+public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyInfoEntity> implements CompanyInfoDAO {
 
     @Override
     public List<CompanyInfoBO> listHotCompany(int topN) {

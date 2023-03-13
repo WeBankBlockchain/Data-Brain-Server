@@ -3,11 +3,9 @@ package com.webank.databrain.db.dao.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.db.dao.PersonInfoDAO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.model.po.PersonInfoPO;
-import com.webank.databrain.db.mapper.PersonInfoMapper;
-import com.webank.databrain.utils.AccountUtils;
+import com.webank.databrain.dao.db.entity.PersonInfoEntity;
+import com.webank.databrain.dao.db.mapper.PersonInfoMapper;
 import com.webank.databrain.utils.PagingUtils;
-import org.apache.ibatis.annotations.ResultType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.List;
  * @since 2023-03-08
  */
 @Service
-public class PersonInfoDAOImpl extends ServiceImpl<PersonInfoMapper, PersonInfoPO> implements PersonInfoDAO {
+public class PersonInfoDAOImpl extends ServiceImpl<PersonInfoMapper, PersonInfoEntity> implements PersonInfoDAO {
 
     @Override
     public PersonInfoBO queryPersonByUsername(String username) {
