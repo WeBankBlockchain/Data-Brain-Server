@@ -34,7 +34,7 @@ public class DataSchemaController {
         if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
             return CommonResponse.error(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
         }
-        CommonResponse response = schemaService.pageQuerySchema(new Paging(
+        return schemaService.pageQuerySchema(new Paging(
                 querySchemaRequest.getPageNo(),
                 querySchemaRequest.getPageSize()),
                 querySchemaRequest.getProductId(),
@@ -42,7 +42,6 @@ public class DataSchemaController {
                 querySchemaRequest.getTagId(),
                 querySchemaRequest.getKeyWord()
         );
-        return CommonResponse.success(response);
     }
 //
 //
