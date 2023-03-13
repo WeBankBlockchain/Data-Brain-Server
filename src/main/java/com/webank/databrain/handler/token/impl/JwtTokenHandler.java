@@ -3,14 +3,16 @@ package com.webank.databrain.handler.token.impl;
 
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.handler.token.ITokenHandler;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Date;
 
 @Component

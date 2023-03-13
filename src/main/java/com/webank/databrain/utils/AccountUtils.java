@@ -1,8 +1,8 @@
 package com.webank.databrain.utils;
 
 import cn.hutool.core.codec.Base64;
-import com.webank.databrain.model.bo.CompanyInfoBO;
-import com.webank.databrain.model.bo.PersonInfoBO;
+import com.webank.databrain.dao.bc.bo.CompanyInfoBO;
+import com.webank.databrain.dao.bc.bo.PersonInfoBO;
 import com.webank.databrain.vo.response.account.CompanyInfoResponse;
 import com.webank.databrain.vo.response.account.PersonInfoResponse;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;

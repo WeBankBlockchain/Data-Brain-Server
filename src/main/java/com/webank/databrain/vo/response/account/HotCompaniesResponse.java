@@ -1,8 +1,6 @@
 package com.webank.databrain.vo.response.account;
 
-import com.webank.databrain.model.resp.BaseHotResponse;
-import com.webank.databrain.model.resp.IdName;
-import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
+import com.webank.databrain.vo.common.BaseHotResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

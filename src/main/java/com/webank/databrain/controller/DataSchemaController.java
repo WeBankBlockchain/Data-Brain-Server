@@ -1,11 +1,11 @@
 package com.webank.databrain.controller;
 
 import com.webank.databrain.enums.ErrorEnums;
-import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
-import com.webank.databrain.vo.request.dataschema.PageQueryDataSchemaRequest;
-import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.service.DataSchemaService;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.common.Paging;
+import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
+import com.webank.databrain.vo.request.dataschema.PageQueryDataSchemaRequest;
 import com.webank.databrain.vo.request.dataschema.QuerySchemaByIdRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

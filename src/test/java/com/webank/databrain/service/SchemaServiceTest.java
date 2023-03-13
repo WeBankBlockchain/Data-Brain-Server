@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.ServerApplicationTests;
 import com.webank.databrain.enums.AccountType;
-import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.account.ApproveAccountRequest;
 import com.webank.databrain.vo.request.account.CompanyDetailRequest;
@@ -13,13 +13,11 @@ import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.response.account.RegisterResponse;
-import org.checkerframework.checker.units.qual.C;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
-import java.util.Random;
 
 public class SchemaServiceTest  extends ServerApplicationTests {
 

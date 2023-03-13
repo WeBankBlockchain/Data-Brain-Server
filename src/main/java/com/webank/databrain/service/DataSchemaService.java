@@ -3,23 +3,23 @@ package com.webank.databrain.service;
 import cn.hutool.core.codec.Base64;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.DataSchemaModule;
-import com.webank.databrain.dao.db.dao.*;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.DataSchemaAccessInfoEntity;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import com.webank.databrain.dao.db.entity.DataSchemaTagsEntity;
+import com.webank.databrain.dao.db.mapper.*;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.resp.PagedResult;
-import com.webank.databrain.model.resp.Paging;
-import com.webank.databrain.vo.response.dataschema.DataSchemaDetailResponse;
-import com.webank.databrain.vo.response.dataschema.DataSchemaWithAccessResponse;
+import com.webank.databrain.vo.common.PagedResult;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
+import com.webank.databrain.vo.response.dataschema.DataSchemaDetailResponse;
 import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
+import com.webank.databrain.vo.response.dataschema.DataSchemaWithAccessResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -50,10 +50,10 @@ public class DataSchemaService {
     private SysConfig sysConfig;
 
     @Autowired
-    private AccountInfoDAO accountInfoDAO;
+    private AccountInfoMapper accountInfoMapper;
 
     @Autowired
-    private ProductInfoDAO productInfoDAO;
+    private ProductInfoMapper productInfoMapper;
 
     @Autowired
     private ThreadLocalKeyPairHandler keyPairHandler;
@@ -65,17 +65,17 @@ public class DataSchemaService {
     private TransactionDecoderInterface txDecoder;
 
     @Autowired
-    private DataSchemaInfoDAO dataSchemaInfoDAO;
+    private DataSchemaInfoMapper dataSchemaInfoMapper;
 
     @Autowired
-    private DataSchemaAccessInfoDAO dataSchemaAccessInfoDAO;
+    private DataSchemaAccessInfoMapper dataSchemaAccessInfoMapper;
 
     @Autowired
-    private DataSchemaTagsDAO dataSchemaTagsDAO;
+    private DataSchemaTagsMapper dataSchemaTagsMapper;
 
 
     public CommonResponse pageQuerySchema(Paging paging, Long productId, Long providerId, Long tagId, String keyWord) {
-        List<DataSchemaInfoResponse> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQuerySchema(
+        List<DataSchemaInfoResponse> dataSchemaInfoPOS = dataSchemaInfoMapper.pageQuerySchema(
                 paging.getPageNo(),
                 paging.getPageSize(),
                 productId,
@@ -96,7 +96,7 @@ public class DataSchemaService {
     }
 
     public CommonResponse getDataSchemaByGid(String schemaGid){
-        DataSchemaWithAccessResponse dataSchemaWithAccessResponse = dataSchemaInfoDAO.getSchemaWithAccessByGid(schemaGid);
+        DataSchemaWithAccessResponse dataSchemaWithAccessResponse = dataSchemaInfoMapper.getSchemaWithAccessByGid(schemaGid);
         return CommonResponse.success(dataSchemaWithAccessResponse);
     }
 
@@ -104,11 +104,11 @@ public class DataSchemaService {
     public CommonResponse createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(schemaRequest.getProviderGId());
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(schemaRequest.getProviderGId());
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
-        ProductInfoResponse product = productInfoDAO.getProductByGId(schemaRequest.getProductGId());
+        ProductInfoResponse product = productInfoMapper.getProductByGId(schemaRequest.getProductGId());
         if(product == null){
             throw new DataBrainException(ErrorEnums.ProductNotExists);
         }
@@ -133,19 +133,19 @@ public class DataSchemaService {
         DataSchemaInfoEntity dataSchemaInfoEntity = new DataSchemaInfoEntity();
         BeanUtils.copyProperties(schemaRequest, dataSchemaInfoEntity);
         dataSchemaInfoEntity.setDataSchemaGid(dataSchemaId);
-        dataSchemaInfoDAO.saveDataSchemaInfo(dataSchemaInfoEntity);
+        dataSchemaInfoMapper.insertDataSchemaInfo(dataSchemaInfoEntity);
         log.info("save dataSchemaInfoEntity finish, schemaId = {}", dataSchemaId);
 
         DataSchemaAccessInfoEntity dataSchemaAccessInfoEntity = new DataSchemaAccessInfoEntity();
         BeanUtils.copyProperties(schemaRequest, dataSchemaAccessInfoEntity);
         dataSchemaAccessInfoEntity.setDataSchemaId(dataSchemaInfoEntity.getPkId());
-        dataSchemaAccessInfoDAO.saveDataSchemaAccessInfo(dataSchemaAccessInfoEntity);
+        dataSchemaAccessInfoMapper.insertDataSchemaAccessInfo(dataSchemaAccessInfoEntity);
         log.info("save dataSchemaAccessInfoEntity finish, schemaId = {}", dataSchemaId);
 
         DataSchemaTagsEntity dataSchemaTagsEntity = new DataSchemaTagsEntity();
         dataSchemaTagsEntity.setDataSchemaId(dataSchemaInfoEntity.getPkId());
         dataSchemaTagsEntity.setTagId(schemaRequest.getTagId());
-        dataSchemaTagsDAO.saveDataSchemaTag(dataSchemaTagsEntity);
+        dataSchemaTagsMapper.insertDataSchemaTag(dataSchemaTagsEntity);
         log.info("save dataSchemaTagsEntity finish, schemaId = {}", dataSchemaId);
 
         return CommonResponse.success(dataSchemaId);

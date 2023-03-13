@@ -5,23 +5,21 @@ import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.ProductModule;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.dao.db.dao.AccountInfoDAO;
-import com.webank.databrain.dao.db.dao.ProductInfoDAO;
+import com.webank.databrain.dao.db.mapper.AccountInfoMapper;
+import com.webank.databrain.dao.db.mapper.ProductInfoMapper;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.resp.IdName;
-import com.webank.databrain.model.resp.PagedResult;
-import com.webank.databrain.model.resp.Paging;
-import com.webank.databrain.utils.AccountUtils;
-import com.webank.databrain.vo.response.product.HotProductResponse;
-import com.webank.databrain.vo.response.product.ProductDetailResponse;
+import com.webank.databrain.vo.common.PagedResult;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.request.product.UpdateProductRequest;
+import com.webank.databrain.vo.response.product.HotProductResponse;
+import com.webank.databrain.vo.response.product.ProductDetailResponse;
 import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
@@ -30,7 +28,6 @@ import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
-import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,21 +56,18 @@ public class ProductService {
     private TransactionDecoderInterface txDecoder;
 
     @Autowired
-    private AccountInfoDAO accountInfoDAO;
+    private AccountInfoMapper accountInfoMapper;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private ProductInfoDAO productInfoDAO;
+    private ProductInfoMapper productInfoMapper;
 
     public CommonResponse getHotProducts(int topN) {
-        List<ProductIdAndNameResponse> idNames = productInfoDAO.getHotProduct(topN);
+        List<ProductIdAndNameResponse> idNames = productInfoMapper.getHotProduct(topN);
         return CommonResponse.success(new HotProductResponse(idNames));
     }
 
     public CommonResponse pageQueryProducts(Paging paging) {
-        List<ProductInfoResponse> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+        List<ProductInfoResponse> productInfoPOList = productInfoMapper.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
         List<ProductDetailResponse> productDetails = new ArrayList<>();
 
         productInfoPOList.forEach(product -> {
@@ -90,7 +84,7 @@ public class ProductService {
     }
 
     public CommonResponse getProductDetail(String productId) {
-        ProductInfoResponse product = productInfoDAO.getProductByGId(productId);
+        ProductInfoResponse product = productInfoMapper.getProductByGId(productId);
         ProductDetailResponse productDetail = new ProductDetailResponse();
         BeanUtils.copyProperties(product,productDetail);
         productDetail.setProviderGid(product.getDid());
@@ -101,7 +95,7 @@ public class ProductService {
     public CommonResponse createProduct(CreateProductRequest productRequest) throws TransactionException {
 //        String did = SessionUtils.currentAccountDid();
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(productRequest.getDid());
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(productRequest.getDid());
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -125,13 +119,13 @@ public class ProductService {
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
         product.setCreateTime(new Date());
-        productInfoDAO.saveProductInfo(product);
+        productInfoMapper.insertProductInfoPO(product);
         return CommonResponse.success(productId);
     }
 
     public CommonResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String did = SessionUtils.currentAccountDid();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(did);
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(did);
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -155,7 +149,7 @@ public class ProductService {
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
         product.setUpdateTime(new Date());
-        productInfoDAO.updateProductInfo(product);
+        productInfoMapper.updateProductInfo(product);
 
         return CommonResponse.success(productRequest.getProductGId());
     }
@@ -164,7 +158,7 @@ public class ProductService {
     @Transactional
     public CommonResponse approveProduct(ApproveProductRequest productRequest) throws TransactionException {
 //        String did = SessionUtils.currentAccountDid();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(productRequest.getDid());
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(productRequest.getDid());
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -184,7 +178,7 @@ public class ProductService {
         productInfoEntity.setPkId(productRequest.getProductId());
         productInfoEntity.setStatus(productRequest.isAgree() ? ReviewStatus.Approved.ordinal() : ReviewStatus.Denied.ordinal());
         productInfoEntity.setReviewTime(new Date());
-        productInfoDAO.updateProductInfoState(productInfoEntity);
+        productInfoMapper.updateProductInfoState(productInfoEntity);
         return CommonResponse.success(productRequest.getProductGId());
     }
 }

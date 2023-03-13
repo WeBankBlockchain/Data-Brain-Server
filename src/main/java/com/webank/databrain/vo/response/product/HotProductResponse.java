@@ -1,7 +1,6 @@
 package com.webank.databrain.vo.response.product;
 
-import com.webank.databrain.model.resp.BaseHotResponse;
-import com.webank.databrain.vo.response.account.CompanyIdAndNameResponse;
+import com.webank.databrain.vo.common.BaseHotResponse;
 
 import java.util.List;
 

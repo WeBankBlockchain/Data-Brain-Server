@@ -3,6 +3,7 @@ package com.webank.databrain.vo.common;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
 import java.util.Collections;
 import java.util.List;
 
