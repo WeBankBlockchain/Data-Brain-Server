@@ -39,7 +39,7 @@ public class SchemaServiceTest  extends ServerApplicationTests {
 
     @Test
     void createSchemaTest() throws Exception {
-        String username = "companyUser00004";
+        String username = "companyUser00005";
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);

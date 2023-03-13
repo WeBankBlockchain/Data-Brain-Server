@@ -1,5 +1,6 @@
-package com.webank.databrain.config;
+package com.webank.databrain.starter;
 
+import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.contracts.AccountModule;
 import com.webank.databrain.contracts.DataSchemaModule;
 import com.webank.databrain.contracts.ProductModule;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class DeployConfig implements ApplicationListener<ContextRefreshedEvent> {
+public class BlockchainPreparer implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private SysConfig sysConfig;
