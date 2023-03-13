@@ -104,16 +104,16 @@ public class DataSchemaService {
     public CommonResponse createDataSchema(CreateDataSchemaRequest schemaRequest) throws Exception {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoDAO.selectByDid(schemaRequest.getDid());
+        AccountInfoEntity entity = accountInfoDAO.selectByDid(schemaRequest.getProviderGId());
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
-        String privateKey = entity.getPrivateKey();
-        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductInfoResponse product = productInfoDAO.getProductByGId(schemaRequest.getProductGId());
         if(product == null){
-           throw new DataBrainException(ErrorEnums.ProductNotExists);
+            throw new DataBrainException(ErrorEnums.ProductNotExists);
         }
+        String privateKey = entity.getPrivateKey();
+        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         DataSchemaModule dataSchemaModule = DataSchemaModule.load(
                 sysConfig.getContractConfig().getDataSchemaContract(),
                 client,

@@ -21,7 +21,7 @@ public class ProductServiceTest  extends ServerApplicationTests {
 
     @Test
     void productQueryTest() throws Exception {
-        CommonResponse result =  productService.pageQueryProducts(new Paging(1,1));
+        CommonResponse result =  productService.pageQueryProducts(new Paging(1,10));
         System.out.println(JSONUtil.toJsonStr(result));
     }
 
