@@ -1,0 +1,39 @@
+server:
+    port: 10880
+
+spring:
+    mvc:
+        async:
+            request-timeout: 500
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:mem:testdb
+        username: sa
+        password:
+
+mybatis:
+    typeAliasesPackage: com.webank.databrain.dao.entity
+    configuration:
+        map-underscore-to-camel-case: true
+
+system:
+    bcos-cfg: "config/config.toml"
+    bcos-group-id: "group0"
+    crypto-type: 0
+    salt: "salt_string"
+    witness-private-key: '11afa82f974469792aa0172931b813d4fc7dd9177f3211779efc5f955d5e480f'
+    contractConfig:
+        account-contract: "0x495763688813f965d76fd46455ee5da6ae51c2fe"
+        product-contract: "0x1d6361dfdf5a77d2d5081d6935fe72f5ad6a5773"
+        dataSchema-contract: "BlockLimit, group: group0, blockLimit: 863
+Data Schema module address: "
+    loginConfig:
+        token-expire-minutes: 2880
+    fileConfig:
+        file-dir: "tmp"
+    jwtConfig:
+        jwt-secret: "Ok2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQOk2Q0AZiRTT1N6CJ3q8ZvQ"
+swagger:
+    enabled: true
+
+

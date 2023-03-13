@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProductRequest {
 
-
     private Long productId;
+
     private String productGId;
 
     private String productName;
 
-    private String information;
+    private String productDesc;
 }

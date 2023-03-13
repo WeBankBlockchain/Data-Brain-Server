@@ -6,19 +6,21 @@ import com.webank.databrain.dao.bc.contract.ProductModule;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
 import com.webank.databrain.dao.db.mapper.AccountInfoMapper;
-import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.dao.db.mapper.ProductInfoMapper;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
-import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.request.product.UpdateProductRequest;
+import com.webank.databrain.vo.response.product.HotProductResponse;
+import com.webank.databrain.vo.response.product.ProductDetailResponse;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -26,10 +28,10 @@ import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
 import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
-import org.fisco.bcos.sdk.v3.utils.ByteUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -57,21 +59,22 @@ public class ProductService {
     private AccountInfoMapper accountInfoMapper;
 
     @Autowired
-    private ProductInfoDAO productInfoDAO;
+    private ProductInfoMapper productInfoMapper;
 
     public CommonResponse getHotProducts(int topN) {
-        List<IdName> idNames = productInfoDAO.getHotProduct(topN);
-        return CommonResponse.success(idNames);
+        List<ProductIdAndNameResponse> idNames = productInfoMapper.getHotProduct(topN);
+        return CommonResponse.success(new HotProductResponse(idNames));
     }
 
     public CommonResponse pageQueryProducts(Paging paging) {
-        List<ProductInfoResponse> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
-        List<ProductDetail> productDetails = new ArrayList<>();
+        List<ProductInfoResponse> productInfoPOList = productInfoMapper.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+        List<ProductDetailResponse> productDetails = new ArrayList<>();
 
         productInfoPOList.forEach(product -> {
-            ProductDetail productDetail = new ProductDetail();
+            ProductDetailResponse productDetail = new ProductDetailResponse();
             BeanUtils.copyProperties(product, productDetail);
-            productDetail.setProviderId(product.getDid());
+            productDetail.setProductGid(product.getDid());
+            productDetail.setProviderName(product.getCompanyName());
             productDetails.add(productDetail);
         });
         return CommonResponse.success(new PagedResult<>(productDetails,
@@ -81,17 +84,18 @@ public class ProductService {
     }
 
     public CommonResponse getProductDetail(String productId) {
-        ProductInfoResponse product = productInfoDAO.getProductByGId(productId);
-        ProductDetail productDetail = new ProductDetail();
+        ProductInfoResponse product = productInfoMapper.getProductByGId(productId);
+        ProductDetailResponse productDetail = new ProductDetailResponse();
         BeanUtils.copyProperties(product,productDetail);
-        productDetail.setProviderId(product.getDid());
+        productDetail.setProviderGid(product.getDid());
+        productDetail.setProviderName(product.getCompanyName());
         return CommonResponse.success(productDetail);
     }
 
-    public CommonResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
-
+    public CommonResponse createProduct(CreateProductRequest productRequest) throws TransactionException {
+//        String did = SessionUtils.currentAccountDid();
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoMapper.selectByDid(did);
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(productRequest.getDid());
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -115,7 +119,7 @@ public class ProductService {
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
         product.setCreateTime(new Date());
-        productInfoDAO.saveProductInfo(product);
+        productInfoMapper.insertProductInfoPO(product);
         return CommonResponse.success(productId);
     }
 
@@ -134,19 +138,47 @@ public class ProductService {
                 keyPair);
 
         TransactionReceipt receipt = productModule.modifyProduct(
-                ByteUtils.hexStringToBytes(productRequest.getProductGId()),
+                Base64.decode(productRequest.getProductGId()),
                 cryptoSuite.hash((
-                productRequest.getProductName() + productRequest.getInformation())
+                productRequest.getProductName() + productRequest.getProductDesc())
                 .getBytes(StandardCharsets.UTF_8)));
         BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
 
         ProductInfoEntity product = new ProductInfoEntity();
         product.setPkId(productRequest.getProductId());
         product.setProductName(productRequest.getProductName());
-        product.setProductDesc(productRequest.getInformation());
+        product.setProductDesc(productRequest.getProductDesc());
         product.setUpdateTime(new Date());
-        productInfoDAO.updateProductInfo(product);
+        productInfoMapper.updateProductInfo(product);
 
+        return CommonResponse.success(productRequest.getProductGId());
+    }
+
+
+    @Transactional
+    public CommonResponse approveProduct(ApproveProductRequest productRequest) throws TransactionException {
+//        String did = SessionUtils.currentAccountDid();
+        AccountInfoEntity entity = accountInfoMapper.selectByDid(productRequest.getDid());
+        if (entity == null){
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
+        }
+
+        CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
+        ProductModule productModule = ProductModule.load(
+                sysConfig.getContractConfig().getProductContract(),
+                client,
+                witnessKeyPair);
+        TransactionReceipt receipt = productModule.approveProduct(
+                Base64.decode(productRequest.getProductGId()), productRequest.isAgree()
+        );
+        BlockchainUtils.ensureTransactionSuccess(receipt, txDecoder);
+
+        ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+        productInfoEntity.setProductGid(productRequest.getProductGId());
+        productInfoEntity.setPkId(productRequest.getProductId());
+        productInfoEntity.setStatus(productRequest.isAgree() ? ReviewStatus.Approved.ordinal() : ReviewStatus.Denied.ordinal());
+        productInfoEntity.setReviewTime(new Date());
+        productInfoMapper.updateProductInfoState(productInfoEntity);
         return CommonResponse.success(productRequest.getProductGId());
     }
 }

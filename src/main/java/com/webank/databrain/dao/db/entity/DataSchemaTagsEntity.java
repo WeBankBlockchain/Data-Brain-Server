@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -19,21 +18,22 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("t_tag_info")
-public class TagInfoEntity implements Serializable {
+@TableName("t_data_schema_tags")
+public class DataSchemaTagsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long pkId;
 
     /**
-     * 标签名
+     * 数据目录外键id
      */
-    private String tagName;
+    private Long dataSchemaId;
 
-    private Date createTime;
-
-    private Date updateTime;
+    /**
+     * 标签外键id
+     */
+    private Long tagId;
 
 
 }

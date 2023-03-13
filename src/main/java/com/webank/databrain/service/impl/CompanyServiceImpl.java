@@ -30,11 +30,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CommonResponse listHotCompanies(int topCount) {
-        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        List<CompanyInfoBO> companyInfoDataObjects = companyInfoMapper.listHotCompanies(topCount);
-        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b-> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
-        HotCompaniesResponse response = new HotCompaniesResponse(items);
-        return CommonResponse.success(response);
+//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
+//        List<CompanyInfoBO> companyInfoDataObjects = companyInfoMapper.listHotCompanies(topCount);
+//        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b-> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+//        HotCompaniesResponse response = new HotCompaniesResponse(items);
+//        return CommonResponse.success(response);
+        return null;
     }
 
     @Override

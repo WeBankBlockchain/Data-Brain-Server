@@ -1,16 +1,14 @@
 package com.webank.databrain.service;
 
 //import com.webank.databrain.db.dao.ITagDbService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.webank.databrain.db.dao.TagInfoDAO;
+import com.webank.databrain.dao.db.dao.TagInfoDAO;
 import com.webank.databrain.dao.db.entity.TagInfoEntity;
 import com.webank.databrain.model.req.tags.CreateTagRequest;
 import com.webank.databrain.model.resp.CommonResponse;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.tags.CreateTagResponse;
 import com.webank.databrain.model.resp.tags.HotTagsResponse;
+import com.webank.databrain.vo.response.tag.TagIdAndNameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +25,10 @@ public class TagService {
 
         List<TagInfoEntity> tags = tagInfoDAO.queryHotTags(topN);
 
-        List<IdName> idNames = tags.stream().map(t->{
-            IdName idName = new IdName();
-            idName.setId(String.valueOf(t.getPkId()));
-            idName.setName(t.getTagName());
+        List<TagIdAndNameResponse> idNames = tags.stream().map(t->{
+            TagIdAndNameResponse idName = new TagIdAndNameResponse();
+            idName.setTagId(String.valueOf(t.getPkId()));
+            idName.setTagName(t.getTagName());
             return idName;
         }).collect(Collectors.toList());
         return CommonResponse.success(new HotTagsResponse(idNames));

@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class QuerySchemaByIdRequest {
 
-    private String schemaId;
+    private String schemaGid;
 
 }

@@ -20,7 +20,7 @@ public class AccountServiceTest extends ServerApplicationTests {
     private ObjectMapper objectMapper;
     @Test
     public void testPersonalUserRegister() throws Exception{
-        String username = "personalUser0003";
+        String username = "personalUser0004";
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);

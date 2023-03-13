@@ -1,6 +1,5 @@
 package com.webank.databrain.vo.request.product;
 
-import com.webank.databrain.model.req.PagedRequest;
 import com.webank.databrain.vo.common.CommonPageQueryRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PageQueryProductRequest extends CommonPageQueryRequest {
 
-    private String productId;
-
-    private int topN;
 }

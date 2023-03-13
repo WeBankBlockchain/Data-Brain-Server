@@ -1,4 +1,4 @@
--- 账户表 --
+
 CREATE TABLE `t_account_info` (
   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
@@ -16,7 +16,7 @@ CREATE TABLE `t_account_info` (
   UNIQUE KEY `username` (`user_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- 个人用户表 --
+
 CREATE TABLE `t_person_info` (
   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
@@ -31,7 +31,7 @@ CREATE TABLE `t_person_info` (
   UNIQUE KEY `account_id` (`account_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
- -- 机构表 --
+
 CREATE TABLE `t_company_info` (
   `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
@@ -49,7 +49,7 @@ CREATE TABLE `t_company_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 
--- 产品表 --
+
  CREATE TABLE `t_product_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `product_gid` varchar(255) NOT NULL COMMENT '产品链上id',
@@ -64,7 +64,7 @@ CREATE TABLE `t_company_info` (
    UNIQUE KEY (`product_gid`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 标签表 --
+
  CREATE TABLE `t_tag_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `tag_name` varchar(64) NOT NULL DEFAULT '' COMMENT '标签名',
@@ -74,7 +74,7 @@ CREATE TABLE `t_company_info` (
    UNIQUE KEY (`tag_name`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 数据目录表 --
+
  CREATE TABLE `t_data_schema_info` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `data_schema_gid` varchar(255) NOT NULL DEFAULT '' COMMENT '数据目录链上id',
@@ -92,7 +92,7 @@ CREATE TABLE `t_company_info` (
    UNIQUE KEY (`data_schema_gid`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 数据目录-标签关系表 --
+
  CREATE TABLE `t_data_schema_tags` (
    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
    `data_schema_id`  bigint(20) unsigned NOT NULL COMMENT '数据目录外键id',
@@ -102,7 +102,7 @@ CREATE TABLE `t_company_info` (
    KEY (`tag_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 数据目录访问详情--
+
  CREATE TABLE `t_data_schema_access_info` (
     `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `data_schema_id` bigint(20) unsigned NOT NULL COMMENT '数据目录外键id',
@@ -118,16 +118,3 @@ CREATE TABLE `t_company_info` (
     PRIMARY KEY (`pk_id`),
     UNIQUE KEY (`data_schema_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-  CREATE TABLE `t_session_info` (
-    `pk_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-    `token` varchar(255) NOT NULL DEFAULT '' COMMENT 'token',
-    `account_id` bigint(20) unsigned NOT NULL COMMENT '账户外键ID',
-    `expired_at` timestamp NOT NULL COMMENT '过期时间',
-    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`pk_id`),
-    UNIQUE KEY (`token`),
-    UNIQUE KEY (`account_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
