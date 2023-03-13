@@ -2,12 +2,12 @@ package com.webank.databrain.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.dao.db.mapper.ProductInfoMapper;
-import com.webank.databrain.vo.response.product.ProductIdAndName;
-import com.webank.databrain.vo.response.product.ProductInfoBO;
+import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.utils.PagingUtils;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
+import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ProductInfoDAOImpl extends ServiceImpl<ProductInfoMapper, ProductInfoEntity> implements ProductInfoDAO {
 
     @Override
-    public List<ProductInfoBO> pageQueryProduct(int pageNo, int pageSize) {
+    public List<ProductInfoResponse> pageQueryProduct(int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.pageQueryProduct(start,pageSize);
     }
@@ -35,12 +35,12 @@ public class ProductInfoDAOImpl extends ServiceImpl<ProductInfoMapper, ProductIn
     }
 
     @Override
-    public ProductInfoBO getProductByGId(String productId) {
+    public ProductInfoResponse getProductByGId(String productId) {
         return baseMapper.getProductByGId(productId);
     }
 
     @Override
-    public List<ProductIdAndName> getProductNameByIds(List<Long> ids) {
+    public List<ProductIdAndNameResponse> getProductNameByIds(List<Long> ids) {
         return baseMapper.getProductNameByIds(ids);
     }
 

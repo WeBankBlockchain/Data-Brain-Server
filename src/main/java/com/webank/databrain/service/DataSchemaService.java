@@ -3,11 +3,11 @@ package com.webank.databrain.service;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.db.dao.DataSchemaInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
-import com.webank.databrain.vo.response.dataschema.DataSchemaInfoBO;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.model.resp.dataschema.DataSchemaDetail;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -49,7 +49,7 @@ public class DataSchemaService {
 
 
     public CommonResponse pageQuerySchema(Paging paging, Long productId, Long providerId, Long tagId, String keyWord) {
-        List<DataSchemaInfoBO> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQuerySchema(
+        List<DataSchemaInfoResponse> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQuerySchema(
                 paging.getPageNo(),
                 paging.getPageSize(),
                 productId,

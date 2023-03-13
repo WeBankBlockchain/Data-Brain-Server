@@ -2,9 +2,9 @@ package com.webank.databrain.db.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.vo.response.product.ProductIdAndName;
-import com.webank.databrain.vo.response.product.ProductInfoBO;
 import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
+import com.webank.databrain.vo.response.product.ProductInfoResponse;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import java.util.List;
  */
 public interface ProductInfoDAO extends IService<ProductInfoEntity> {
 
-    List<ProductInfoBO> pageQueryProduct(int start, int pageSize);
+    List<ProductInfoResponse> pageQueryProduct(int start, int pageSize);
 
     List<IdName> getHotProduct(int topN);
 
-    ProductInfoBO getProductByGId(String productId);
+    ProductInfoResponse getProductByGId(String productId);
 
-    List<ProductIdAndName> getProductNameByIds(List<Long> ids);
+    List<ProductIdAndNameResponse> getProductNameByIds(List<Long> ids);
 
     void saveProductInfo(ProductInfoEntity productInfoEntity);
 

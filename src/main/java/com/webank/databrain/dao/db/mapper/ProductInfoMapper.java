@@ -2,9 +2,9 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.vo.response.product.ProductIdAndName;
-import com.webank.databrain.vo.response.product.ProductInfoBO;
 import com.webank.databrain.model.resp.IdName;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
+import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -23,8 +23,8 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
             " FROM t_product_info a JOIN t_account_info b ON a.provider_id = b.pk_id" +
             " JOIN t_company_info c ON a.provider_id = c.account_id" +
             " ORDER BY a.create_time DESC LIMIT #{start}, #{pageSize}")
-    @ResultType(ProductInfoBO.class)
-    List<ProductInfoBO> pageQueryProduct(@Param("start") long start, @Param("pageSize")int pageSize);
+    @ResultType(ProductInfoResponse.class)
+    List<ProductInfoResponse> pageQueryProduct(@Param("start") long start, @Param("pageSize")int pageSize);
 
     @Select("SELECT b.did as id, c.company_name as name FROM t_product_info a " +
             "JOIN t_account_info b ON a.provider_id = b.pk_id " +
@@ -37,13 +37,13 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
             " FROM t_product_info a JOIN t_account_info b ON a.provider_id = b.pk_id" +
             " JOIN t_company_info c ON a.provider_id = c.account_id" +
             " where a.product_gid = #{productId}")
-    @ResultType(ProductInfoBO.class)
-    ProductInfoBO getProductByGId(@Param("productId") String productId);
+    @ResultType(ProductInfoResponse.class)
+    ProductInfoResponse getProductByGId(@Param("productId") String productId);
 
 
     @Select("SELECT pk_id as productId, product_gid as id , product_name as name FROM t_product_info where pk_id IN (#{ids}) ")
-    @ResultType(ProductIdAndName.class)
-    List<ProductIdAndName> getProductNameByIds(@Param("ids") List<Long> ids);
+    @ResultType(ProductIdAndNameResponse.class)
+    List<ProductIdAndNameResponse> getProductNameByIds(@Param("ids") List<Long> ids);
 
 
     @Insert("INSERT INTO t_product_info(" +

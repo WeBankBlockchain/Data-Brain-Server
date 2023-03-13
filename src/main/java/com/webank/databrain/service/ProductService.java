@@ -10,9 +10,6 @@ import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.vo.response.product.ProductInfoBO;
-import com.webank.databrain.vo.request.product.CreateProductRequest;
-import com.webank.databrain.vo.request.product.UpdateProductRequest;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
@@ -20,6 +17,9 @@ import com.webank.databrain.model.resp.product.ProductDetail;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.request.product.CreateProductRequest;
+import com.webank.databrain.vo.request.product.UpdateProductRequest;
+import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 import org.fisco.bcos.sdk.v3.crypto.keypair.CryptoKeyPair;
@@ -68,7 +68,7 @@ public class ProductService {
     }
 
     public CommonResponse pageQueryProducts(Paging paging) {
-        List<ProductInfoBO> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+        List<ProductInfoResponse> productInfoPOList = productInfoDAO.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
         List<ProductDetail> productDetails = new ArrayList<>();
 
         productInfoPOList.forEach(product -> {
@@ -84,7 +84,7 @@ public class ProductService {
     }
 
     public CommonResponse getProductDetail(String productId) {
-        ProductInfoBO product = productInfoDAO.getProductByGId(productId);
+        ProductInfoResponse product = productInfoDAO.getProductByGId(productId);
         ProductDetail productDetail = new ProductDetail();
         BeanUtils.copyProperties(product,productDetail);
         productDetail.setProviderId(product.getDid());

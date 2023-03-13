@@ -2,7 +2,7 @@ package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
-import com.webank.databrain.vo.response.dataschema.DataSchemaInfoBO;
+import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -55,8 +55,8 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoEntity> {
             " or a.data_schema_desc like concat('%', #{keyWord}, '%') </if>" +
             " ORDER BY a.create_time DESC LIMIT #{start}, #{pageSize} " +
             "</script>" )
-    @ResultType(DataSchemaInfoBO.class)
-    List<DataSchemaInfoBO> pageQuerySchema(@Param("start") long start,
+    @ResultType(DataSchemaInfoResponse.class)
+    List<DataSchemaInfoResponse> pageQuerySchema(@Param("start") long start,
                                            @Param("pageSize")int pageSize,
                                            @Param("productId") Long productId,
                                            @Param("providerId") Long providerId,

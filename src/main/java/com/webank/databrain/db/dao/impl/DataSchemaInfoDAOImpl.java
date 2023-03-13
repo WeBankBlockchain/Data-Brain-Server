@@ -2,10 +2,10 @@ package com.webank.databrain.db.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
-import com.webank.databrain.db.dao.DataSchemaInfoDAO;
 import com.webank.databrain.dao.db.mapper.DataSchemaInfoMapper;
-import com.webank.databrain.vo.response.dataschema.DataSchemaInfoBO;
+import com.webank.databrain.db.dao.DataSchemaInfoDAO;
 import com.webank.databrain.utils.PagingUtils;
+import com.webank.databrain.vo.response.dataschema.DataSchemaInfoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 public class DataSchemaInfoDAOImpl extends ServiceImpl<DataSchemaInfoMapper, DataSchemaInfoEntity> implements DataSchemaInfoDAO {
 
     @Override
-    public List<DataSchemaInfoBO> pageQuerySchema(int pageNo, int pageSize, Long productId, Long providerId, Long tagId, String keyWord) {
+    public List<DataSchemaInfoResponse> pageQuerySchema(int pageNo, int pageSize, Long productId, Long providerId, Long tagId, String keyWord) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.pageQuerySchema(start,pageSize, productId,  providerId, tagId,  keyWord);
     }
