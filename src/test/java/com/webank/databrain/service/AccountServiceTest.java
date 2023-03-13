@@ -18,6 +18,7 @@ public class AccountServiceTest extends ServerApplicationTests {
     private AccountService accountService;
     @Autowired
     private ObjectMapper objectMapper;
+
     @Test
     public void testPersonalUserRegister() throws Exception{
         String username = "personalUser0004";
