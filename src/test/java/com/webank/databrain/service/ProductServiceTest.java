@@ -32,7 +32,7 @@ public class ProductServiceTest  extends ServerApplicationTests {
     void createProductTest() throws TransactionException {
         CreateProductRequest createProductRequest = new CreateProductRequest();
         createProductRequest.setProductName("华为数据目录");
-        createProductRequest.setInformation("详细信息.....");
+        createProductRequest.setProductDesc("详细信息.....");
         CommonResponse response = productService.createProduct("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=", createProductRequest);
         System.out.println("response = " + response);
     }
