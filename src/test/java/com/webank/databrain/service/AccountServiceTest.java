@@ -3,7 +3,6 @@ package com.webank.databrain.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webank.databrain.ServerApplicationTests;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
-import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.AccountType;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.account.*;

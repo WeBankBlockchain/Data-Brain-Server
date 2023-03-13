@@ -98,7 +98,6 @@ public class AccountServiceImpl implements AccountService {
         accountInfoMapper.insertAccount(accountInfoEntity);
 
         if (request.getAccountType().ordinal() == AccountType.Personal.ordinal()) {
-            log.info("person info:{}", request.getDetailJson());
             PersonInfoEntity personInfo = objectMapper.readValue(request.getDetailJson(), PersonInfoEntity.class);
             personInfo.setAccountId(accountInfoEntity.getPkId());
             personInfoMapper.insertPerson(personInfo);

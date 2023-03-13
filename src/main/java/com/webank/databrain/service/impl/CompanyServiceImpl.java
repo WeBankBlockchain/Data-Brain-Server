@@ -1,6 +1,7 @@
 package com.webank.databrain.service.impl;
 
 
+import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 import com.webank.databrain.dao.db.mapper.CompanyInfoMapper;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.enums.CodeEnum;
@@ -9,11 +10,11 @@ import com.webank.databrain.dao.bc.bo.CompanyInfoBO;
 import com.webank.databrain.service.CompanyService;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.PagingUtils;
+import com.webank.databrain.vo.common.CommonPageQueryRequest;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.request.account.PageQueryCompanyRequest;
+import com.webank.databrain.vo.common.PageListData;
 import com.webank.databrain.vo.request.account.SearchCompanyRequest;
 import com.webank.databrain.vo.response.account.CompanyInfoResponse;
-import com.webank.databrain.vo.response.account.PageQueryCompanyResponse;
 import com.webank.databrain.vo.response.account.QueryCompanyByUsernameResponse;
 import com.webank.databrain.vo.response.account.SearchCompanyResponse;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -33,27 +34,25 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CommonResponse listHotCompanies(int topCount) {
-//        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-//        List<CompanyInfoBO> companyInfoDataObjects = companyInfoMapper.listHotCompanies(topCount);
-//        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b-> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
-//        HotCompaniesResponse response = new HotCompaniesResponse(items);
-//        return CommonResponse.success(response);
-        return null;
+        List<CompanyInfoEntity> companyInfoEntityList = companyInfoMapper.listHotCompanies(topCount);
+        return CommonResponse.success(companyInfoEntityList);
     }
 
     @Override
-    public CommonResponse listCompanyByPage(PageQueryCompanyRequest request) {
-        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        int itemsCount = companyInfoMapper.totalCount();
-        List<CompanyInfoBO> companyInfoDataObjects = companyInfoMapper.listCompanies(request.getPageNo(), request.getPageSize());
-        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+    public CommonResponse listCompanyByPage(CommonPageQueryRequest request) {
 
-        PageQueryCompanyResponse response = new PageQueryCompanyResponse();
-        response.setTotalCount(itemsCount);
-        response.setItemList(items);
-        response.setPageCount(PagingUtils.toPageCount(itemsCount, request.getPageSize()));
+        int totalCount = companyInfoMapper.totalCount();
+        int pageCount = (int) Math.ceil(1.0 * totalCount / request.getPageSize());
 
-        return CommonResponse.success(response);
+        PageListData pageListData = new PageListData<>();
+        pageListData.setPageCount(pageCount);
+        pageListData.setTotalCount(totalCount);
+
+        int offset = (request.getPageNo() - 1) * request.getPageSize();
+
+        List<CompanyInfoEntity> companyInfoEntityList = companyInfoMapper.listCompanies(offset, request.getPageSize());
+        pageListData.setItemList(companyInfoEntityList);
+        return CommonResponse.success(pageListData);
     }
 
     @Override

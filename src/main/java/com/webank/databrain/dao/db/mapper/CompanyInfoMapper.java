@@ -3,30 +3,19 @@ package com.webank.databrain.dao.db.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.dao.db.entity.CompanyInfoEntity;
 import com.webank.databrain.dao.bc.bo.CompanyInfoBO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-/**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 
- * @since 2023-03-08
- */
-public interface CompanyInfoMapper extends BaseMapper<CompanyInfoEntity> {
 
-    @Select("SELECT a.*, c.* FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ")
-    @ResultType(CompanyInfoBO.class)
-    List<CompanyInfoBO> listHotCompanies(int topCount);
+@Mapper
+public interface CompanyInfoMapper {
 
-    @Select("SELECT a.*, c.* FROM t_company_info c INNER JOIN t_account_info a ON c.account_id = a.pk_id ORDER BY c.pk_id DESC LIMIT #{start}, #{pageSize}")
-    @ResultType(CompanyInfoBO.class)
-    List<CompanyInfoBO> listCompanies(@Param("start") long start, @Param("pageSize")int pageSize);
+    @Select("SELECT * FROM t_company_info ORDER BY create_time DESC LIMIT 1, #{topCount}")
+    List<CompanyInfoEntity> listHotCompanies(int topCount);
+
+    @Select("SELECT * FROM t_company_info ORDER BY create_time DESC LIMIT #{offset}, #{pageSize}")
+    List<CompanyInfoEntity> listCompanies(int offset, int pageSize);
 
     @Select("SELECT a.*, c.* FROM t_company_info c INNER  JOIN t_account_info a ON c.account_id = a.pk_id WHERE a.user_name=#{username}")
     @ResultType(CompanyInfoBO.class)

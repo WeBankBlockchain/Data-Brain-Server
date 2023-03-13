@@ -3,14 +3,6 @@ package com.webank.databrain.dao.db.mapper;
 import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import org.apache.ibatis.annotations.*;
 
-/**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 
- * @since 2023-03-08
- */
 public interface AccountInfoMapper {
 
     @Update("UPDATE t_account_info SET status=#{status} WHERE did=#{did}")

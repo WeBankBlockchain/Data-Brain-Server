@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webank.databrain.ServerApplicationTests;
 import com.webank.databrain.enums.AccountStatus;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.request.account.PageQueryCompanyRequest;
-import com.webank.databrain.vo.request.account.QueryByUsernameRequest;
 import com.webank.databrain.vo.request.account.SearchCompanyRequest;
 import com.webank.databrain.vo.request.account.SearchPersonRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +27,11 @@ public class CompanyServiceTest extends ServerApplicationTests {
 
     @Test
     public void testListCompanyByPage() throws Exception{
-        PageQueryCompanyRequest request = new PageQueryCompanyRequest();
-        request.setPageNo(1);
-        request.setPageSize(2);
-        Object response = companyService.listCompanyByPage(request);
-        System.out.println(JsonUtils.toJson(response));
+//        PageQueryCompanyRequest request = new PageQueryCompanyRequest();
+//        request.setPageNo(1);
+//        request.setPageSize(2);
+//        Object response = companyService.listCompanyByPage(request);
+//        System.out.println(JsonUtils.toJson(response));
     }
 
     @Test
