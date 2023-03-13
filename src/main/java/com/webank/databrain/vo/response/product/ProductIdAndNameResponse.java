@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ProductIdAndNameResponse {
 
-    public String id;
+    public String productGid;
 
-    public String name;
+    public String productName;
 
     private Long productId;
 }
