@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class BlockchainPreparer implements ApplicationListener<ContextRefreshedEvent> {
+public class BlockchainStarter implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private SysConfig sysConfig;
