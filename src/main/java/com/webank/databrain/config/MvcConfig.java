@@ -16,14 +16,14 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenFilter)
                 .addPathPatterns("/api/v1/secure/**");//TODO: add it later
     }
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowedHeaders("*");
-//                .allowCredentials(true);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowedMethods("*")
+//                .allowedHeaders("*");
+////                .allowCredentials(true);
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
