@@ -18,9 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountInfoDAOImpl extends MPJBaseServiceImpl<AccountInfoMapper, AccountInfoEntity> implements AccountInfoDAO {
 
-
     @Override
     public void updateAccountStatus(String did, AccountStatus status) {
         baseMapper.updateStatus(did, status.ordinal());
+    }
+
+    @Override
+    public void saveItem(AccountInfoEntity accountInfoDo) {
+        baseMapper.insertItem(accountInfoDo);
     }
 }

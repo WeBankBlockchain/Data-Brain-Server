@@ -15,4 +15,6 @@ import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 public interface AccountInfoDAO extends IService<AccountInfoEntity> {
 
     void updateAccountStatus(String did, AccountStatus status);
+
+    void saveItem(AccountInfoEntity accountInfoDo);
 }

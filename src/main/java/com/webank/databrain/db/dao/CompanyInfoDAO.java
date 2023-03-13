@@ -21,4 +21,7 @@ public interface CompanyInfoDAO extends IService<CompanyInfoEntity> {
     CompanyInfoBO queryCompanyByUsername(String username);
 
     List<CompanyInfoBO> listCompanyWithStatus(int status, int pageNo, int pageSize);
+
+    void saveItem(CompanyInfoEntity companyInfoEntity);
+
 }

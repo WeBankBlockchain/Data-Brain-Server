@@ -40,31 +40,31 @@ public class PersonInfoEntity implements Serializable {
      * 姓名
      */
     @TableField("person_name")
-    private String personName;
+    private String personName = "";
 
     /**
      * 个人联系方式
      */
     @TableField("person_contact")
-    private String personContact;
+    private String personContact = "";
 
     /**
      * 个人邮箱
      */
     @TableField("person_email")
-    private String personEmail;
+    private String personEmail = "";
 
     /**
      * 个人证件类型
      */
     @TableField("person_cert_type")
-    private String personCertType;
+    private String personCertType = "";
 
     /**
      * 个人证件号
      */
     @TableField("person_cert_no")
-    private String personCertNo;
+    private String personCertNo = "";
 
     @TableField("create_time")
     private Date createTime;

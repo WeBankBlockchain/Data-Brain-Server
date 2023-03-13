@@ -3,7 +3,7 @@ package com.webank.databrain.vo.request.account;
 import lombok.Data;
 
 @Data
-public class CompanyDetailInput {
+public class CompanyDetailRequest {
 
     private String companyName;
 

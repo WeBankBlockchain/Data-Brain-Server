@@ -93,39 +93,39 @@ public class AccountService {
         String privateKey = keyPair.getHexPrivateKey();
         String salt = sysConfig.getSalt();
         String pwdHash = AccountUtils.getPwdHash(cryptoSuite, password, salt);
-        AccountInfoEntity accountInfoDo = new AccountInfoEntity();
-        accountInfoDo.setAccountType(accountType);
-        accountInfoDo.setDid(did);
-        accountInfoDo.setPwdHash(pwdHash);
-        accountInfoDo.setSalt(salt);
-        accountInfoDo.setStatus(AccountStatus.Registered.ordinal());
-        accountInfoDo.setPrivateKey(privateKey);
-        accountInfoDo.setUsername(username);
+        AccountInfoEntity accountInfoEntity = new AccountInfoEntity();
+        accountInfoEntity.setAccountType(accountType);
+        accountInfoEntity.setDid(did);
+        accountInfoEntity.setPwdHash(pwdHash);
+        accountInfoEntity.setSalt(salt);
+        accountInfoEntity.setStatus(AccountStatus.Registered.ordinal());
+        accountInfoEntity.setPrivateKey(privateKey);
+        accountInfoEntity.setUserName(username);
 
-        accountDAO.save(accountInfoDo);
-        long accountPkId = accountInfoDo.getPkId();
+        accountDAO.saveItem(accountInfoEntity);
+        long accountPkId = accountInfoEntity.getPkId();
         if (accountType == AccountType.Personal.ordinal()) {
-            PersonalDetailInput personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetailInput.class);
+            PersonalDetailRequest personalDetail = JsonUtils.fromJson(request.getDetailJson(), PersonalDetailRequest.class);
             PersonInfoEntity personInfoPo = new PersonInfoEntity();
-            personInfoPo.setPersonCertNo(personalDetail.getCertNum());
-            personInfoPo.setPersonContact(personalDetail.getContact());
-            personInfoPo.setPersonEmail(personalDetail.getEmail());
-            personInfoPo.setPersonName(personalDetail.getName());
-            personInfoPo.setAccountId(accountInfoDo.getPkId());
-            personInfoPo.setPersonCertType(personalDetail.getCertType());
+            personInfoPo.setPersonCertNo(personalDetail.getCertNum() != null? personalDetail.getCertNum() : "");
+            personInfoPo.setPersonContact(personalDetail.getContact()!=null?personalDetail.getContact(): "");
+            personInfoPo.setPersonEmail(personalDetail.getEmail() != null? personalDetail.getEmail() : "");
+            personInfoPo.setPersonName(personalDetail.getName() != null? personalDetail.getName() : "");
+            personInfoPo.setAccountId(accountInfoEntity.getPkId());
+            personInfoPo.setPersonCertType(personalDetail.getCertType()!=null?personalDetail.getCertType():"");
 
-            personInfoDAO.save(personInfoPo);
+            personInfoDAO.saveItem(personInfoPo);
         } else if (accountType == AccountType.Company.ordinal()) {
-            CompanyDetailInput companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetailInput.class);
-            CompanyInfoEntity companyInfoPo = new CompanyInfoEntity();
-            companyInfoPo.setCompanyContact(companyDetail.getContact());
-            companyInfoPo.setCompanyName(companyDetail.getCompanyName());
-            companyInfoPo.setCompanyDesc(companyDetail.getCompanyDesc());
-            companyInfoPo.setAccountId(accountPkId);
-            companyInfoPo.setCompanyCertType(companyDetail.getCertType());
-            companyInfoPo.setCompanyCertFileUri(companyDetail.getCertFileUrl());
-            companyInfoPo.setCompanyCertNo(companyDetail.getCertNo());
-            companyInfoDAO.save(companyInfoPo);
+            CompanyDetailRequest companyDetail = JsonUtils.fromJson(request.getDetailJson(), CompanyDetailRequest.class);
+            CompanyInfoEntity companyInfoEntity = new CompanyInfoEntity();
+            companyInfoEntity.setCompanyContact(companyDetail.getContact()!=null? companyDetail.getContact() : "");
+            companyInfoEntity.setCompanyName(companyDetail.getCompanyName());
+            companyInfoEntity.setCompanyDesc(companyDetail.getCompanyDesc()!=null?companyDetail.getCompanyDesc():"");
+            companyInfoEntity.setAccountId(accountPkId);
+            companyInfoEntity.setCompanyCertType(companyDetail.getCertType()!=null?companyDetail.getCertType():"");
+            companyInfoEntity.setCompanyCertFileUri(companyDetail.getCertFileUrl()!=null?companyDetail.getCertFileUrl():"");
+            companyInfoEntity.setCompanyCertNo(companyDetail.getCertNo()!=null?companyDetail.getCertNo():"");
+            companyInfoDAO.saveItem(companyInfoEntity);
         }
 
         return CommonResponse.success(new RegisterResponse(did));

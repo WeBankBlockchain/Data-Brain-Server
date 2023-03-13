@@ -23,7 +23,8 @@ public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyIn
 
     @Override
     public List<CompanyInfoBO> listHotCompany(int topN) {
-        return baseMapper.listHotCompanies(topN);
+        List<CompanyInfoBO> ret =  baseMapper.listHotCompanies(topN);
+        return ret;
     }
 
     @Override
@@ -41,5 +42,10 @@ public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyIn
     public List<CompanyInfoBO> listCompanyWithStatus(int status, int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.listCompanyWithStatus(status, start, pageSize);
+    }
+
+    @Override
+    public void saveItem(CompanyInfoEntity companyInfoEntity) {
+        baseMapper.insertItem(companyInfoEntity);
     }
 }
