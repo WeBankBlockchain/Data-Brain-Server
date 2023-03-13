@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class SearchCompanyResponse {
 
-    private PagedResult<CompanyInfoVO> result;
+    private PagedResult<CompanyInfoResponse> result;
 
 
 }

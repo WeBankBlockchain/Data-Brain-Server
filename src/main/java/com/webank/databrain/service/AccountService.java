@@ -155,7 +155,7 @@ public class AccountService {
     public CommonResponse<HotCompaniesResponse> listHotCompanies(int topN) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listHotCompany(topN);
-        List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         HotCompaniesResponse response = new HotCompaniesResponse(items);
         return CommonResponse.success(response);
     }
@@ -163,7 +163,7 @@ public class AccountService {
     public CommonResponse<PageQueryCompanyResponse> listCompanyByPage(PageQueryCompanyRequest request) {
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listCompany(request.getPageNo(), request.getPageSize());
-        List<CompanyInfoVO> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         return CommonResponse.success(new PageQueryCompanyResponse(new PagedResult<>(
                 items,
                 request.getPageNo(),
@@ -187,7 +187,7 @@ public class AccountService {
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
 
-        PersonInfoVO voItem = AccountUtils.personBOToVO(cryptoSuite, data);
+        PersonInfoResponse voItem = AccountUtils.personBOToVO(cryptoSuite, data);
         QueryPersonByUsernameResponse ret = new QueryPersonByUsernameResponse();
         ret.setItem(voItem);
 
@@ -203,7 +203,7 @@ public class AccountService {
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
 
-        CompanyInfoVO voItem = AccountUtils.companyBOToVO(cryptoSuite, data);
+        CompanyInfoResponse voItem = AccountUtils.companyBOToVO(cryptoSuite, data);
         QueryCompanyByUsernameResponse ret = new QueryCompanyByUsernameResponse();
         ret.setItem(voItem);
         return CommonResponse.success(ret);
@@ -214,7 +214,7 @@ public class AccountService {
         String statusStr = request.getCondition().getAccountStatus();
         AccountStatus status = AccountStatus.valueOf(statusStr);
         List<CompanyInfoBO> boList = companyInfoDAO.listCompanyWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
-        List<CompanyInfoVO> voItems = boList.stream().map(b -> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        List<CompanyInfoResponse> voItems = boList.stream().map(b -> AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         return CommonResponse.success(new SearchCompanyResponse(new PagedResult<>(
                 voItems,
                 request.getPageNo(),
@@ -227,7 +227,7 @@ public class AccountService {
         String statusStr = request.getCondition().getAccountStatus();
         AccountStatus status = AccountStatus.valueOf(statusStr);
         List<PersonInfoBO> boList = personInfoDAO.listPersonWithStatus(status.ordinal(), request.getPageNo(), request.getPageSize());
-        List<PersonInfoVO> voItems = boList.stream().map(b -> AccountUtils.personBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        List<PersonInfoResponse> voItems = boList.stream().map(b -> AccountUtils.personBOToVO(cryptoSuite, b)).collect(Collectors.toList());
         return CommonResponse.success(new SearchPersonResponse(new PagedResult<>(
                 voItems,
                 request.getPageNo(),

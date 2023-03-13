@@ -3,8 +3,8 @@ package com.webank.databrain.utils;
 import cn.hutool.core.codec.Base64;
 import com.webank.databrain.model.bo.CompanyInfoBO;
 import com.webank.databrain.model.bo.PersonInfoBO;
-import com.webank.databrain.vo.response.account.CompanyInfoVO;
-import com.webank.databrain.vo.response.account.PersonInfoVO;
+import com.webank.databrain.vo.response.account.CompanyInfoResponse;
+import com.webank.databrain.vo.response.account.PersonInfoResponse;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
 
 public class AccountUtils {
@@ -25,11 +25,11 @@ public class AccountUtils {
         return cryptoSuite.hash(password+":"+salt);
     }
 
-    public static CompanyInfoVO companyBOToVO(CryptoSuite cryptoSuite, CompanyInfoBO bo){
+    public static CompanyInfoResponse companyBOToVO(CryptoSuite cryptoSuite, CompanyInfoBO bo){
         if (bo == null){
             return null;
         }
-        CompanyInfoVO vo = new CompanyInfoVO();
+        CompanyInfoResponse vo = new CompanyInfoResponse();
         vo.setCompanyContact(bo.getCompanyContact());
         vo.setDid(bo.getDid());
         vo.setCompanyName(bo.getCompanyName());
@@ -42,11 +42,11 @@ public class AccountUtils {
         return vo;
     }
 
-    public static PersonInfoVO personBOToVO(CryptoSuite cryptoSuite, PersonInfoBO bo){
+    public static PersonInfoResponse personBOToVO(CryptoSuite cryptoSuite, PersonInfoBO bo){
         if (bo == null){
             return null;
         }
-        PersonInfoVO vo = new PersonInfoVO();
+        PersonInfoResponse vo = new PersonInfoResponse();
         vo.setDid(bo.getDid());
         vo.setStatus(bo.getStatus());
         vo.setPersonContact(bo.getPersonContact());

@@ -3,7 +3,7 @@ package com.webank.databrain.vo.response.account;
 import lombok.Data;
 
 @Data
-public class CompanyInfoVO {
+public class CompanyInfoResponse {
     private String did;
 
     private String keyAddress;

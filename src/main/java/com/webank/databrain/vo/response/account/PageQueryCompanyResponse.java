@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PageQueryCompanyResponse extends BasePageQueryResult<CompanyInfoVO> {
+public class PageQueryCompanyResponse extends BasePageQueryResult<CompanyInfoResponse> {
 
-    public PageQueryCompanyResponse(PagedResult<CompanyInfoVO> pagedResult) {
+    public PageQueryCompanyResponse(PagedResult<CompanyInfoResponse> pagedResult) {
         super(pagedResult);
     }
 

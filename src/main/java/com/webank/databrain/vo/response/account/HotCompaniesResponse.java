@@ -8,9 +8,9 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class HotCompaniesResponse extends BaseHotResponse<CompanyInfoVO> {
+public class HotCompaniesResponse extends BaseHotResponse<CompanyInfoResponse> {
 
-    public HotCompaniesResponse(List<CompanyInfoVO> idNames) {
+    public HotCompaniesResponse(List<CompanyInfoResponse> idNames) {
         super(idNames);
     }
 }

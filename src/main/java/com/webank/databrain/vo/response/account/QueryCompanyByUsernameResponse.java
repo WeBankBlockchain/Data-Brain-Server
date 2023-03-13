@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class QueryCompanyByUsernameResponse {
 
-    private CompanyInfoVO item;
+    private CompanyInfoResponse item;
 
 }
