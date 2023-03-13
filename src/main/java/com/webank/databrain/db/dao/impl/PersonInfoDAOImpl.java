@@ -32,4 +32,9 @@ public class PersonInfoDAOImpl extends ServiceImpl<PersonInfoMapper, PersonInfoE
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.listPersonWithStatus(accountStatus, start, pageSize);
     }
+
+    @Override
+    public void saveItem(PersonInfoEntity personInfoPo) {
+        baseMapper.insertItem(personInfoPo);
+    }
 }

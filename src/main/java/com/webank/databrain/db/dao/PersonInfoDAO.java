@@ -19,4 +19,6 @@ public interface PersonInfoDAO extends IService<PersonInfoEntity> {
     PersonInfoBO queryPersonByUsername(String username);
 
     List<PersonInfoBO> listPersonWithStatus(int ordinal, int pageNo, int pageSize);
+
+    void saveItem(PersonInfoEntity personInfoPo);
 }

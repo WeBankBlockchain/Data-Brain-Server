@@ -34,7 +34,7 @@ public class AccountInfoEntity implements Serializable {
      * 账号
      */
     @TableField("user_name")
-    private String username;
+    private String userName;
 
     /**
      * DID

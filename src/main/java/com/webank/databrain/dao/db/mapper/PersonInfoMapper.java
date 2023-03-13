@@ -3,9 +3,7 @@ package com.webank.databrain.dao.db.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -27,4 +25,7 @@ public interface PersonInfoMapper extends BaseMapper<PersonInfoEntity> {
     @ResultType(PersonInfoBO.class)
     List<PersonInfoBO> listPersonWithStatus(int status, long start, int limit);
 
+    @Insert("INSERT INTO t_person_info (account_id, person_name, person_contact, person_email, person_cert_type, person_cert_no) VALUES(#{accountId},#{personName},#{personContact},#{personEmail},#{personCertType},#{personCertNo})")
+    @Options(useGeneratedKeys=true, keyProperty="pkId")
+    void insertItem(PersonInfoEntity personInfoPo);
 }

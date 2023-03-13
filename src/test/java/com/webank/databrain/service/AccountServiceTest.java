@@ -17,13 +17,13 @@ public class AccountServiceTest extends ServerApplicationTests {
     private AccountService accountService;
     @Test
     public void testPersonalUserRegister() throws Exception{
-        String username = "personalUser0013";
+        String username = "personalUser0001";
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Personal);
-        PersonalDetailInput orgUserDetail = new PersonalDetailInput();
+        PersonalDetailRequest orgUserDetail = new PersonalDetailRequest();
         orgUserDetail.setName("张三");
         request.setDetailJson(JsonUtils.toJson(orgUserDetail));
         Object result = accountService.registerAccount(request);
@@ -38,7 +38,7 @@ public class AccountServiceTest extends ServerApplicationTests {
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Company);
-        CompanyDetailInput companyDetail = new CompanyDetailInput();
+        CompanyDetailRequest companyDetail = new CompanyDetailRequest();
         companyDetail.setCompanyName("阿里");
         companyDetail.setCompanyDesc("某公司");
         companyDetail.setCertNo("123456");
@@ -137,7 +137,7 @@ public class AccountServiceTest extends ServerApplicationTests {
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Personal);
-        PersonalDetailInput orgUserDetail = new PersonalDetailInput();
+        PersonalDetailRequest orgUserDetail = new PersonalDetailRequest();
         orgUserDetail.setName("李四");
         request.setDetailJson(JsonUtils.toJson(orgUserDetail));
         CommonResponse<RegisterResponse> result = accountService.registerAccount(request);

@@ -43,4 +43,9 @@ public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyIn
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
         return baseMapper.listCompanyWithStatus(status, start, pageSize);
     }
+
+    @Override
+    public void saveItem(CompanyInfoEntity companyInfoEntity) {
+        baseMapper.insertItem(companyInfoEntity);
+    }
 }
