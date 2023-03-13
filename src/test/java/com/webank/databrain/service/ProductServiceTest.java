@@ -2,11 +2,18 @@ package com.webank.databrain.service;
 
 import cn.hutool.json.JSONUtil;
 import com.webank.databrain.ServerApplicationTests;
+import com.webank.databrain.enums.AccountType;
+import com.webank.databrain.vo.request.account.ApproveAccountRequest;
+import com.webank.databrain.vo.request.account.CompanyDetailRequest;
+import com.webank.databrain.vo.request.account.PersonalDetailRequest;
+import com.webank.databrain.vo.request.account.RegisterRequest;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.model.resp.Paging;
 import com.webank.databrain.vo.common.CommonResponse;
+import com.webank.databrain.vo.response.account.RegisterResponse;
 import org.fisco.bcos.sdk.v3.transaction.model.exception.TransactionException;
+import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,12 +40,39 @@ public class ProductServiceTest  extends ServerApplicationTests {
     }
 
     @Test
-    void createProductTest() throws TransactionException {
+    void createProductTest() throws Exception {
+        String username = "companyUser00003";
+        String password = "12345678";
+        RegisterRequest request = new RegisterRequest();
+        request.setUserName(username);
+        request.setPassword(password);
+        request.setAccountType(AccountType.Company);
+        CompanyDetailRequest companyDetail = new CompanyDetailRequest();
+        companyDetail.setCompanyName("头条2");
+        companyDetail.setCompanyDesc("某公司1");
+        companyDetail.setCertNo("123456");
+        request.setDetailJson(JsonUtils.toJson(companyDetail));
+        CommonResponse<RegisterResponse> result = accountService.registerAccount(request);
+        System.out.println(JsonUtils.toJson(result));
+        String did = result.getData().getDid();
+
+        ApproveAccountRequest approveAccountRequest = new ApproveAccountRequest();
+        approveAccountRequest.setApproved(true);
+        approveAccountRequest.setDid(did);
+        accountService.approveAccount(approveAccountRequest);
+
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("华为P60");
-        createProductRequest.setProductDesc("华为P60手机.");
-        createProductRequest.setDid("AAAQGayMdnmwj5IbY/O5ZaN/wdCoB8BcEbeT2CwCpHw=");
+        createProductRequest.setProductName("华为P600");
+        createProductRequest.setProductDesc("华为P600手机..");
+        createProductRequest.setDid(did);
         CommonResponse response = productService.createProduct(createProductRequest);
+        System.out.println("response = " + response);
+
+        ApproveProductRequest approveProductRequest = new ApproveProductRequest();
+        approveProductRequest.setProductGId((String) response.getData());
+        approveProductRequest.setAgree(true);
+        approveProductRequest.setDid(did);
+        response = productService.approveProduct(approveProductRequest);
         System.out.println("response = " + response);
     }
 
@@ -46,17 +80,6 @@ public class ProductServiceTest  extends ServerApplicationTests {
     @Test
     void getProductDetailTest() throws TransactionException {
         CommonResponse response = productService.getProductDetail("AAAQGayMdnmwj5IbY/O5ZaN/wdCoB8BcEbeT2CwCpHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg==");
-        System.out.println("response = " + response);
-    }
-
-
-    @Test
-    void approveProductTest() throws TransactionException {
-        ApproveProductRequest approveProductRequest = new ApproveProductRequest();
-        approveProductRequest.setProductGId("AAAQGayMdnmwj5IbY/O5ZaN/wdCoB8BcEbeT2CwCpHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg==");
-        approveProductRequest.setAgree(true);
-        approveProductRequest.setDid("AAAQGayMdnmwj5IbY/O5ZaN/wdCoB8BcEbeT2CwCpHw=");
-        CommonResponse response = productService.approveProduct(approveProductRequest);
         System.out.println("response = " + response);
     }
 

@@ -13,6 +13,7 @@ import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
 import com.webank.databrain.model.resp.Paging;
+import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.vo.response.product.ProductDetailResponse;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
@@ -165,13 +166,12 @@ public class ProductService {
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
-        String privateKey = entity.getPrivateKey();
-        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
+
+        CryptoKeyPair witnessKeyPair = this.witnessKeyPair;
         ProductModule productModule = ProductModule.load(
-                sysConfig.getContractConfig().getAccountContract(),
+                sysConfig.getContractConfig().getProductContract(),
                 client,
-                keyPair);
+                witnessKeyPair);
         TransactionReceipt receipt = productModule.approveProduct(
                 Base64.decode(productRequest.getProductGId()), productRequest.isAgree()
         );
