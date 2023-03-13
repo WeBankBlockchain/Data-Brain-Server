@@ -21,7 +21,6 @@ public class TagController {
 
     @PostMapping("getHotTags")
     public CommonResponse<HotTagsResponse> getHotTags(@RequestBody HotTagsRequest request) {
-        HotTagsResponse hotTags = tagService.listHotTags(request.getTopN());
-        return CommonResponse.success(hotTags);
+        return tagService.listHotTags(request.getTopN());
     }
 }

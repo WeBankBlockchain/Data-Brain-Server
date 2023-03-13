@@ -14,11 +14,13 @@ import java.util.List;
  * @author 
  * @since 2023-03-08
  */
-public interface PersonInfoDAO extends IService<PersonInfoEntity> {
+public interface PersonInfoDAO  {
 
     PersonInfoBO queryPersonByUsername(String username);
 
     List<PersonInfoBO> listPersonWithStatus(int ordinal, int pageNo, int pageSize);
 
     void saveItem(PersonInfoEntity personInfoPo);
+
+    int totalCountWithStatus(int status);
 }

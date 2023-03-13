@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class CompanyInfoResponse {
+
+    private String userName;
+
     private String did;
 
     private String keyAddress;

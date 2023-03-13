@@ -94,7 +94,7 @@ public class ProductService {
     public CommonResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-        AccountInfoEntity entity = accountInfoDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
+        AccountInfoEntity entity = accountInfoDAO.selectByDid(did);
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }
@@ -122,7 +122,7 @@ public class ProductService {
 
     public CommonResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String did = SessionUtils.currentAccountDid();
-        AccountInfoEntity entity = accountInfoDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
+        AccountInfoEntity entity = accountInfoDAO.selectByDid(did);
         if (entity == null){
             return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
         }

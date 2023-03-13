@@ -30,6 +30,7 @@ public class AccountUtils {
             return null;
         }
         CompanyInfoResponse vo = new CompanyInfoResponse();
+        vo.setUserName(bo.getUserName());
         vo.setCompanyContact(bo.getCompanyContact());
         vo.setDid(bo.getDid());
         vo.setCompanyName(bo.getCompanyName());
@@ -47,6 +48,7 @@ public class AccountUtils {
             return null;
         }
         PersonInfoResponse vo = new PersonInfoResponse();
+        vo.setUserName(bo.getUserName());
         vo.setDid(bo.getDid());
         vo.setStatus(bo.getStatus());
         vo.setPersonContact(bo.getPersonContact());

@@ -6,6 +6,7 @@ import com.webank.databrain.model.bo.PersonInfoBO;
 import com.webank.databrain.dao.db.entity.PersonInfoEntity;
 import com.webank.databrain.dao.db.mapper.PersonInfoMapper;
 import com.webank.databrain.utils.PagingUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,22 +20,29 @@ import java.util.List;
  * @since 2023-03-08
  */
 @Service
-public class PersonInfoDAOImpl extends ServiceImpl<PersonInfoMapper, PersonInfoEntity> implements PersonInfoDAO {
+public class PersonInfoDAOImpl implements PersonInfoDAO {
+    @Autowired
+    private PersonInfoMapper mapper;
 
     @Override
     public PersonInfoBO queryPersonByUsername(String username) {
-        return baseMapper.queryPersonByUsername(username);
+        return mapper.queryPersonByUsername(username);
     }
 
 
     @Override
     public List<PersonInfoBO> listPersonWithStatus(int accountStatus, int pageNo, int pageSize) {
         long start = PagingUtils.getStartOffset(pageNo, pageSize);
-        return baseMapper.listPersonWithStatus(accountStatus, start, pageSize);
+        return mapper.listPersonWithStatus(accountStatus, start, pageSize);
     }
 
     @Override
     public void saveItem(PersonInfoEntity personInfoPo) {
-        baseMapper.insertItem(personInfoPo);
+        mapper.insertItem(personInfoPo);
+    }
+
+    @Override
+    public int totalCountWithStatus(int status) {
+        return mapper.totalCountWithStatus(status);
     }
 }

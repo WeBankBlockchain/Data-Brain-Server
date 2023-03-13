@@ -12,9 +12,13 @@ import com.webank.databrain.dao.db.entity.AccountInfoEntity;
  * @author 
  * @since 2023-03-08
  */
-public interface AccountInfoDAO extends IService<AccountInfoEntity> {
+public interface AccountInfoDAO{
 
     void updateAccountStatus(String did, AccountStatus status);
 
     void saveItem(AccountInfoEntity accountInfoDo);
+
+    AccountInfoEntity selectByDid(String did);
+
+    AccountInfoEntity selectByUserName(String username);
 }
