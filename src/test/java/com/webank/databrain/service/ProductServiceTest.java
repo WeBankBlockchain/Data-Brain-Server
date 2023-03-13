@@ -14,6 +14,9 @@ public class ProductServiceTest  extends ServerApplicationTests {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private AccountService accountService;
+
 
     @Test
     void productQueryTest() throws Exception {
@@ -31,9 +34,9 @@ public class ProductServiceTest  extends ServerApplicationTests {
     @Test
     void createProductTest() throws TransactionException {
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("华为数据目录");
-        createProductRequest.setProductDesc("详细信息.....");
-        CommonResponse response = productService.createProduct("AAGUiTL0lMDoQ+/lX0gfiHZ0R4FDI9PJ5HH38cRZQLw=", createProductRequest);
+        createProductRequest.setProductName("华为P60");
+        createProductRequest.setProductDesc("华为P60手机.");
+        CommonResponse response = productService.createProduct("AAAQGayMdnmwj5IbY/O5ZaN/wdCoB8BcEbeT2CwCpHw=", createProductRequest);
         System.out.println("response = " + response);
     }
 }

@@ -9,6 +9,7 @@ import com.webank.databrain.dao.db.entity.ProductInfoEntity;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
 import com.webank.databrain.enums.CodeEnum;
+import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.model.resp.PagedResult;
@@ -113,6 +114,8 @@ public class ProductService {
         String productId = Base64.encode(productModule.getCreateProductOutput(receipt).getValue1());
         ProductInfoEntity product = new ProductInfoEntity();
         product.setProductGid(productId);
+        product.setProviderId(entity.getPkId());
+        product.setStatus(ReviewStatus.NotReviewed.ordinal());
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
         product.setCreateTime(new Date());
