@@ -146,7 +146,7 @@ public class AccountService {
         if (!Objects.equals(pwdHash, accountInfo.getPwdHash())) {
             return CommonResponse.error(CodeEnum.PWD_NOT_RIGHT);
         }
-        String token = tokenHandler.generateToken(accountInfo.getPkId());
+        String token = tokenHandler.generateToken(accountInfo.getDid());
         LoginResponse result = new LoginResponse();
         result.setToken(token);
         result.setAccountType(accountInfo.getAccountType().intValue());
@@ -264,6 +264,7 @@ public class AccountService {
         accountDAO.updateAccountStatus(did, status);
         return CommonResponse.success();
     }
+
 
 
 }
