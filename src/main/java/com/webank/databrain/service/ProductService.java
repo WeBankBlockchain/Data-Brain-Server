@@ -1,10 +1,13 @@
 package com.webank.databrain.service;
 
 import cn.hutool.core.codec.Base64;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.ProductModule;
+import com.webank.databrain.dao.db.entity.AccountInfoEntity;
 import com.webank.databrain.db.dao.AccountInfoDAO;
 import com.webank.databrain.db.dao.ProductInfoDAO;
+import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.model.bo.ProductInfoBO;
 import com.webank.databrain.model.resp.product.ProductDetail;
@@ -95,8 +98,11 @@ public class ProductService {
     public CommonResponse createProduct(String did, CreateProductRequest productRequest) throws TransactionException {
 
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
-
-        String privateKey = accountService.getPrivateKey(did);
+        AccountInfoEntity entity = accountInfoDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
+        if (entity == null){
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
+        }
+        String privateKey = entity.getPrivateKey();
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
                 sysConfig.getContractConfig().getProductContract(),
@@ -120,7 +126,11 @@ public class ProductService {
 
     public CommonResponse updateProduct(UpdateProductRequest productRequest) throws TransactionException {
         String did = SessionUtils.currentAccountDid();
-        String privateKey = accountService.getPrivateKey(did);
+        AccountInfoEntity entity = accountInfoDAO.getOne(Wrappers.<AccountInfoEntity>query().eq("did", did));
+        if (entity == null){
+            return CommonResponse.error(CodeEnum.USER_NOT_EXISTS);
+        }
+        String privateKey = entity.getPrivateKey();
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         CryptoKeyPair keyPair = cryptoSuite.loadKeyPair(privateKey);
         ProductModule productModule = ProductModule.load(
