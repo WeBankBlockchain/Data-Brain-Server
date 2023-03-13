@@ -17,12 +17,14 @@ import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.exception.DataBrainException;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
 import com.webank.databrain.handler.token.ITokenHandler;
+import com.webank.databrain.model.resp.IdName;
 import com.webank.databrain.utils.AccountUtils;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.PagingUtils;
 import com.webank.databrain.vo.common.CommonResponse;
 import com.webank.databrain.vo.request.account.*;
 import com.webank.databrain.vo.response.account.*;
+import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -31,6 +33,7 @@ import org.fisco.bcos.sdk.v3.model.TransactionReceipt;
 import org.fisco.bcos.sdk.v3.transaction.codec.decode.TransactionDecoderInterface;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -152,9 +155,13 @@ public class AccountService {
     }
 
     public CommonResponse<HotCompaniesResponse> listHotCompanies(int topN) {
-        CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         List<CompanyInfoBO> companyInfoDataObjects = companyInfoDAO.listHotCompany(topN);
-        List<CompanyInfoResponse> items = companyInfoDataObjects.stream().map(b->AccountUtils.companyBOToVO(cryptoSuite, b)).collect(Collectors.toList());
+        List<CompanyIdAndNameResponse> items = companyInfoDataObjects.stream().map(b->{
+            CompanyIdAndNameResponse idName = new CompanyIdAndNameResponse();
+            idName.setCompanyName(b.getCompanyName());
+            idName.setAccountDid(b.getDid());
+            return idName;
+        }).collect(Collectors.toList());
         HotCompaniesResponse response = new HotCompaniesResponse(items);
         return CommonResponse.success(response);
     }
