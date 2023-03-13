@@ -23,7 +23,8 @@ public class CompanyInfoDAOImpl extends ServiceImpl<CompanyInfoMapper, CompanyIn
 
     @Override
     public List<CompanyInfoBO> listHotCompany(int topN) {
-        return baseMapper.listHotCompanies(topN);
+        List<CompanyInfoBO> ret =  baseMapper.listHotCompanies(topN);
+        return ret;
     }
 
     @Override
