@@ -3,7 +3,7 @@ package com.webank.databrain.vo.response.dataschema;
 
 import java.util.Date;
 
-public class DataSchemaWithAccessResponse extends DataSchemaDetailResponse {
+public class DataSchemaWithAccessResponse {
 
     private Long accessId;
 

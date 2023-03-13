@@ -1,6 +1,7 @@
 package com.webank.databrain.service;
 
 import com.webank.databrain.ServerApplicationTests;
+import com.webank.databrain.vo.common.HotDataRequest;
 import com.webank.databrain.vo.request.tags.CreateTagRequest;
 import org.fisco.bcos.sdk.v3.transaction.tools.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -43,8 +44,7 @@ public class TagServiceTest extends ServerApplicationTests {
 
     @Test
     public void testListHotTags() throws Exception{
-        Object response = service.listHotTags(2);
+        Object response = service.listHotTags(new HotDataRequest());
         System.out.println(JsonUtils.toJson(response));
     }
-
 }

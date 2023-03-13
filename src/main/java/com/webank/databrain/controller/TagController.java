@@ -2,8 +2,7 @@ package com.webank.databrain.controller;
 
 import com.webank.databrain.service.TagService;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.request.tags.HotTagsRequest;
-import com.webank.databrain.vo.response.tags.HotTagsResponse;
+import com.webank.databrain.vo.common.HotDataRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,7 @@ public class TagController {
     private TagService tagService;
 
     @PostMapping("getHotTags")
-    public CommonResponse<HotTagsResponse> getHotTags(@RequestBody HotTagsRequest request) {
-        return tagService.listHotTags(request.getTopN());
+    public CommonResponse getHotTags(@RequestBody HotDataRequest request) {
+        return tagService.listHotTags(request);
     }
 }

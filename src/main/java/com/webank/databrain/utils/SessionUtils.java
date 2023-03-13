@@ -1,6 +1,6 @@
 package com.webank.databrain.utils;
 
-import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import com.webank.databrain.dao.entity.AccountInfoEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SessionUtils {

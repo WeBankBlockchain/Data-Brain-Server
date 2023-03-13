@@ -1,6 +1,6 @@
 package com.webank.databrain.authentication;
 
-import com.webank.databrain.dao.db.entity.AccountInfoEntity;
+import com.webank.databrain.dao.entity.AccountInfoEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

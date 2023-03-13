@@ -1,9 +1,9 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.service.ProductService;
+import com.webank.databrain.vo.common.CommonPageQueryRequest;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.common.Paging;
+import com.webank.databrain.vo.common.HotDataRequest;
 import com.webank.databrain.vo.request.product.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @Slf4j
@@ -21,28 +23,18 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(value = "/pageQueryProduct")
-    public CommonResponse pageQueryProduct(
-            @RequestBody PageQueryProductRequest queryProductRequest
-    ){
-        log.info("pageQueryProduct pageNo = {}, pageSize = {}",queryProductRequest.getPageNo(),queryProductRequest.getPageSize());
-        if(queryProductRequest.getPageNo() <= 0 || queryProductRequest.getPageSize() <= 0){
-            return CommonResponse.error(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
-        }
-        return productService.pageQueryProducts(new Paging(
-                queryProductRequest.getPageNo()
-                ,queryProductRequest.getPageSize()));
+    public CommonResponse pageQueryProduct(@RequestBody @Valid CommonPageQueryRequest request){
+        log.info("pageQueryProduct pageNo = {}, pageSize = {}",request.getPageNo(),request.getPageSize());
+        return productService.pageQueryProducts(request);
     }
     @PostMapping(value = "/queryProductById")
-    public CommonResponse queryProductById(@RequestBody QueryProductByIdRequest queryProductRequest
-    ) {
+    public CommonResponse queryProductById(@RequestBody QueryProductByIdRequest queryProductRequest) {
         log.info("pageQueryProduct productId = {}", queryProductRequest.getProductGid());
         return productService.getProductDetail(queryProductRequest.getProductGid());
     }
     @PostMapping(value = "/getHotProducts")
-    public CommonResponse getHotProducts(@RequestBody HotProductsRequest hotProductRequest
-    ){
-        log.info("getHotProducts topN = {}", hotProductRequest.getTopN());
-        return productService.getHotProducts(hotProductRequest.getTopN());
+    public CommonResponse getHotProducts(@RequestBody HotDataRequest request){
+        return productService.getHotProducts(request);
     }
     @PostMapping(value = "/createProduct")
     public CommonResponse createProduct(@RequestBody CreateProductRequest createProductRequest) throws Exception{

@@ -10,9 +10,6 @@ spring:
         url: jdbc:mysql://116.205.167.248:3306/databrain2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: test
         password: Aa12345!
-        #        url: jdbc:mysql://127.0.0.1:3306/databrain2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-        #        username: root
-        #        password: 12345678
         driverClassName: com.mysql.cj.jdbc.Driver
         type: com.alibaba.druid.pool.DruidDataSource
         defaultAutoCommit: false

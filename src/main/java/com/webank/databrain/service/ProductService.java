@@ -3,24 +3,23 @@ package com.webank.databrain.service;
 import cn.hutool.core.codec.Base64;
 import com.webank.databrain.config.SysConfig;
 import com.webank.databrain.dao.bc.contract.ProductModule;
-import com.webank.databrain.dao.db.entity.AccountInfoEntity;
-import com.webank.databrain.dao.db.entity.ProductInfoEntity;
-import com.webank.databrain.dao.db.mapper.AccountInfoMapper;
-import com.webank.databrain.dao.db.mapper.ProductInfoMapper;
+import com.webank.databrain.dao.entity.AccountInfoEntity;
+import com.webank.databrain.dao.entity.ProductInfoEntity;
+import com.webank.databrain.dao.mapper.AccountInfoMapper;
+import com.webank.databrain.dao.mapper.ProductInfoMapper;
 import com.webank.databrain.enums.CodeEnum;
 import com.webank.databrain.enums.ReviewStatus;
 import com.webank.databrain.handler.key.ThreadLocalKeyPairHandler;
-import com.webank.databrain.vo.common.PagedResult;
+import com.webank.databrain.vo.common.CommonPageQueryRequest;
+import com.webank.databrain.vo.common.PageListData;
 import com.webank.databrain.utils.BlockchainUtils;
 import com.webank.databrain.utils.SessionUtils;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.common.Paging;
+import com.webank.databrain.vo.common.HotDataRequest;
 import com.webank.databrain.vo.request.product.ApproveProductRequest;
 import com.webank.databrain.vo.request.product.CreateProductRequest;
 import com.webank.databrain.vo.request.product.UpdateProductRequest;
-import com.webank.databrain.vo.response.product.HotProductResponse;
 import com.webank.databrain.vo.response.product.ProductDetailResponse;
-import com.webank.databrain.vo.response.product.ProductIdAndNameResponse;
 import com.webank.databrain.vo.response.product.ProductInfoResponse;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -32,8 +31,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,13 +60,14 @@ public class ProductService {
     @Autowired
     private ProductInfoMapper productInfoMapper;
 
-    public CommonResponse getHotProducts(int topN) {
-        List<ProductIdAndNameResponse> idNames = productInfoMapper.getHotProduct(topN);
-        return CommonResponse.success(new HotProductResponse(idNames));
+    public CommonResponse getHotProducts(HotDataRequest request) {
+        List<ProductInfoEntity> productInfoEntities = productInfoMapper.getHotProduct(request.getTopCount());
+        return CommonResponse.success(productInfoEntities);
     }
 
-    public CommonResponse pageQueryProducts(Paging paging) {
-        List<ProductInfoResponse> productInfoPOList = productInfoMapper.pageQueryProduct(paging.getPageNo(),paging.getPageSize());
+    public CommonResponse pageQueryProducts(CommonPageQueryRequest request) {
+
+        List<ProductInfoResponse> productInfoPOList = productInfoMapper.pageQueryProduct(request.getPageNo(),request.getPageSize());
         List<ProductDetailResponse> productDetails = new ArrayList<>();
 
         productInfoPOList.forEach(product -> {
@@ -77,10 +77,11 @@ public class ProductService {
             productDetail.setProviderName(product.getCompanyName());
             productDetails.add(productDetail);
         });
-        return CommonResponse.success(new PagedResult<>(productDetails,
-                paging.getPageNo(),
-                paging.getPageSize())
-        );
+
+        PageListData pageListData = new PageListData();
+        pageListData.setItemList(productDetails);
+        pageListData.setPageCount(request.getPageSize());
+        return CommonResponse.success(pageListData);
     }
 
     public CommonResponse getProductDetail(String productId) {
@@ -93,7 +94,6 @@ public class ProductService {
     }
 
     public CommonResponse createProduct(CreateProductRequest productRequest) throws TransactionException {
-//        String did = SessionUtils.currentAccountDid();
         CryptoSuite cryptoSuite = keyPairHandler.getCryptoSuite();
         AccountInfoEntity entity = accountInfoMapper.selectByDid(productRequest.getDid());
         if (entity == null){
@@ -118,7 +118,8 @@ public class ProductService {
         product.setStatus(ReviewStatus.NotReviewed.ordinal());
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
-        product.setCreateTime(new Date());
+        // 不需要set
+        //product.setCreateTime(new Timestamp(System.currentTimeMillis()));
         productInfoMapper.insertProductInfoPO(product);
         return CommonResponse.success(productId);
     }
@@ -148,7 +149,8 @@ public class ProductService {
         product.setPkId(productRequest.getProductId());
         product.setProductName(productRequest.getProductName());
         product.setProductDesc(productRequest.getProductDesc());
-        product.setUpdateTime(new Date());
+        // 不需要set
+//        product.setUpdateTime(new Date());
         productInfoMapper.updateProductInfo(product);
 
         return CommonResponse.success(productRequest.getProductGId());
@@ -177,7 +179,8 @@ public class ProductService {
         productInfoEntity.setProductGid(productRequest.getProductGId());
         productInfoEntity.setPkId(productRequest.getProductId());
         productInfoEntity.setStatus(productRequest.isAgree() ? ReviewStatus.Approved.ordinal() : ReviewStatus.Denied.ordinal());
-        productInfoEntity.setReviewTime(new Date());
+        // 不需要set
+        // productInfoEntity.setReviewTime(new Date());
         productInfoMapper.updateProductInfoState(productInfoEntity);
         return CommonResponse.success(productRequest.getProductGId());
     }

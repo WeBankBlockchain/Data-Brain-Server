@@ -1,9 +1,7 @@
 package com.webank.databrain.controller;
 
-import com.webank.databrain.enums.ErrorEnums;
 import com.webank.databrain.service.DataSchemaService;
 import com.webank.databrain.vo.common.CommonResponse;
-import com.webank.databrain.vo.common.Paging;
 import com.webank.databrain.vo.request.dataschema.CreateDataSchemaRequest;
 import com.webank.databrain.vo.request.dataschema.PageQueryDataSchemaRequest;
 import com.webank.databrain.vo.request.dataschema.QuerySchemaByIdRequest;
@@ -25,23 +23,9 @@ public class DataSchemaController {
 
 
     @PostMapping(value = "/pageQuerySchema")
-    public CommonResponse pageQuerySchema(
-            @RequestBody PageQueryDataSchemaRequest querySchemaRequest
-    ){
-        log.info("pageQuerySchema pageNo = {}, pageSize = {}",
-                querySchemaRequest.getPageNo(),
-                querySchemaRequest.getPageSize());
-        if(querySchemaRequest.getPageNo() <= 0 || querySchemaRequest.getPageSize() <= 0){
-            return CommonResponse.error(ErrorEnums.UnknownError.getCode(), "pageNo or pageSize error");
-        }
-        return schemaService.pageQuerySchema(new Paging(
-                querySchemaRequest.getPageNo(),
-                querySchemaRequest.getPageSize()),
-                querySchemaRequest.getProductId(),
-                querySchemaRequest.getProviderId(),
-                querySchemaRequest.getTagId(),
-                querySchemaRequest.getKeyWord()
-        );
+    public CommonResponse pageQuerySchema(@RequestBody PageQueryDataSchemaRequest querySchemaRequest){
+
+        return schemaService.pageQuerySchema(querySchemaRequest);
     }
 //
 //
