@@ -1,6 +1,5 @@
 package com.webank.databrain.config;
 
-import com.webank.databrain.filter.CorsFilter;
 import org.fisco.bcos.sdk.v3.BcosSDK;
 import org.fisco.bcos.sdk.v3.client.Client;
 import org.fisco.bcos.sdk.v3.crypto.CryptoSuite;
@@ -42,10 +41,4 @@ public class BeanConfig {
         return new TransactionDecoderService(cryptoSuite, false);
     }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
-        FilterRegistrationBean<CorsFilter> registration = new FilterRegistrationBean<>(new CorsFilter());
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return registration;
-    }
 }
