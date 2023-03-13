@@ -1,4 +1,4 @@
-package com.webank.databrain.model.req.dataschema;
+package com.webank.databrain.vo.request.dataschema;
 
 import lombok.Data;
 

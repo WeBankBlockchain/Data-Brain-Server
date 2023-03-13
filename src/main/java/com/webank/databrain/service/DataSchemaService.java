@@ -49,7 +49,7 @@ public class DataSchemaService {
 
 
     public CommonResponse pageQuerySchema(Paging paging, Long productId, Long providerId, Long tagId, String keyWord) {
-        List<DataSchemaInfoBO> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQueryProduct(
+        List<DataSchemaInfoBO> dataSchemaInfoPOS = dataSchemaInfoDAO.pageQuerySchema(
                 paging.getPageNo(),
                 paging.getPageSize(),
                 productId,

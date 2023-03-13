@@ -1,4 +1,4 @@
-package com.webank.databrain.model.req.product;
+package com.webank.databrain.vo.request.product;
 
 import com.webank.databrain.model.req.PagedRequest;
 import com.webank.databrain.vo.common.CommonPageQueryRequest;

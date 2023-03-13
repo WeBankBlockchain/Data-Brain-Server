@@ -1,9 +1,9 @@
-package com.webank.databrain.db.mapper;
+package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.webank.databrain.dao.db.entity.ProductInfoEntity;
 import com.webank.databrain.model.bo.ProductIdAndName;
 import com.webank.databrain.model.bo.ProductInfoBO;
-import com.webank.databrain.model.po.ProductInfoPO;
 import com.webank.databrain.model.resp.IdName;
 import org.apache.ibatis.annotations.*;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @author 
  * @since 2023-03-08
  */
-public interface ProductInfoMapper extends BaseMapper<ProductInfoPO> {
+public interface ProductInfoMapper extends BaseMapper<ProductInfoEntity> {
 
     @Select("SELECT a.pk_id as productId,a.product_gid, a.product_name,a.product_desc,a.status,a.review_time,a.create_time,b.did,c.company_name" +
             " FROM t_product_info a JOIN t_account_info b ON a.provider_id = b.pk_id" +
@@ -65,7 +65,7 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoPO> {
             "#{createTime}" +
             ")")
     @Options(useGeneratedKeys = true, keyProperty = "pkId", keyColumn = "pk_id")
-    void insertProductInfoPO(ProductInfoPO productInfoPO);
+    void insertProductInfoPO(ProductInfoEntity productInfoEntity);
 
 
     @Update("UPDATE t_product_info SET " +
@@ -74,6 +74,6 @@ public interface ProductInfoMapper extends BaseMapper<ProductInfoPO> {
             "status=#{status}, " +
             "update_time=#{updateTime} " +
             "WHERE pk_id=#{pkId}")
-    void updateProductInfo(ProductInfoPO productInfo);
+    void updateProductInfo(ProductInfoEntity productInfoEntity);
 
 }

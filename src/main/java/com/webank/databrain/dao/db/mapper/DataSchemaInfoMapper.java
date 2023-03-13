@@ -1,11 +1,8 @@
-package com.webank.databrain.db.mapper;
+package com.webank.databrain.dao.db.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.webank.databrain.dao.db.entity.DataSchemaInfoEntity;
 import com.webank.databrain.model.bo.DataSchemaInfoBO;
-import com.webank.databrain.model.bo.ProductInfoBO;
-import com.webank.databrain.model.po.DataSchemaInfoPO;
-import com.webank.databrain.model.po.ProductInfoPO;
-import com.webank.databrain.model.resp.IdName;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.List;
  * @author 
  * @since 2023-03-08
  */
-public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
+public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoEntity> {
 
 
     @Select("<script>" +
@@ -67,8 +64,8 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
                                            @Param("keyWord") String keyWord);
 
     @Select("select * from t_data_schema_info where data_schema_gid = #{schemaId}")
-    @ResultType(DataSchemaInfoPO.class)
-    DataSchemaInfoPO getSchemaByGId(String schemaId);
+    @ResultType(DataSchemaInfoEntity.class)
+    DataSchemaInfoEntity getSchemaByGId(String schemaId);
 
 
     @Insert("INSERT INTO t_data_schema_info(" +
@@ -96,7 +93,7 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
             "#{updateTime}" +
             ")")
     @Options(useGeneratedKeys = true, keyProperty = "pkId", keyColumn = "pk_id")
-    void insertDataSchemaInfo(DataSchemaInfoPO dataSchemaInfoPO);
+    void insertDataSchemaInfo(DataSchemaInfoEntity dataSchemaInfoEntity);
 
 
     @Update("UPDATE t_data_schema_info SET " +
@@ -105,6 +102,6 @@ public interface DataSchemaInfoMapper extends BaseMapper<DataSchemaInfoPO> {
             "data_schema_desc=#{dataSchemaDesc}, " +
             "update_time=#{updateTime} " +
             "WHERE pk_id=#{pkId}")
-    void updateDataSchemaInfo(DataSchemaInfoPO dataSchemaInfoPO);
+    void updateDataSchemaInfo(DataSchemaInfoEntity dataSchemaInfoEntity);
 
 }
