@@ -41,14 +41,14 @@ public class SchemaServiceTest  extends ServerApplicationTests {
 
     @Test
     void createSchemaTest() throws Exception {
-        String username = "companyUser" + RandomUtil.randomNumbers(20);
+        String username = "companyUser" + RandomUtil.randomNumbers(5);
         String password = "12345678";
         RegisterRequest request = new RegisterRequest();
         request.setUserName(username);
         request.setPassword(password);
         request.setAccountType(AccountType.Company);
         CompanyDetailRequest companyDetail = new CompanyDetailRequest();
-        companyDetail.setCompanyName("头条" + RandomUtil.randomNumbers(20));
+        companyDetail.setCompanyName("头条" + RandomUtil.randomNumbers(5));
         companyDetail.setCompanyDesc("某公司1");
         companyDetail.setCertNo("123456");
         request.setDetailJson(JsonUtils.toJson(companyDetail));
@@ -62,8 +62,8 @@ public class SchemaServiceTest  extends ServerApplicationTests {
         accountService.approveAccount(approveAccountRequest);
 
         CreateProductRequest createProductRequest = new CreateProductRequest();
-        createProductRequest.setProductName("华为P" + RandomUtil.randomNumbers(20));
-        createProductRequest.setProductDesc("华为P6000手机..");
+        createProductRequest.setProductName("华为P60");
+        createProductRequest.setProductDesc("华为P6000手机.." + RandomUtil.randomNumbers(5));
         createProductRequest.setDid(did);
         CommonResponse response = productService.createProduct(createProductRequest);
         System.out.println("response = " + response);
